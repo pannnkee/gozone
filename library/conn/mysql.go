@@ -25,7 +25,7 @@ func initDataBase(dbName string)  {
 
 	user := config.GetConfigStr(dbName + "::user", "root")
 	password := config.GetConfigStr(dbName + "::password", "root123")
-	host := config.GetConfigStr(dbName + ":host", "127.0.0.1")
+	host := config.GetConfigStr(dbName + "::host", "127.0.0.1")
 	port := beego.AppConfig.DefaultInt(dbName+"::port", 3306)
 	if len(user) == 0 || len(password) == 0 || len(host) == 0 || port == 0 {
 		panic("数据库配置信息失败")
