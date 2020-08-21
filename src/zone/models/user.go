@@ -1,6 +1,10 @@
 package models
 
-import "Gozone/library/conn"
+import (
+	"Gozone/library/conn"
+	"github.com/jinzhu/gorm"
+)
+
 
 type User struct {
 	Id          int    `gorm:"column:id" json:"id"`
@@ -17,7 +21,31 @@ func (this *User) TableName() string {
 	return "user"
 }
 
-func (this *User) Login(username, password string) (err error) {
+func (this *User) GetPasswordByUserName(userName string) (user *User, err error) {
 	db := conn.GetORMByName("zone")
-	db.Model(this)
+	db = db.Model(this)
+	err = db.Where("username=?", userName).Find(&user).Error
+	return
+}
+
+func (this *User) UserNameExist(userName string) bool {
+	var user User
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err := db.Where("username=?", userName).Find(&user).Error
+	if err == gorm.ErrRecordNotFound {
+		return false
+	}
+	return true
+}
+
+func (this *User) EmailExist(email string) bool {
+	var user User
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err := db.Where("email=?", email).Find(&user).Error
+	if err == gorm.ErrRecordNotFound {
+		return false
+	}
+	return true
 }

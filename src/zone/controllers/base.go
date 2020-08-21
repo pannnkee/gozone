@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"Gozone/library/enum"
 	"github.com/astaxie/beego"
 	"github.com/prometheus/common/log"
 	"time"
@@ -22,10 +23,10 @@ type BaseHandler struct {
 
 // DataResponse 返回数据模型
 type DataResponse struct {
-	Code  int    `json:"code"`
-	Msg   string `json:"msg"`
-	Stime string `json:"stime"`
-	Body  *Body  `json:"body"`
+	Code  enum.ResponseCode `json:"code"`
+	Msg   string            `json:"msg"`
+	Stime string            `json:"stime"`
+	Body  *Body             `json:"body"`
 }
 
 // Body 具体数据模型
@@ -43,11 +44,11 @@ type Pager struct {
 	PageCount int64 `json:"pagecount"` //当前页数量
 }
 
-func (this *BaseHandler) Response(code int, msg string, args ...interface{}) {
+func (this *BaseHandler) Response(code enum.ResponseCode, msg string, args ...interface{}) {
 	var (
-		err error
+		err   error
 		pager *Pager
-		data interface{}
+		data  interface{}
 	)
 
 	for _, v := range args {
@@ -71,8 +72,8 @@ func (this *BaseHandler) Response(code int, msg string, args ...interface{}) {
 	}
 
 	resp := &DataResponse{
-		Code: code,
-		Msg: msg,
+		Code:  code,
+		Msg:   msg,
 		Stime: time.Now().Format("2006-01-02 15:04:05"),
 	}
 
