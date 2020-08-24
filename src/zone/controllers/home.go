@@ -6,8 +6,14 @@ type HomeController struct {
 	beego.Controller
 }
 
-func (c *HomeController) Get() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
-	c.TplName = "base.html"
+func (this *HomeController) Home() {
+	this.TplName = "base.html"
+}
+
+func (this *HomeController) Login() {
+	this.TplName = "login.html"
+}
+
+func (this *HomeController) Register() {
+	this.TplName = "register.html"
 }

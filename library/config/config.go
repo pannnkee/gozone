@@ -19,3 +19,16 @@ func GetConfigStr(key, defaultStr string) (str string) {
 	}
 	return
 }
+
+func GetConfigInt(key string, def int64) (v int64) {
+	if beego.AppConfig.String("runmode") == "prod" || strings.ToLower(os.Getenv("BEEGO_RUNMODE")) == "prod" {
+		v, err := beego.AppConfig.Int64(key)
+		if v == 0 || err != nil {
+			panic(fmt.Sprintf("缺少配置[%s]", key))
+		}
+		return v
+	} else {
+		v = beego.AppConfig.DefaultInt64(key, def)
+	}
+	return
+}

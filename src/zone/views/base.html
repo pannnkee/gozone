@@ -34,21 +34,17 @@
             <div style="width: 100%;height: 300px;background: #cccccc;">
                 {{template "carousel.html" .}}
             </div>
-            <div style="width: 100%; margin-top: 25px; height: 100px;">
-                <a href="#" style="">
-                    <span style="font-size: 21px;"> 时间排序 </span>
-                </a>
-
-                <a href="#" style="margin-left: 30px;">
-                    <span style="font-size: 20px;">热度排序</span>
-                </a>
-            </div>
+                <div class="text-secondary font-weight-bold py-2 f-15 choice">
+                    <a class="pb-2 active" href="/">
+                        <i class="fa fa-bars mr-1"></i>时间排序</a>
+                    <a class="pb-2 ml-4 " href="/">
+                        <i class="fa fa-fire mr-1"></i>热度排序</a>
+                </div>
             {{template "article.html" .}}
         </div>
     </div>
 
-    <div class="col-lg-4" style="background: #777777;  padding-top:3%;">
-        <div style="height: 1000px"></div>
+    <div class="col-lg-4" style=" padding-top:3%;">
         {{template "base_right.html" .}}
     </div>
     <!--
@@ -81,17 +77,20 @@
 <script src="../static/js/base.js"></script>
 
 
-<footer class="container-fluid mt-4 py-0">
-    <div class="card-body text-center px-0 f-14">
-        <p class="card-text mb-1">Copyright&nbsp;&copy;&nbsp;<span id="year-info"></span>
-            <a href="https://github.com/Hopetree" target="_blank" title="博客作者的Github">Hopetree</a>.&nbsp;Powered&nbsp;by&nbsp;Django.
-        </p>
-        <p class="mb-0">
+</div>
+</div>
 
-        </p>
-    </div>
+    <footer class="container-fluid mt-4 py-0">
+        <div class="card-body text-center px-0 f-14">
+            <p class="card-text mb-1">Copyright&nbsp;&copy;&nbsp;<span id="year-info"></span>
+                <a href="https://github.com/Hopetree" target="_blank" title="博客作者的Github">Hopetree</a>.&nbsp;Powered&nbsp;by&nbsp;Django.
+            </p>
+            <p class="mb-0">
 
-</footer>
+            </p>
+        </div>
+
+    </footer>
 
 </body>
 </html>

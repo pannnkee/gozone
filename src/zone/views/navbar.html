@@ -11,23 +11,11 @@
         <ul class="navbar-nav ml-auto">
 
             <li class="nav-item mr-2">
-                <a class="nav-link py-md-3 {% if request.path == index_url %}active{% endif %}" href="<<.index_url>>>>"><i class="fa fa-home mr-1"></i>首页<span class="sr-only">(current)</span></a>
+                <a class="nav-link py-md-3 {% if request.path == index_url %}active{% endif %}" href="/"><i class="fa fa-home mr-1"></i>首页<span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item mr-2">
-                <a class="nav-link py-md-3 {% if request.path == archive_url %}active{% endif %}" href="<< .archive_url >>"><i class="fa fa-sitemap mr-1"></i>归档</a>
-            </li>
-
-            <li class="nav-item mr-2">
-                <a class="nav-link py-md-3 {% if request.resolver_match.namespace == 'tool' %}active{% endif %}" href="<< .tool_url >>"><i class="fa fa-balance-scale mr-1"></i>在线工具</a>
-            </li>
-
-            <li class="nav-item mr-2 d-none d-lg-block">
-                <a class="nav-link py-md-3" href="<< .hao_console.url >>" target="_blank"><i class="fa fa-chrome mr-1"></i> 导航 </a>
-            </li>
-
-            <li class="nav-item mr-2">
-                <a class="nav-link py-md-3" href="<<.{% url 'api:api-root' %}>>" target="_blank"><i class="fa fa-key mr-1"></i>API</a>
+                <a class="nav-link py-md-3 {% if request.path == archive_url %}active{% endif %}" href="/archive"><i class="fa fa-sitemap mr-1"></i>归档</a>
             </li>
 
             <li class="nav-item mr-2 ">
@@ -69,10 +57,10 @@
             </li>
 
             <li class="nav-item mr-2">
-                <a class="nav-link py-md-3" href="{% url 'account_login' %}?next=<< .request.path >>">登录</a>
+                <a class="nav-link py-md-3" href="/login">登录</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link py-md-3" href="{% url 'account_signup' %}?next=<< .request.path >>">注册</a>
+                <a class="nav-link py-md-3" href="/register">注册</a>
             </li>
 
         </ul>

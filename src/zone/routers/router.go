@@ -6,10 +6,14 @@ import (
 )
 
 func init() {
-    beego.Router("/", &controllers.HomeController{})
+    beego.Router("/", &controllers.HomeController{}, "*:Home")
+    beego.Router("/login", &controllers.HomeController{}, "*:Login")
+    beego.Router("/register", &controllers.HomeController{}, "*:Register")
 
-    beego.Router("/register", &controllers.UserController{}, "*:Register")
-    beego.Router("/login", &controllers.UserController{}, "*:Login")
-    beego.Router("/logout", &controllers.UserController{}, "*:Logout")
-
+	v1 := beego.NewNamespace("/v1/api",
+		beego.NSRouter("/register", &controllers.UserController{}, "post,options:Register"),
+		beego.NSRouter("/login", &controllers.UserController{}, "post,options:Login"),
+		beego.NSRouter("/logout", &controllers.UserController{}, "*:Logout"),
+	)
+	beego.AddNamespace(v1)
 }

@@ -15,10 +15,10 @@ var port = config.GetConfigStr("redis::port","6379")
 
 func init() {
 	RFStruct.Connect(&redis.Options{
-		Addr: fmt.Sprintf("%v:%v", address, port),
-		Password: password,
-		DB: int(RedisZone),
-		PoolSize: 500,
+		Addr:       fmt.Sprintf("%v:%v", address, port),
+		Password:   password,
+		DB:         int(RedisZone),
+		PoolSize:   500,
 		MaxConnAge: time.Minute,
 	})
 }
@@ -29,7 +29,7 @@ type RedisFactory struct {
 	ConnectMutex *sync.Mutex
 }
 
-func (this *RedisFactory) init() *RedisFactory {
+func (this *RedisFactory) Init() *RedisFactory {
 	this.ConnectClient = make(map[RedisDatabase]*redis.Client)
 	this.ConnectMutex = new(sync.Mutex)
 	return this

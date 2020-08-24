@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <!-- Bootstrap and font-awesome CSS -->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="../static/js/headroom.min.js"></script>
+
+    <!-- blog CSS -->
+    <link href="/static/css/base.css" rel="stylesheet">
+    <link id="theme-css-dark" href="/static/css/night.css" rel="stylesheet">
+    <style>
+        .lb{
+            height: 300px;
+            width: 600px;
+        }
+
+    </style>
+</head>
+<body>
+    {{template "navbar.html" .}}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-8 col-md-6 offset-sm-2 offset-md-3 px-xl-5">
+                <div class="card rounded-0 px-3 px-lg-4">
+                    <div class="card-header text-center bg-white py-2">
+                        <h3 class="my-1 text-info">注册</h3>
+                    </div>
+                    <div class="card-body card-login">
+
+
+                        <form class="signup" id="signup_form" method="post" action="/accounts/signup/">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="eB3CfeRRjX3d8Wt7bC4UkWz6rKO6Tw6hLHcB97PVey9LLSNiaW2V5Ddf2mB16Vqu">
+
+
+                            <div id="div_id_email" class="form-group"> <label for="id_email" class="col-form-label  requiredField">
+                                    E-mail<span class="asteriskField">*</span> </label> <div class=""> <input type="email" name="email" placeholder="E-mail地址" class="textinput textInput form-control" required="" id="id_email"> </div> </div> <div id="div_id_username" class="form-group"> <label for="id_username" class="col-form-label  requiredField">
+                                    用户名<span class="asteriskField">*</span> </label> <div class=""> <input type="text" name="username" placeholder="用户名" autofocus="autofocus" minlength="1" maxlength="150" class="textinput textInput form-control" required="" id="id_username"> </div> </div> <div id="div_id_password1" class="form-group"> <label for="id_password1" class="col-form-label  requiredField">
+                                    密码<span class="asteriskField">*</span> </label> <div class=""> <input type="password" name="password1" placeholder="密码" class="textinput textInput form-control" required="" id="id_password1"> </div> </div> <div id="div_id_password2" class="form-group"> <label for="id_password2" class="col-form-label  requiredField">
+                                    密码(重复)<span class="asteriskField">*</span> </label> <div class=""> <input type="password" name="password2" placeholder="密码(重复)" class="textinput textInput form-control" required="" id="id_password2"> </div> </div>
+
+
+                            <input type="hidden" name="next" value="/accounts/login/">
+
+                            <a class="secondaryAction" href="/accounts/login/?next=%2Faccounts%2Flogin%2F">已有账号登录</a>
+                            <button class="pull-right btn btn-info btn-sm rounded-0" type="submit">注册</button>
+                        </form>
+
+                    </div>
+                    <div class="text-center mb-5" id="social-login">
+                        <div class="login-title">
+                            <span>快速登录</span>
+                        </div>
+                        <div class="login-link">
+
+                            <a class="mx-4" href="/accounts/weibo/login/?next=/accounts/login/" title="社交账号登录有点慢，请耐心等候！"><i class="fa fa-weibo fa-2x"></i></a>
+                            <a class="mx-4" href="/accounts/github/login/?next=/accounts/login/" title="社交账号登录有点慢，请耐心等候！"><i class="fa fa-github fa-2x"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
