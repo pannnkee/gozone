@@ -28,7 +28,7 @@ func (this *RegisterService) CheckRegister(user *models.User) (error, bool) {
 		return errors.New("eMail is exist"), false
 	}
 
-	if user.PassWord != user.PassWord {
+	if user.PassWord != user.RepeatPassword {
 		return errors.New("password is nor equal"), false
 	}
 

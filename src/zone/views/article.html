@@ -5,6 +5,7 @@
     <title>Login</title>
 
     <!-- Bootstrap and font-awesome CSS -->
+    <script src="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/plugin/css/editormd.css" />
@@ -26,8 +27,100 @@
 <body>
     {{template "navbar.html" .}}
 
+    <!--
     <div id="test-editor">
     <textarea style="display:none;"></textarea>
+    </div>
+    -->
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-xl-10">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white border-0 rounded-0 mb-2 py-2 f-15">
+                        <li class="breadcrumb-item">
+                            <i class="fa fa-home mr-1"></i><a href="/">首页</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/">Golang实战</a>
+                        </li>
+                        <li class="breadcrumb-item active d-none d-md-block" aria-current="page">Golang基础知识</li>
+                        <li class="breadcrumb-item active d-md-none" aria-current="page">当前位置</li>
+                    </ol>
+                </nav>
+
+                <div class="card rounded-0 border-0" id="article">
+                    <div class="card-body px-2 px-md-3 pb-0">
+                        <h1 class="card-title text-center font-weight-bold text-info">Golang基础知识</h1>
+                        <hr>
+                        <div class="text-center f-13">
+                            <span class="mx-2" data-toggle="tooltip" data-placement="bottom"
+                                  title="最后编辑于2020/8/28">最后编辑于2020/8/28
+                            </span>
+                            <span class="mx-2">阅读 200</span>
+                            <a class="mx-2 to-com" href="#comment-block">评论 100</a>
+                        </div>
+
+                        <div class="article-body mt-4 f-17" style="line-height:1.8">
+                            <blockquote class="p-1 f-14" style="border-left: 4px solid #dc3545;">
+                                <p class="m-1"><strong>版权声明：</strong>如无特殊说明，文章均为本站原创，转载请注明出处</p>
+                                <p class="m-1"><strong>本文链接：</strong>{{ 11 }}{{ 22 }}</p>
+                            </blockquote>
+                        </div>
+
+                        <div class="tag-cloud my-4">
+                            <a class="tags f-16" href="/">Golang</a>
+                            <a class="tags f-16" href="/">K8s</a>
+                        </div>
+
+                        <nav class="more-page f-16">
+                            <ul class="pagination justify-content-between">
+                                <li class="page-item">
+
+                                    <a class="d-none d-md-block" href="/"
+                                       title="上一篇：C语言开发">
+                                        <i class="fa fa-chevron-left mr-1"></i>
+                                    </a>
+                                    <a class="d-md-none" href="/">
+                                        <i class="fa fa-chevron-left mr-1"></i>上一篇</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="d-none d-md-block" href="/"
+                                       title="下一篇：Java开发">
+                                        <i class="fa fa-chevron-right ml-1"></i>
+                                    </a>
+                                    <a class="d-md-none" href="/">
+                                        下一篇<i class="fa fa-chevron-right ml-1"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="card mt-2 rounded-0 border-0" id="comment-block">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--图片预览-->
+    <div class="modal fade" id="img-to-big" tabindex="-1" role="dialog" aria-labelledby="img-to-bigTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 90%">
+            <img class="rounded mx-auto d-block" alt="image" style="max-width: 100%">
+        </div>
+    </div>
+    <!--前后文章-->
+    <div class="more-blog" id="icon-pre-blog">
+        <a href="/">
+            <i class="fa fa-angle-left fa-3x"></i>
+        </a>
+    </div>
+    <div class="more-blog" id="icon-next-blog">
+        <a href="/">
+            <i class="fa fa-angle-right fa-3x"></i>
+        </a>
     </div>
 
 
@@ -40,8 +133,9 @@
              height : "600px;",
             path   : "static/plugin/lib/"
         });
-
-
     });
+</script>
+<script>
+    var sw=window.screen.width;if(sw>1200){POWERMODE.colorful=true;POWERMODE.shake=false;document.body.addEventListener('input',POWERMODE)};
 </script>
 </html>
