@@ -1,16 +1,33 @@
 package dao
 
 import (
+	"Gozone/library/authorization"
 	"Gozone/library/jwt"
 	"Gozone/library/model"
+	"Gozone/library/util/str"
 	"Gozone/src/zone/models"
 	"errors"
 )
 
 type LoginService struct{}
 
-func (this *LoginService) Login(userName, eMail, password string) () {
-	new(models.User).
+func (this *LoginService) Login(eMail, password string) (err error) {
+
+	userInfo, err := new(models.User).GetUserInfo(eMail)
+	if err != nil {
+		return err
+	}
+
+	if userInfo.PassWord != str.Md5(password) {
+		return errors.New("账号或者密码错误")
+	}
+
+	token, err := new(LoginService).CreateToken(&userInfo)
+	if err != nil {
+		return err
+	}
+	_ = authorization.AddUserToken(token, userInfo.Id)
+	return
 }
 
 func (this *LoginService) CreateToken(user *models.User) (string, error) {

@@ -20,3 +20,8 @@ func (this *HomeController) Login() {
 func (this *HomeController) Register() {
 	this.TplName = "register.html"
 }
+
+
+func (this *HomeController) Article() {
+	this.TplName = "article.html"
+}

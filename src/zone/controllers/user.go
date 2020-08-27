@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"Gozone/library/authorization"
 	"Gozone/library/controller"
 	"Gozone/library/enum"
 	"Gozone/src/zone/dao"
@@ -48,26 +47,18 @@ func (this *UserController) Login() {
 		return
 	}
 
-	if user.UserName == "" && user.Email == "" {
-		this.Response(1,"请填写用户名或邮箱")
+	if user.Email == "" {
+		this.Response(1,"请填写登录邮箱")
 	}
 	if user.PassWord == "" {
 		this.Response(1,"请填写登录密码")
 	}
 
-	UserDB, err := new(dao.LoginService).Login(user)
+	err = new(dao.LoginService).Login(user.Email, user.PassWord)
 	if err != nil {
 		this.Response(enum.DefaultError, err.Error())
 		return
 	}
-
-	token, err := new(dao.LoginService).CreateToken(UserDB)
-	if err != nil {
-		this.Response(enum.DefaultError, err.Error())
-		return
-	}
-	_ = authorization.AddUserToken(token, UserDB.Id)
-
 	this.Response(enum.DefaultSuccess, "")
 }
 

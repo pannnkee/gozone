@@ -41,7 +41,7 @@
                                     账号<span class="asteriskField">*</span>
                                 </label>
                                 <div class="">
-                                    <input id="login" type="text" name="login" placeholder="用户名或e-mail" autofocus="autofocus" class="textinput textInput form-control" required="" id="id_login">
+                                    <input id="login" type="text" name="login" placeholder="e-mail" autofocus="autofocus" class="textinput textInput form-control" required="" id="id_login">
                                 </div>
                             </div>
 
@@ -87,17 +87,17 @@
     <script>
 
 $("#submit").click(function () {
-    var username = $("#login").val();
+    var email = $("#login").val();
     var password = $("#pswd").val();
 
-    if (username != "" && password !=""){
-        alert(username+password);
+    if (email != "" && password !=""){
+        alert(email+password);
 
         var json_data = {
             "user_name":"",
             "password":password,
             "repeat_password":"123",
-            "email":username
+            "email":email
         }
 
         var url ="v1/api/login";

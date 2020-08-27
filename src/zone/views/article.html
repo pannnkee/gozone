@@ -7,6 +7,9 @@
     <!-- Bootstrap and font-awesome CSS -->
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/plugin/css/editormd.css" />
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="static/plugin/editormd.js"></script>
     <script src="../static/js/headroom.min.js"></script>
 
     <!-- blog CSS -->
@@ -22,6 +25,23 @@
 </head>
 <body>
     {{template "navbar.html" .}}
-    
+
+    <div id="test-editor">
+    <textarea style="display:none;"></textarea>
+    </div>
+
+
 </body>
+<script type="text/javascript">
+    $(function() {
+
+        var editor = editormd("test-editor", {
+             width  : "100%",
+             height : "600px;",
+            path   : "static/plugin/lib/"
+        });
+
+
+    });
+</script>
 </html>

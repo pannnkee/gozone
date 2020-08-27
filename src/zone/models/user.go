@@ -2,6 +2,7 @@ package models
 
 import (
 	"Gozone/library/conn"
+	"Gozone/library/util/str"
 	"github.com/jinzhu/gorm"
 )
 
@@ -39,18 +40,25 @@ func (this *User) UserNameExist(userName string) bool {
 	return true
 }
 
-func (this *User) Login(userName, eMail, password string) (count int, err error) {
+func (this *User) Login(eMail, password string) (login bool) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
-	if userName != "" {
-		db = db.Where("user_name=?", userName)
+	db = db.Where("email=?", eMail).Where("password=?", str.Md5(password))
+
+	var count int64
+	err := db.Count(&count).Error
+	if err != nil {
+		return false
 	}
-	if eMail != "" {
-		db = db.Where("email=?", eMail)
+	if count != 1 {
+		return false
 	}
-	if password != "" {
-		db = db.Where("password=?", password)
-	}
-	err = db.Count(&count).Error
+	return true
+}
+
+func (this *User) GetUserInfo(eMail string) (user User, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Where("email=?", eMail).First(&user).Error
 	return
 }
