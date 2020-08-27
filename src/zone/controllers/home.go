@@ -7,6 +7,9 @@ type HomeController struct {
 }
 
 func (this *HomeController) Home() {
+
+	
+
 	this.TplName = "base.html"
 }
 

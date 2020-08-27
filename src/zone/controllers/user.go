@@ -5,7 +5,9 @@ import (
 	"Gozone/library/controller"
 	"Gozone/library/enum"
 	"Gozone/src/zone/dao"
+	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
+	"fmt"
 )
 
 type UserController struct {
@@ -14,6 +16,7 @@ type UserController struct {
 
 func (this *UserController) Register() {
 
+	fmt.Println("收到请求")
 	user := new(models.User)
 	err := controller.ParseRequestStruct(this.Controller, &user)
 	if err != nil {
@@ -38,7 +41,7 @@ func (this *UserController) Register() {
 
 func (this *UserController) Login() {
 
-	user := new(models.User)
+	user := new(model_view.User)
 	err := controller.ParseRequestStruct(this.Controller, &user)
 	if err != nil {
 		this.Response(enum.DefaultError,err.Error())
