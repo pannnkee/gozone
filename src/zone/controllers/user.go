@@ -5,8 +5,6 @@ import (
 	"Gozone/library/enum"
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
-	"Gozone/src/zone/models"
-	"fmt"
 )
 
 type UserController struct {
@@ -15,21 +13,14 @@ type UserController struct {
 
 func (this *UserController) Register() {
 
-	fmt.Println("收到请求")
-	user := new(models.User)
-	err := controller.ParseRequestStruct(this.Controller, &user)
+	var modelUser model_view.User
+	err := controller.ParseRequestStruct(this.Controller, &modelUser)
 	if err != nil {
 		this.Response(enum.DefaultError,err.Error())
 		return
 	}
 
-	err, _ = new(dao.RegisterService).CheckRegister(user)
-	if err != nil {
-		this.Response(enum.DefaultError, err.Error())
-		return
-	}
-
-	err = new(dao.RegisterService).Register(user)
+	err, _ = new(dao.RegisterService).Register(modelUser.UserName, modelUser.Email, modelUser.PassWord, modelUser.RepeatPassword)
 	if err != nil {
 		this.Response(enum.DefaultError, err.Error())
 		return
@@ -40,21 +31,21 @@ func (this *UserController) Register() {
 
 func (this *UserController) Login() {
 
-	user := new(model_view.User)
-	err := controller.ParseRequestStruct(this.Controller, &user)
+	var modelUser model_view.User
+	err := controller.ParseRequestStruct(this.Controller, &modelUser)
 	if err != nil {
 		this.Response(enum.DefaultError,err.Error())
 		return
 	}
 
-	if user.Email == "" {
+	if modelUser.Email == "" {
 		this.Response(1,"请填写登录邮箱")
 	}
-	if user.PassWord == "" {
+	if modelUser.PassWord == "" {
 		this.Response(1,"请填写登录密码")
 	}
 
-	err = new(dao.LoginService).Login(user.Email, user.PassWord)
+	err = new(dao.LoginService).Login(modelUser.Email, modelUser.PassWord)
 	if err != nil {
 		this.Response(enum.DefaultError, err.Error())
 		return

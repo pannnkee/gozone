@@ -40,6 +40,17 @@ func (this *User) UserNameExist(userName string) bool {
 	return true
 }
 
+func (this *User) EmailExist(eMail string) bool {
+	user := User{}
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err := db.Where("email=?", eMail).First(&user).Error
+	if err == gorm.ErrRecordNotFound {
+		return false
+	}
+	return true
+}
+
 func (this *User) Login(eMail, password string) (login bool) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)

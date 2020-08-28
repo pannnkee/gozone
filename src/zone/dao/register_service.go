@@ -9,11 +9,33 @@ import (
 
 type RegisterService struct {}
 
-func (this *RegisterService) Register(user *models.User) (err error) {
-	user.CreatedTime = time.Now().Unix()
-	user.PassWord = str.Md5(user.PassWord)
-	err = user.Register()
-	return
+func (this *RegisterService) Register(userName, eMail, password, repeatPassword string) (error, bool) {
+
+	UsernameExist := models.UserInstance.UserNameExist(userName)
+	if UsernameExist {
+		return errors.New("userName is exist"), false
+	}
+
+	eMailExist := models.UserInstance.EmailExist(eMail)
+	if eMailExist {
+		return errors.New("eMail is exist"), false
+	}
+
+	if password != repeatPassword {
+		return errors.New("password is not equal"), false
+	}
+
+	user := models.User{
+		UserName: userName,
+		Email: eMail,
+		PassWord: str.Md5(password),
+		CreatedTime: time.Now().Unix(),
+	}
+	err := user.Register()
+	if err != nil {
+		return err, false
+	}
+	return nil, true
 }
 
 
