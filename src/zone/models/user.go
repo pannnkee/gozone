@@ -9,11 +9,12 @@ import (
 type User struct {
 	Id             int64  `gorm:"column:id" json:"id"`
 	UserName       string `gorm:"column:user_name" json:"user_name"`
+	Email          string `gorm:"column:email" json:"email"`
+	Mobile         string `gorm:"column:mobile" json:"mobile"`
 	PassWord       string `gorm:"column:password" json:"password"`
 	RepeatPassword string `gorm:"-" json:"repeat_password"`
-	Email          string `gorm:"column:email" json:"email"`
-	Status         int    `gorm:"column:status" json:"status"`
-	Mobile         string `gorm:"column:mobile" json:"mobile"`
+	Status         int64  `gorm:"column:status" json:"status"`
+	LoginTimes     int64  `gorm:"column:login_time" json:"login_time"`
 	CreatedTime    int64  `gorm:"column:created_time" json:"created_time"`
 	UpdateTime     int64  `gorm:"column:update_time" json:"update_time"`
 }
@@ -72,4 +73,9 @@ func (this *User) GetUserInfo(eMail string) (user User, err error) {
 	db = db.Model(this)
 	err = db.Where("email=?", eMail).First(&user).Error
 	return
+}
+
+func (this *User) Updates() error {
+	db := conn.GetORMByName("zone")
+	return db.Save(&this).Error
 }

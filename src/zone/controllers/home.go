@@ -1,14 +1,12 @@
 package controllers
 
-import "github.com/astaxie/beego"
-
 type HomeController struct {
-	beego.Controller
+	BaseHandler
 }
 
 func (this *HomeController) Home() {
 
-	
+
 
 	this.TplName = "base.html"
 }

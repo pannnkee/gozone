@@ -6,28 +6,46 @@ import (
 	"Gozone/library/model"
 	"Gozone/library/util/str"
 	"Gozone/src/zone/models"
+	"encoding/json"
 	"errors"
+	"time"
 )
 
 type LoginService struct{}
 
-func (this *LoginService) Login(eMail, password string) (err error) {
+func (this *LoginService) Login(eMail, password string) (cookie []byte, err error) {
 
 	userInfo, err := new(models.User).GetUserInfo(eMail)
-	if err != nil {
-		return err
+	// 登陆失败
+	if err != nil || userInfo.Id < 1 {
+		return nil, errors.New("账号或者密码错误")
+	}
+	if userInfo.Status == 1 {
+		return nil, errors.New("该账号被禁止登陆")
 	}
 
 	if userInfo.PassWord != str.Md5(password) {
-		return errors.New("账号或者密码错误")
+		return nil, errors.New("账号或者密码错误")
 	}
 
+	// 登陆成功
+	userInfo.LoginTimes = userInfo.LoginTimes + 1
+	userInfo.UpdateTime = time.Now().Unix()
+	_ = userInfo.Updates()
+
+	// 生成token
 	token, err := new(LoginService).CreateToken(&userInfo)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	_ = authorization.AddUserToken(token, userInfo.Id)
-	return
+
+	// 生成cookie
+	m, err := json.Marshal(&userInfo)
+	if err != nil {
+		return nil, errors.New("生成cookie失败")
+	}
+	return m, nil
 }
 
 func (this *LoginService) CreateToken(user *models.User) (string, error) {

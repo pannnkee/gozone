@@ -2,7 +2,11 @@ package controllers
 
 import (
 	"Gozone/library/enum"
+	"Gozone/library/util"
+	"Gozone/src/zone/auth"
+	"fmt"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/prometheus/common/log"
 	"time"
 )
@@ -42,6 +46,19 @@ type Pager struct {
 	Offset    int64 `json:"offset"`    //偏移量
 	Count     int64 `json:"count"`     //总数
 	PageCount int64 `json:"pagecount"` //当前页数量
+}
+
+func (this *BaseHandler) Prepare() {
+	this.Parse()
+}
+
+//Parse Parse
+func (this *BaseHandler) Parse() {
+	this.GetServerParams()
+	this.Data["version"] = 0
+	this.Data["sitename"] = "pannnkee zone"
+	this.Data["year"] = time.Now().Year()
+	logs.Info(fmt.Sprintf("%s | %s | %s | %s", this.ClientIP, this.Ctx.Request.Method, this.Ctx.Request.Host, this.Ctx.Request.RequestURI))
 }
 
 func (this *BaseHandler) Response(code enum.ResponseCode, msg string, args ...interface{}) {
@@ -104,8 +121,70 @@ func (this *BaseHandler) GetPageCount(count, limit int64) (pagecount int64) {
 	return pagecount
 }
 
+//GetServerParams GetServerParams
+func (this *BaseHandler) GetServerParams() {
+	this.ClientIP = this.GetIP()
+	this.Host = this.Ctx.Request.Host
+	//http method
+	this.Method = this.Ctx.Request.Method
+	// request url
+	this.RequestURL = this.Ctx.Request.RequestURI
+	//httpbody
+	this.Body = string(this.Ctx.Input.RequestBody)
+	//controllname
+
+	this.UserAgent = this.Ctx.Input.UserAgent()
+
+	this.ControllerName, this.ActionName = this.GetControllerAndAction()
+
+
+	//处理翻页
+	pager := new(Pager)
+	pager.Page, _ = this.GetInt64("page", 1)
+	if pager.Page < 1 {
+		pager.Page = 1
+	}
+	pager.Limit, _ = this.GetInt64("limit", 10)
+	if pager.Limit < 1 {
+		pager.Limit = 10
+	}
+	pager.Offset = (pager.Page - 1) * pager.Limit
+	this.Pager = pager
+
+}
+
+//GetIP 获取用户IP
+func (this *BaseHandler) GetIP() (ip string) {
+	//适应于API取H5/PC时
+	ip = this.Ctx.Request.Header.Get("X-Original-Forwarded-For")
+	if len(ip) == 0 {
+		ip = this.Ctx.Request.Header.Get("Remote-Host")
+	}
+	if len(ip) == 0 {
+		ip = this.Ctx.Request.Header.Get("X-Real-IP")
+	}
+	if len(ip) == 0 {
+		ip = this.Ctx.Input.IP()
+	}
+	if len(ip) == 0 {
+		ip = "10.0.0.2"
+	}
+	return
+}
+
+
+//SetCK SetCK
+func (this *BaseHandler) SetCK(key, val string, expireHour int64) {
+	if len(key) == 0 || len(val) == 0 {
+		return
+	}
+	val = new(util.XXTEA).EncryptString(val, auth.XXTEKEY)
+	this.Ctx.SetCookie(key, val, expireHour*60*60, "/", "", false, true)
+}
+
 func (this *BaseHandler) DeleteCookie(key string) {
 	if len(key) > 0 {
 		this.Ctx.SetCookie(key, "", -10000)
 	}
 }
+

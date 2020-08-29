@@ -3,6 +3,7 @@ package controllers
 import (
 	"Gozone/library/controller"
 	"Gozone/library/enum"
+	"Gozone/src/zone/auth"
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
 )
@@ -31,6 +32,7 @@ func (this *UserController) Register() {
 
 func (this *UserController) Login() {
 
+	//TODO 检查账号密码合法性
 	var modelUser model_view.User
 	err := controller.ParseRequestStruct(this.Controller, &modelUser)
 	if err != nil {
@@ -45,11 +47,13 @@ func (this *UserController) Login() {
 		this.Response(1,"请填写登录密码")
 	}
 
-	err = new(dao.LoginService).Login(modelUser.Email, modelUser.PassWord)
+	m, err := new(dao.LoginService).Login(modelUser.Email, modelUser.PassWord)
 	if err != nil {
 		this.Response(enum.DefaultError, err.Error())
 		return
 	}
+
+	this.SetCK(auth.ZoneToken, string(m), 168)
 	this.Response(enum.DefaultSuccess, "")
 }
 
