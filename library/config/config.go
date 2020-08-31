@@ -13,6 +13,7 @@ func GetConfigStr(key, defaultStr string) (str string) {
 		str = beego.AppConfig.String(key)
 		if len(str) == 0 {
 			logs.Error(fmt.Sprintf("缺少配置[%s]", key))
+
 		}
 	} else {
 		str = beego.AppConfig.DefaultString(key, defaultStr)
