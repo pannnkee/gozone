@@ -12,6 +12,12 @@ type Article struct {
 	UpdateTime    int64  `gorm:"column:update_time" json:"update_time"`
 }
 
+// 文章详情 Text
+type ArticleResp struct {
+	*Article
+	ArticleContent string `json:"article_content"`
+}
+
 func (this *Article) TableName() string {
 	return "article"
 }
@@ -21,5 +27,12 @@ func (this *Article) PageList(offset, limit int64) (datas []*Article, count int6
 	db = db.Model(this)
 	err = db.Offset(offset).Limit(limit).Order("id desc").Find(&datas).Error
 	err = db.Count(&count).Error
+	return
+}
+
+func (this *Article) Get(id int64) (err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Where("id=?", id).Find(&this).Error
 	return
 }
