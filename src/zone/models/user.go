@@ -68,7 +68,7 @@ func (this *User) Login(eMail, password string) (login bool) {
 	return true
 }
 
-func (this *User) GetUserInfo(eMail string) (user User, err error) {
+func (this *User) UserInfo(eMail string) (user User, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 	err = db.Where("email=?", eMail).First(&user).Error

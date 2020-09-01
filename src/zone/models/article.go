@@ -6,6 +6,7 @@ type Article struct {
 	Id            int64  `gorm:"column:id" json:"id"`
 	ArticleTitle  string `gorm:"column:article_title" json:"article_title"`
 	ArticleClass  int64  `grom:"column:article_class" json:"article_class"`
+	SimpleContent string `gorm:"column:simple_content" json:"simple_content"`
 	Views         int64  `gorm:"column:views" json:"views"`
 	CommentNumber int64  `gorm:"column:comment_number" json:"comment_number"`
 	CreateTime    int64  `gorm:"column:create_time" json:"create_time"`
@@ -16,6 +17,8 @@ type Article struct {
 type ArticleResp struct {
 	*Article
 	ArticleContent string `json:"article_content"`
+	ArticleTags *[]string `json:"article_tags"`
+	ArticleClassName string `json:"article_class_name"`
 }
 
 func (this *Article) TableName() string {

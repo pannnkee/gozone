@@ -54,7 +54,7 @@ func (this *UserController) Login() {
 	}
 
 	this.SetCK(auth.ZoneToken, string(m), 168)
-	this.Response(enum.DefaultSuccess, "")
+	this.Response(0, "")
 }
 
 func (this *UserController) Logout() {

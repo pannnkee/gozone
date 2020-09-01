@@ -15,7 +15,7 @@ type LoginService struct{}
 
 func (this *LoginService) Login(eMail, password string) (cookie []byte, err error) {
 
-	userInfo, err := new(models.User).GetUserInfo(eMail)
+	userInfo, err := new(models.User).UserInfo(eMail)
 	// 登陆失败
 	if err != nil || userInfo.Id < 1 {
 		return nil, errors.New("账号或者密码错误")
