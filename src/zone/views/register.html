@@ -7,8 +7,12 @@
     <!-- Bootstrap and font-awesome CSS -->
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>-->
     <script src="../static/js/headroom.min.js"></script>
+
+    <script src="https://cdn.staticfile.org/vue/2.6.11/vue.js"></script>
+    <script src="/static/js/ajax.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
 
     <!-- blog CSS -->
     <link href="/static/css/base.css" rel="stylesheet">
@@ -33,15 +37,38 @@
                     <div class="card-body card-login">
 
 
-                        <form class="signup" method="POST">
+                        <form id="register" class="signup" method="POST" @submit.prevent="registerSubmit">
                             <input type="hidden" name="csrfmiddlewaretoken" value="eB3CfeRRjX3d8Wt7bC4UkWz6rKO6Tw6hLHcB97PVey9LLSNiaW2V5Ddf2mB16Vqu">
 
-
-                            <div id="div_id_email" class="form-group"> <label for="id_email" class="col-form-label  requiredField">
-                                    E-mail<span class="asteriskField">*</span> </label> <div class=""> <input type="email" name="email" placeholder="E-mail地址" class="textinput textInput form-control" required="" id="email"> </div> </div> <div id="div_id_username" class="form-group"> <label for="id_username" class="col-form-label  requiredField">
-                                    用户名<span class="asteriskField">*</span> </label> <div class=""> <input type="text" name="username" placeholder="用户名" autofocus="autofocus" minlength="1" maxlength="150" class="textinput textInput form-control" required="" id="id_username"> </div> </div> <div id="div_id_password1" class="form-group"> <label for="id_password1" class="col-form-label  requiredField">
-                                    密码<span class="asteriskField">*</span> </label> <div class=""> <input type="password" name="password1" placeholder="密码" class="textinput textInput form-control" required="" id="id_password1"> </div> </div> <div id="div_id_password2" class="form-group"> <label for="id_password2" class="col-form-label  requiredField">
-                                    密码(重复)<span class="asteriskField">*</span> </label> <div class=""> <input type="password" name="password2" placeholder="密码(重复)" class="textinput textInput form-control" required="" id="id_password2"> </div> </div>
+                            <div id="div_id_email" class="form-group">
+                                <label for="id_email" class="col-form-label  requiredField">E-mail<span class="asteriskField">*</span></label>
+                                <div class="">
+                                    <input type="email" name="email" placeholder="E-mail地址" class="textinput textInput form-control"
+                                           required="" id="email" v-model="email">
+                                </div>
+                            </div>
+                            <div id="div_id_username" class="form-group">
+                                <label for="id_username" class="col-form-label  requiredField">用户名<span class="asteriskField">*</span></label>
+                                <div class="">
+                                    <input type="text" name="username" placeholder="用户名" autofocus="autofocus"
+                                           minlength="1" maxlength="150" class="textinput textInput form-control"
+                                           required="" id="id_username" v-model="username">
+                                </div>
+                            </div>
+                            <div id="div_id_password1" class="form-group">
+                                <label for="id_password1" class="col-form-label  requiredField">密码<span class="asteriskField">*</span></label>
+                                <div class="">
+                                    <input type="password" name="password1" placeholder="密码" class="textinput textInput form-control"
+                                           required="" id="id_password1" v-model="password">
+                                </div>
+                            </div>
+                            <div id="div_id_password2" class="form-group">
+                                <label for="id_password2" class="col-form-label  requiredField">密码(重复)<span class="asteriskField">*</span></label>
+                                <div class="">
+                                    <input type="password" name="password2" placeholder="密码(重复)" class="textinput textInput form-control"
+                                           required="" id="id_password2" v-model="repeatpassword">
+                                </div>
+                            </div>
 
                             <input type="hidden" name="next" value="/accounts/login/">
 
@@ -65,60 +92,45 @@
         </div>
     </div>
 
-<script type="text/javascript">
-$("#submit").click(function () {
-    var email = $("#email").val();
-    var username = $("#id_username").val();
-    var password1 = $("#id_password1").val();
-    var password2 = $("#id_password2").val();
+<script>
+    var register = new Vue({
+        el:"#register",
+        data:function(){
+            return {
+                email:"",
+                username:"",
+                password:"",
+                repeatpassword:"",
+            };
+        },
 
+        methods:{
+            registerSubmit:function(){
+                var t = this;
 
-    if (username != "" && password1 !=""){
+                var data = {
+                    email: t.email,
+                    username: t.username,
+                    password: t.password,
+                    repeatpassword: t.repeatpassword,
+                };
+                data = JSON.stringify(data);
+                post("v1/api/user/register", data, function(data){
+                        if(data.code==0){
+                            top.location.href="/";
+                        }else{
 
-        if (password1 != password2) {
-            alert("两次输入密码不一致");
-        }
-
-        var json_data = {
-            "user_name":username,
-            "password":password1,
-            "repeat_password":password2,
-            "email":email
-        }
-
-        console.log(JSON.stringify(json_data));
-        var url ="v1/api/register";
-
-        $.ajax({
-            //提交数据的类型 POST GET
-            type:"POST",
-            //提交的网址
-            url:url,
-            //提交的数据
-            data:JSON.stringify(json_data),
-            //数据的格式
-            datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
-            //在请求之前调用的函数
-            beforeSend:function(){$("#msg").html("logining");},
-            //成功返回之后调用的函数
-            success:function(data){
-                console.log(data);
-                alert(data);
-            },
-            //调用出错执行的函数
-            error: function(){
-            //请求出错处理
-                alert("请求错误")
+                        }
+                    }
+                )
             }
-        });
-    }else{
-        alert("请输入!");
-    }
+        },
+
+        created:function(){
+
+        },
     });
-
-
-
-    </script>
+</script>
 
 
 </body>
