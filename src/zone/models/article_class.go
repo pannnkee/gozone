@@ -17,3 +17,10 @@ func (this *ArticleClass) FindArticleName(id int64) (data *ArticleClass, err err
 	err = db.Where("id=?", id).First(&data).Error
 	return
 }
+
+func (this *ArticleClass) FindAllArticleClass() (data []*ArticleClass, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Find(&data).Error
+	return
+}

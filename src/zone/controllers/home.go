@@ -1,25 +1,43 @@
 package controllers
 
+import (
+	"Gozone/library/enum"
+	"Gozone/src/zone/models"
+)
+
 type HomeController struct {
 	BaseHandler
 }
 
-func (this *HomeController) Home() {
+func (this *HomeController) Content() {
 
+	//获取首页文章
+	Articles, count, err := models.ArticleInstance.PageList(this.Pager.Offset, this.Pager.Limit)
+	if err != nil {
+		this.Response(enum.DefaultError, err.Error())
+		return
+	}
+	this.Pager.Count = count
 
+	//获取首页标签
+	tag, err := models.TagInstance.GetAllTag()
+	if err != nil {
+		this.Response(enum.DefaultError, err.Error())
+		return
+	}
 
-	this.TplName = "base.html"
+	//获取首页文章分类
+	class, err := models.ArticleClassInstance.FindAllArticleClass()
+	if err != nil {
+		this.Response(enum.DefaultError, err.Error())
+		return
+	}
+
+	homeContent := new(models.HomeContent)
+	homeContent.Articles = Articles
+	homeContent.Tags = tag
+	homeContent.ArticleClass = class
+	this.Response(enum.DefaultSuccess, "", homeContent)
 }
 
-func (this *HomeController) Login() {
-	this.TplName = "login.html"
-}
 
-func (this *HomeController) Register() {
-	this.TplName = "register.html"
-}
-
-
-func (this *HomeController) Article() {
-	this.TplName = "article.html"
-}

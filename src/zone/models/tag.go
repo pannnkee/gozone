@@ -18,3 +18,10 @@ func (this *Tag) GetTagName(id int64) (name string, err error) {
 	name = this.TagName
 	return
 }
+
+func (this *Tag) GetAllTag() (data []*Tag, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Find(&data).Error
+	return
+}
