@@ -43,6 +43,7 @@ func (this *HomeController) Content() {
 	homeContent.Articles = Articles
 	homeContent.Tags = tag
 	homeContent.ArticleClass = class
+	homeContent.PannnkeeZone = "Pannnkee's Zone"
 	this.Response(enum.DefaultSuccess, "", homeContent)
 }
 
