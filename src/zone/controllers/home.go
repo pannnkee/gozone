@@ -17,6 +17,12 @@ func (this *HomeController) Content() {
 		this.Response(enum.DefaultError, err.Error())
 		return
 	}
+
+	for _, v := range Articles {
+		article, _ := models.ArticleClassInstance.FindArticleName(v.ArticleClass)
+		v.ArticleClassName = article.ClassName
+	}
+
 	this.Pager.Count = count
 
 	//获取首页标签

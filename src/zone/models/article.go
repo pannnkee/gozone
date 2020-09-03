@@ -6,6 +6,7 @@ type Article struct {
 	Id            int64  `gorm:"column:id" json:"id"`
 	ArticleTitle  string `gorm:"column:article_title" json:"article_title"`
 	ArticleClass  int64  `grom:"column:article_class" json:"article_class"`
+	ArticleClassName string `grom:"-" json:"article_class_name"`
 	SimpleContent string `gorm:"column:simple_content" json:"simple_content"`
 	Views         int64  `gorm:"column:views" json:"views"`
 	CommentNumber int64  `gorm:"column:comment_number" json:"comment_number"`
