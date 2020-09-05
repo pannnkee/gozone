@@ -1,9 +1,12 @@
 package controllers
 
 import (
+	"Gozone/library/util"
 	"Gozone/src/zone/models"
 	"fmt"
+	"html"
 	"strconv"
+	"time"
 )
 
 type ArticleController struct {
@@ -36,6 +39,9 @@ func (this *ArticleController) Get() {
 		return
 	}
 
+	article.CreatedTimeStr = time.Unix(article.CreateTime,0).Format("2006-01-02")
+	article.UpdateTimeStr = time.Unix(article.UpdateTime,0).Format("2006-01-02")
+
 	articleContent := new(models.ArticleContent)
 	err = articleContent.Get(articleId)
 	if err != nil {
@@ -62,14 +68,18 @@ func (this *ArticleController) Get() {
 		tagName, _ := tag.GetTagName(v.TagId)
 		tagNames = append(tagNames, tagName)
 	}
-
+	
 	data := models.ArticleListResp{
-		Article:        article,
-		ArticleContent: articleContent.Content,
-		ArticleTags:    &tagNames,
+		Article:        *article,
+		ArticleContent: html.UnescapeString(articleContent.Content),
+		ArticleTags:    tagNames,
 		ArticleClassName: ArticleClass.ClassName,
 	}
-	this.Data["articleResp"] = data
-	//this.Response(0, "", data)
+	jsonMap, err := util.Struct2JsonMap(data)
+	if err != nil {
+		this.Response(1,fmt.Sprintf("序列化错误:%v", err.Error()))
+		return
+	}
+	this.Data["articleResp"] = jsonMap
 	this.TplName = "article.html"
 }

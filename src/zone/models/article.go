@@ -14,14 +14,15 @@ type Article struct {
 	CreateTime       int64  `gorm:"column:create_time" json:"create_time"`
 	CreatedTimeStr   string `gorm:"column:created_time_str" json:"create_time_str"`
 	UpdateTime       int64  `gorm:"column:update_time" json:"update_time"`
+	UpdateTimeStr    string `gorm:"column:update_time_str" json:"update_time_str"`
 }
 
 // 文章详情 Text
 type ArticleListResp struct {
-	*Article
-	ArticleContent   string    `json:"article_content"`
-	ArticleTags      *[]string `json:"article_tags"`
-	ArticleClassName string    `json:"article_class_name"`
+	Article
+	ArticleContent   string   `json:"article_content"`
+	ArticleTags      []string `json:"article_tags"`
+	ArticleClassName string   `json:"article_class_name"`
 }
 
 func (this *Article) TableName() string {

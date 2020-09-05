@@ -13,6 +13,7 @@
     <script src="static/plugin/editormd.js"></script>
     <script src="../static/js/headroom.min.js"></script>
 
+    <script>var articleResp=<<.articleResp>></script>
 
     <!-- blog CSS -->
     <link href="/static/css/base.css" rel="stylesheet">
@@ -43,38 +44,40 @@
                             <i class="fa fa-home mr-1"></i><a href="/">首页</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="/">Golang实战</a>
+                            <a href="/"><<.articleResp.article_class_name>></a>
                         </li>
-                        <li class="breadcrumb-item active d-none d-md-block" aria-current="page">Golang基础知识</li>
+                        <li class="breadcrumb-item active d-none d-md-block" aria-current="page"><<.articleResp.article_title>></li>
                         <li class="breadcrumb-item active d-md-none" aria-current="page">当前位置</li>
                     </ol>
                 </nav>
 
                 <div class="card rounded-0 border-0" id="article">
                     <div class="card-body px-2 px-md-3 pb-0">
-                        <h1 class="card-title text-center font-weight-bold text-info">Golang基础知识</h1>
+                        <h1 class="card-title text-center font-weight-bold text-info"><<.articleResp.article_title>></h1>
                         <hr>
                         <div class="text-center f-13">
                             <span class="mx-2" data-toggle="tooltip" data-placement="bottom"
-                                  title="最后编辑于2020/8/28">最后编辑于2020/8/28
+                                  title="最后编辑于2020/8/28">最后编辑于<<.articleResp.update_time_str>>
                             </span>
-                            <span class="mx-2">阅读 200</span>
-                            <a class="mx-2 to-com" href="#comment-block">评论 100</a>
+                            <span class="mx-2">阅读 <<.articleResp.views>></span>
+                            <a class="mx-2 to-com" href="#comment-block">评论 <<.articleResp.comment_number>></a>
                         </div>
 
+
+
                         <div class="article-body mt-4 f-17" style="line-height:1.8">
+                            <<str2html .articleResp.article_content>>
                             <blockquote class="p-1 f-14" style="border-left: 4px solid #dc3545;">
-                                文章简介
-                                6666
-                                6666
+                                <<.articleResp.simple_content>>
                                 <p class="m-1"><strong>版权声明：</strong>如无特殊说明，文章均为本站原创，转载请注明出处</p>
-                                <p class="m-1"><strong>本文链接：</strong>{{ 11 }}{{ 22 }}</p>
+                                <p class="m-1"><strong>本文链接：</strong>www.baidu.com</p>
                             </blockquote>
                         </div>
 
                         <div class="tag-cloud my-4">
-                            <a class="tags f-16" href="/">Golang</a>
-                            <a class="tags f-16" href="/">K8s</a>
+                            <<range $ImpressionIndex, $Impression := .articleResp.article_tags>>
+                                <a class="tags f-16" href="/"><<$Impression>></a>
+                            <<end>>
                         </div>
 
                         <nav class="more-page f-16">
@@ -115,7 +118,7 @@
             <img class="rounded mx-auto d-block" alt="image" style="max-width: 100%">
         </div>
     </div>
-    <!--前后文章-->
+    <!--前后文章
     <div class="more-blog" id="icon-pre-blog">
         <a href="/">
             <i class="fa fa-angle-left fa-3x"></i>
@@ -126,7 +129,7 @@
             <i class="fa fa-angle-right fa-3x"></i>
         </a>
     </div>
-
+    -->
 
 </body>
 <script type="text/javascript">

@@ -111,7 +111,6 @@
                 const data={};
                 get(url,data,function (d) {
                     if (d.code==0) {
-                        console.log("222");
                         t.items = d.body.data;
                     } else {
 
@@ -121,7 +120,6 @@
         },
 
         created:function(){
-            console.log("111");
             this.getItem();
         },
     });
