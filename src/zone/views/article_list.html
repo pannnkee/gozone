@@ -7,15 +7,17 @@
 
         <div style="width: 70%;">
             <div>
-                <span>pannnkee</span>
-                <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i>一个月前</span>
+                <span>{{item.author}}</span>
+                <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i>{{item.create_time_str}}</span>
 
                 <h2 class="mt-0 font-weight-bold text-info f-17">
-                    <a href="nihao" target="_blank" v-text="item.article_title"></a>
+                    <a :href='"/v1/api/article/"+item.id' target="_blank" >
+                        {{item.article_title}}
+                    </a>
                 </h2>
 
                 <p class="d-none d-sm-block mb-2 f-15" v-text="item.simple_content"></p>
-                <p class="d-block d-sm-none mb-2 f-15">6666666666666</p>
+                <p class="d-block d-sm-none mb-2 f-15" v-text="item.simple_content"></p>
 
                 <div class="text-muted mb-0 f-12">
                     <a class="cate" href="" title="查看当前分类下更多文章">

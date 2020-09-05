@@ -3,6 +3,7 @@ package controllers
 import (
 	"Gozone/library/enum"
 	"Gozone/src/zone/models"
+	"time"
 )
 
 type HomeController struct {
@@ -21,6 +22,7 @@ func (this *HomeController) Content() {
 	for _, v := range Articles {
 		article, _ := models.ArticleClassInstance.FindArticleName(v.ArticleClass)
 		v.ArticleClassName = article.ClassName
+		v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 	}
 
 	this.Pager.Count = count

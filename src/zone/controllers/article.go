@@ -63,11 +63,13 @@ func (this *ArticleController) Get() {
 		tagNames = append(tagNames, tagName)
 	}
 
-	data := models.ArticleResp{
+	data := models.ArticleListResp{
 		Article:        article,
 		ArticleContent: articleContent.Content,
 		ArticleTags:    &tagNames,
 		ArticleClassName: ArticleClass.ClassName,
 	}
-	this.Response(0, "", data)
+	this.Data["articleResp"] = data
+	//this.Response(0, "", data)
+	this.TplName = "article.html"
 }

@@ -16,7 +16,7 @@ func (this *ZoneController) Register() {
 	this.TplName = "register.html"
 }
 
-
-func (this *ZoneController) Article() {
-	this.TplName = "article.html"
-}
+//
+//func (this *ZoneController) Article() {
+//
+//}
