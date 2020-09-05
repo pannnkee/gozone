@@ -68,7 +68,7 @@ func (this *ArticleController) Get() {
 		tagName, _ := tag.GetTagName(v.TagId)
 		tagNames = append(tagNames, tagName)
 	}
-	
+
 	data := models.ArticleListResp{
 		Article:        *article,
 		ArticleContent: html.UnescapeString(articleContent.Content),

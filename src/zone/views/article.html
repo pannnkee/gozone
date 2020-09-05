@@ -4,27 +4,9 @@
     <meta charset="UTF-8">
     <title>Login</title>
 
-    <!-- Bootstrap and font-awesome CSS -->
-    <script src="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
-    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="static/plugin/css/editormd.css" />
-    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="static/plugin/editormd.js"></script>
-    <script src="../static/js/headroom.min.js"></script>
-
+    <<template "import.html" .>>
     <script>var articleResp=<<.articleResp>></script>
 
-    <!-- blog CSS -->
-    <link href="/static/css/base.css" rel="stylesheet">
-    <link id="theme-css-dark" href="/static/css/night.css" rel="stylesheet">
-    <style>
-        .lb{
-            height: 300px;
-            width: 600px;
-        }
-
-    </style>
 </head>
 <body>
     <<template "navbar.html" .>>
