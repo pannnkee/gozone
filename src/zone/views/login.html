@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    {{template "navbar.html" .}}
+    <<template "navbar.html" .>>
 
     <div class="container">
         <div class="row">
@@ -98,6 +98,7 @@
                     data = JSON.stringify(data);
                     post("v1/api/user/login", data, function(data){
                             if(data.code==0){
+                                console.log(data);
                                 top.location.href="/";
                             }else{
 

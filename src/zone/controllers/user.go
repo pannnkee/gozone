@@ -3,9 +3,11 @@ package controllers
 import (
 	"Gozone/library/controller"
 	"Gozone/library/enum"
+	"Gozone/library/util"
 	"Gozone/src/zone/auth"
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
+	"Gozone/src/zone/models"
 )
 
 type UserController struct {
@@ -53,11 +55,19 @@ func (this *UserController) Login() {
 		return
 	}
 
+	userInfo, _ := models.UserInstance.UserInfo(modelUser.Email)
 	this.SetCK(auth.ZoneToken, string(m), 168)
-	this.Response(0, "")
+	this.SetSession(SESSION_USER_KEY, userInfo)
+
+	userInfoMap, _ := util.Struct2JsonMap(userInfo)
+	this.Data["User"] = userInfoMap
+	this.Response(0, "登录成功")
 }
 
 func (this *UserController) Logout() {
-	this.DeleteCookie("admin-cookie")
-	this.Redirect("/login", 302)
+
+	this.MustLogin()
+	this.DeleteCookie(auth.ZoneToken)
+	this.DelSession(SESSION_USER_KEY)
+	this.Redirect("/", 302)
 }

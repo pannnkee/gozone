@@ -12,6 +12,7 @@ func main() {
 		logger.ZoneLogger.Sync()
 	}()
 
+
 	beego.Run()
 }
 

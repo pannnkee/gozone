@@ -4,6 +4,7 @@ import (
 	"Gozone/library/enum"
 	"Gozone/library/util"
 	"Gozone/src/zone/auth"
+	"Gozone/src/zone/models"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
@@ -23,7 +24,11 @@ type BaseHandler struct {
 	ControllerName string
 	ActionName     string
 	Pager          *Pager
+	IsLogin        bool
+	User           models.User
 }
+
+const SESSION_USER_KEY = "session_user_key"
 
 // DataResponse 返回数据模型
 type DataResponse struct {
@@ -50,6 +55,16 @@ type Pager struct {
 
 func (this *BaseHandler) Prepare() {
 	this.Parse()
+	this.IsLogin = false
+	session := this.GetSession(SESSION_USER_KEY)
+	if session != nil {
+		if user, ok := session.(models.User); ok {
+			this.User = user
+			this.Data["User"] = user
+			this.IsLogin = true
+		}
+	}
+	this.Data["IsLogin"] = this.IsLogin
 }
 
 //Parse Parse
@@ -137,7 +152,6 @@ func (this *BaseHandler) GetServerParams() {
 
 	this.ControllerName, this.ActionName = this.GetControllerAndAction()
 
-
 	//处理翻页
 	pager := new(Pager)
 	pager.Page, _ = this.GetInt64("page", 1)
@@ -172,7 +186,6 @@ func (this *BaseHandler) GetIP() (ip string) {
 	return
 }
 
-
 //SetCK SetCK
 func (this *BaseHandler) SetCK(key, val string, expireHour int64) {
 	if len(key) == 0 || len(val) == 0 {
@@ -188,3 +201,9 @@ func (this *BaseHandler) DeleteCookie(key string) {
 	}
 }
 
+func (this *BaseHandler) MustLogin() {
+	if !this.IsLogin {
+		this.Response(enum.DefaultError, "用户未登录")
+		return
+	}
+}
