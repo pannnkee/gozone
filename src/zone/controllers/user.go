@@ -3,7 +3,6 @@ package controllers
 import (
 	"Gozone/library/controller"
 	"Gozone/library/enum"
-	"Gozone/library/util"
 	"Gozone/src/zone/auth"
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
@@ -58,9 +57,6 @@ func (this *UserController) Login() {
 	userInfo, _ := models.UserInstance.UserInfo(modelUser.Email)
 	this.SetCK(auth.ZoneToken, string(m), 168)
 	this.SetSession(SESSION_USER_KEY, userInfo)
-
-	userInfoMap, _ := util.Struct2JsonMap(userInfo)
-	this.Data["User"] = userInfoMap
 	this.Response(0, "登录成功")
 }
 

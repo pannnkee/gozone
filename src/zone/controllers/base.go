@@ -60,7 +60,8 @@ func (this *BaseHandler) Prepare() {
 	if session != nil {
 		if user, ok := session.(models.User); ok {
 			this.User = user
-			this.Data["User"] = user
+			userMap, _ := util.Struct2JsonMap(user)
+			this.Data["User"] = userMap
 			this.IsLogin = true
 		}
 	}
