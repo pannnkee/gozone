@@ -41,10 +41,18 @@ func (this *HomeController) Content() {
 		return
 	}
 
+	//获取友情链接
+	links, err := models.LinkInstance.FindLinks()
+	if err != nil {
+		this.Response(enum.DefaultError, err.Error())
+		return
+	}
+
 	homeContent := new(models.HomeContent)
 	homeContent.Articles = Articles
 	homeContent.Tags = tag
 	homeContent.ArticleClass = class
+	homeContent.Links = links
 	homeContent.PannnkeeZone = "Pannnkee's Zone"
 	this.Response(enum.DefaultSuccess, "", homeContent)
 }
