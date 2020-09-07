@@ -72,7 +72,7 @@
 
                 <div class="w-50 float-left text-center mb-2" v-for="item in items.Links">
                     <div class="mx-2">
-                        <a href='item.url'  target="_blank" v-text="item.domain"></a>
+                        <a :href=item.url  target="_blank" :title=item.content> {{item.domain}}</a>
 
                     </div>
                 </div>
