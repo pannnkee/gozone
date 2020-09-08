@@ -4,7 +4,30 @@
     <meta charset="UTF-8">
     <title>Login</title>
 
-    <<template "import.html" .>>
+    <!-- Bootstrap and font-awesome CSS -->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="/static/js/headroom.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue/2.6.11/vue.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/static/js/ajax.js"></script>
+    <link href="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
+    <link href="/static/css/base_comment.css" rel="stylesheet">
+    <link href="/static/css/monokai.css" rel="stylesheet">
+    <link href="/static/css/detail.css" rel="stylesheet">
+
+    <!-- blog CSS -->
+    <link href="/static/css/base.css" rel="stylesheet">
+    <link id="theme-css-dark" href="/static/css/night.css" rel="stylesheet">
+    <style>
+        .lb{
+            height: 300px;
+            width: 600px;
+        }
+
+    </style>
+
+
     <script>var articleResp=<<.articleResp>></script>
 
 </head>
@@ -85,7 +108,7 @@
                             </ul>
                         </nav>
                         <div class="card mt-2 rounded-0 border-0" id="comment-block">
-
+                            <<template "comment.html" .>>
                         </div>
                     </div>
                 </div>
@@ -114,6 +137,7 @@
     -->
 
 </body>
+<!--
 <script type="text/javascript">
     $(function() {
 
@@ -127,4 +151,5 @@
 <script>
     var sw=window.screen.width;if(sw>1200){POWERMODE.colorful=true;POWERMODE.shake=false;document.body.addEventListener('input',POWERMODE)};
 </script>
+-->
 </html>
