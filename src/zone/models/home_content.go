@@ -6,4 +6,5 @@ type HomeContent struct {
 	ArticleClass []*ArticleClass
 	Links []*Link
 	PannnkeeZone string `json:"pannnkee_zone"`
+	SortType int64
 }

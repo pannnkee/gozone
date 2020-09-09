@@ -15,7 +15,8 @@ type ArticleController struct {
 
 func (this *ArticleController) PageList() {
 
-	datas, count, err := models.ArticleInstance.PageList(this.Pager.Offset, this.Pager.Limit)
+	typeId, _ := this.GetInt64("type", 0)
+	datas, count, err := models.ArticleInstance.PageList(this.Pager.Offset, this.Pager.Limit, typeId)
 	if err != nil {
 		this.Response(1, fmt.Sprintf("查询错误:%v", err))
 	}

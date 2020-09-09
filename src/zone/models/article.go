@@ -1,6 +1,9 @@
 package models
 
-import "Gozone/library/conn"
+import (
+	"Gozone/library/conn"
+	"Gozone/library/enum"
+)
 
 type Article struct {
 	Id               int64  `gorm:"column:id" json:"id"`
@@ -29,10 +32,15 @@ func (this *Article) TableName() string {
 	return "article"
 }
 
-func (this *Article) PageList(offset, limit int64) (datas []*Article, count int64, err error) {
+func (this *Article) PageList(offset, limit, typeId int64) (datas []*Article, count int64, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
-	err = db.Offset(offset).Limit(limit).Order("id asc").Find(&datas).Error
+
+	if typeId == enum.HotSort {
+		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&datas).Error
+	} else {
+		err = db.Offset(offset).Limit(limit).Order("create_time asc").Find(&datas).Error
+	}
 	err = db.Count(&count).Error
 	return
 }

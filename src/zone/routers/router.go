@@ -16,7 +16,7 @@ func init() {
 	v1 := beego.NewNamespace("/v1/api",
 
 		beego.NSNamespace("/home",
-				beego.NSRouter("content", &controllers.HomeController{}, "*:Content"),
+				beego.NSRouter("content/?type:int", &controllers.HomeController{}, "*:Content"),
 			),
 
 		beego.NSNamespace("/user",
@@ -26,7 +26,7 @@ func init() {
 			),
 
 		beego.NSNamespace("/article",
-				beego.NSRouter("/page", &controllers.ArticleController{}, "*:PageList"),
+				beego.NSRouter("/page/?type:int", &controllers.ArticleController{}, "*:PageList"),
 				beego.NSRouter(":id:int", &controllers.ArticleController{}, "get:Get"),
 			),
 	)
