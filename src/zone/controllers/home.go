@@ -62,8 +62,17 @@ func (this *HomeController) Content() {
 	homeContent.Links = links
 	homeContent.PannnkeeZone = "Pannnkee's Zone"
 	homeContent.SortType = typeId
+	homeContent.ContentType = enum.DefaultType
 
 	this.Response(enum.DefaultSuccess, "", homeContent)
+}
+
+func (this *HomeController) ContentClass() {
+
+}
+
+func (this *HomeController) ContentTag() {
+
 }
 
 

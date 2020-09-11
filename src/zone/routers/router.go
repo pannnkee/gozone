@@ -17,6 +17,8 @@ func init() {
 
 		beego.NSNamespace("/home",
 				beego.NSRouter("content/?type:int", &controllers.HomeController{}, "*:Content"),
+				beego.NSRouter("class/?type:int", &controllers.HomeController{},"*:ContentClass"),
+				beego.NSRouter("tag/?type:int", &controllers.HomeController{}, "*:ContentTag"),
 			),
 
 		beego.NSNamespace("/user",

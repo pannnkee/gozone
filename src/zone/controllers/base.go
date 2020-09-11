@@ -72,7 +72,7 @@ func (this *BaseHandler) Prepare() {
 func (this *BaseHandler) Parse() {
 	this.GetServerParams()
 	this.Data["version"] = 0
-	this.Data["sitename"] = "pannnkee zone"
+	this.Data["ZoneName"] = "pannnkee zone"
 	this.Data["year"] = time.Now().Year()
 	logs.Info(fmt.Sprintf("%s | %s | %s | %s", this.ClientIP, this.Ctx.Request.Method, this.Ctx.Request.Host, this.Ctx.Request.RequestURI))
 }
@@ -120,6 +120,7 @@ func (this *BaseHandler) Response(code enum.ResponseCode, msg string, args ...in
 	body.Data = data
 	resp.Body = body
 
+	this.Data["zone"] = "213"
 	this.Data["json"] = *resp
 	this.ServeJSON()
 	this.StopRun()

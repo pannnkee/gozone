@@ -7,7 +7,17 @@ const (
 	DefaultError
 )
 
+type SortType int
+
 const (
-	TimeSort = 1
-	HotSort = 2
+	TimeSort SortType = iota
+	HotSort
+)
+
+type ContentType int
+
+const (
+	DefaultType ContentType = iota
+	ClassType
+	TagType
 )

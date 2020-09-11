@@ -1,10 +1,13 @@
 package models
 
+import "Gozone/library/enum"
+
 type HomeContent struct {
-	Articles []*Article
 	Tags []*Tag
-	ArticleClass []*ArticleClass
 	Links []*Link
-	PannnkeeZone string `json:"pannnkee_zone"`
+	Articles []*Article
 	SortType int64
+	ContentType enum.ContentType
+	ArticleClass []*ArticleClass
+	PannnkeeZone string `json:"pannnkee_zone"`
 }

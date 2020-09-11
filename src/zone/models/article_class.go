@@ -3,9 +3,9 @@ package models
 import "Gozone/library/conn"
 
 type ArticleClass struct {
-	Id        int64  `gorm:"column:id"`
-	ClassName string `gorm:"column:class_name"`
-	Nums      int64  `json:"Nums"`
+	Id        int64  `gorm:"column:id" json:"id"`
+	ClassName string `gorm:"column:class_name" json:"class_name"`
+	Nums      int64  `gorm:"-" json:"nums"`
 }
 
 func (this *ArticleClass) TableName() string {

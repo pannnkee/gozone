@@ -36,7 +36,7 @@ func (this *Article) PageList(offset, limit, typeId int64) (datas []*Article, co
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 
-	if typeId == enum.HotSort {
+	if typeId == int64(enum.HotSort) {
 		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&datas).Error
 	} else {
 		err = db.Offset(offset).Limit(limit).Order("create_time asc").Find(&datas).Error

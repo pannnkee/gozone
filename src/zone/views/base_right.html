@@ -41,10 +41,10 @@
 
     <ul class="list-group list-group-flush f-16" v-for="item in items.ArticleClass">
         <li class="list-group-item d-flex justify-content-between align-items-center pr-2 py-2">
-            <a class="category-item" v-text="item.ClassName" href="" title="查看 Golang分类下所有文章">
+            <a class="category-item" v-text="item.class_name" href="" title="查看 Golang分类下所有文章">
 
             </a>
-            <span class="badge text-center" title="当前分类下有100篇文章">{{item.Nums}}</span>
+            <span class="badge text-center" title="当前分类下有100篇文章">{{item.nums}}</span>
         </li>
     </ul>
 </div>
@@ -69,14 +69,11 @@
         </div>
         <div class="card-body px-0 py-3">
             <div class="tool-list">
-
                 <div class="w-50 float-left text-center mb-2" v-for="item in items.Links">
                     <div class="mx-2">
                         <a :href=item.url  target="_blank" :title=item.content> {{item.domain}}</a>
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
