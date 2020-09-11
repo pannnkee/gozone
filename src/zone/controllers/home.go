@@ -42,6 +42,11 @@ func (this *HomeController) Content() {
 		this.Response(enum.DefaultError, err.Error())
 		return
 	}
+	for _, v := range class {
+		nums, _ := models.ArticleInstance.FindClassNums(v.Id)
+		v.Nums = nums
+	}
+
 
 	//获取友情链接
 	links, err := models.LinkInstance.FindLinks()

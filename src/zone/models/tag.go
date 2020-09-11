@@ -5,6 +5,7 @@ import "Gozone/library/conn"
 type Tag struct {
 	Id      int    `gorm:"column:id" json:"id"`
 	TagName string `gorm:"column:tag_name" json:"tag_name"`
+	URL     string `gorm:"column:url" json:"url"`
 }
 
 func (this *Tag) TableName() string {

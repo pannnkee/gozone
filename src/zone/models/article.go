@@ -51,3 +51,10 @@ func (this *Article) Get(id int64) (err error) {
 	err = db.Where("id=?", id).Find(&this).Error
 	return
 }
+
+func (this *Article) FindClassNums(classId int64) (nums int64, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Where("article_class=?", classId).Count(&nums).Error
+	return
+}

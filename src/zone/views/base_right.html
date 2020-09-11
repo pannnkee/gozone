@@ -44,7 +44,7 @@
             <a class="category-item" v-text="item.ClassName" href="" title="查看 Golang分类下所有文章">
 
             </a>
-            <span class="badge text-center" title="当前分类下有100篇文章">123</span>
+            <span class="badge text-center" title="当前分类下有100篇文章">{{item.Nums}}</span>
         </li>
     </ul>
 </div>
@@ -56,7 +56,7 @@
     </div>
     <div class="card-body px-0 py-3">
         <div class="tag-cloud">
-            <a v-for="item in items.Tags" href="" class="tags f-16" v-text="item.tag_name" title="这是一个title"></a>
+            <a v-for="item in items.Tags" :href=item.url class="tags f-16" v-text="item.tag_name" title="这是一个title"></a>
         </div>
     </div>
 </div>
