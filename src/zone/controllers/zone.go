@@ -41,9 +41,9 @@ func (this *ZoneController) Home() {
 		this.Response(enum.DefaultError, err.Error())
 		return
 	}
-	for _, v := range class {
+	for k, v := range class {
 		nums, _ := models.ArticleInstance.FindClassNums(v.Id)
-		v.Nums = nums
+		class[k].Nums = nums
 	}
 
 
@@ -69,7 +69,7 @@ func (this *ZoneController) Home() {
 func (this *ZoneController) ArticleClass() {
 
 	sortType, _ := this.GetInt64("sortType", 1)
-	classId, _ := this.GetInt64("class_id", 0)
+	classId, _ := this.GetInt64("classId", 0)
 	//获取首页文章
 	Articles, count, err := models.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, classId)
 	if err != nil {
@@ -118,7 +118,7 @@ func (this *ZoneController) ArticleClass() {
 	homeContent.Links = links
 	homeContent.PannnkeeZone = "Pannnkee's Zone"
 	homeContent.SortType = sortType
-	homeContent.ContentType = enum.DefaultType
+	homeContent.ContentType = enum.ClassType
 	this.Data["HomeContent"] = homeContent
 	this.TplName = "base.html"
 }
