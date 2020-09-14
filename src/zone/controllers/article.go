@@ -57,7 +57,7 @@ func (this *ArticleController) Get() {
 		return
 	}
 
-	ArticleClass, err := new(models.ArticleClass).FindArticleName(article.ArticleClass)
+	ArticleClass, err := new(models.ArticleClass).FindArticleClassName(article.ArticleClass)
 	if err != nil {
 		this.Response(1,"获取文章类别名称错误")
 		return

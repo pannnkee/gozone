@@ -9,7 +9,7 @@ type Article struct {
 	Id               int64  `gorm:"column:id" json:"id"`
 	ArticleTitle     string `gorm:"column:article_title" json:"article_title"`
 	ArticleClass     int64  `grom:"column:article_class" json:"article_class"`
-	ArticleClassName string `grom:"-" json:"article_class_name"`
+	ArticleClassName string `grom:"column:article_class_name" json:"article_class_name"`
 	SimpleContent    string `gorm:"column:simple_content" json:"simple_content"`
 	Views            int64  `gorm:"column:views" json:"views"`
 	CommentNumber    int64  `gorm:"column:comment_number" json:"comment_number"`
@@ -46,11 +46,13 @@ func (this *Article) PageList(offset, limit, sortType int64) (datas []Article, c
 }
 
 // 获取分类下文章列表
-func (this *Article) PageListClass(offset, limit, sortType, classId int64) (datas []Article, count int64, err error) {
+func (this *Article) PageListClass(offset, limit, sortType, contentType int64) (datas []Article, count int64, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 
-	db = db.Where("article_class=?", classId)
+	if contentType > 0 {
+		db = db.Where("article_class=?", contentType)
+	}
 	if sortType == int64(enum.HotSort) {
 		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&datas).Error
 	} else {
@@ -71,5 +73,17 @@ func (this *Article) FindClassNums(classId int64) (nums int64, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 	err = db.Where("article_class=?", classId).Count(&nums).Error
+	return
+}
+
+func (this *Article) FindArticles(id []int64) (datas []Article, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	for _, v := range id {
+		if v > 0 {
+			db = db.Where("id=?", v)
+		}
+	}
+	err = db.Find(&datas).Error
 	return
 }

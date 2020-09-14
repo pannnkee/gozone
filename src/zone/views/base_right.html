@@ -41,7 +41,7 @@
     <<range $ImpressionIndex, $Impression := .HomeContent.ArticleClass>>
         <ul class="list-group list-group-flush f-16">
             <li class="list-group-item d-flex justify-content-between align-items-center pr-2 py-2">
-                <a class="category-item"href="/articleClass/?classId=<<$Impression.Id>>" title="查看 Golang分类下所有文章">
+                <a class="category-item"href="/?contentType=<<$Impression.Id>>" title="查看 Golang分类下所有文章">
                     <<$Impression.ClassName>>
                 </a>
                 <span class="badge text-center" title="当前分类下有100篇文章"><<$Impression.Nums>></span>

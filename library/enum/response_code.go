@@ -20,4 +20,11 @@ const (
 	DefaultType ContentType = iota
 	ClassType
 	TagType
+
+	Mysql ContentType = iota + 98
+	Docker
+	Istio
+	Kubernetes
+	Faas
+	Redis
 )

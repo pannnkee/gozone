@@ -22,7 +22,7 @@ func (this *HomeController) Content() {
 	}
 
 	for _, v := range Articles {
-		article, _ := models.ArticleClassInstance.FindArticleName(v.ArticleClass)
+		article, _ := models.ArticleClassInstance.FindArticleClassName(v.ArticleClass)
 		v.ArticleClassName = article.ClassName
 		v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 	}

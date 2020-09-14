@@ -5,7 +5,7 @@ import "Gozone/library/conn"
 type ArticleClass struct {
 	Id                int64  `gorm:"column:id" json:"id"`
 	Url               string `gorm:"column:url" json:"url"`
-	Nums              int64  `gorm:"-" json:"nums"`
+	Nums              int64  `gorm:"column:num" json:"nums"`
 	ClassName         string `gorm:"column:class_name" json:"class_name"`
 	ClassIntroduction string `gorm:"column:class_introduction" json:"class_introduction"`
 }
@@ -14,7 +14,7 @@ func (this *ArticleClass) TableName() string {
 	return "article_class"
 }
 
-func (this *ArticleClass) FindArticleName(id int64) (data *ArticleClass, err error) {
+func (this *ArticleClass) FindArticleClassName(id int64) (data *ArticleClass, err error) {
 	db := conn.GetORMByName("zone")
 	data = new(ArticleClass)
 	err = db.Where("id=?", id).First(&data).Error

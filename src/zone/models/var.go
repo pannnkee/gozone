@@ -9,3 +9,5 @@ var TagInstance = new(Tag)
 var ArticleClassInstance = new(ArticleClass)
 
 var LinkInstance = new(Link)
+
+var ArticleTagInstance = new(ArticleTag)
