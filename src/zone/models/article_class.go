@@ -19,7 +19,7 @@ func (this *ArticleClass) FindArticleName(id int64) (data *ArticleClass, err err
 	return
 }
 
-func (this *ArticleClass) FindAllArticleClass() (data []*ArticleClass, err error) {
+func (this *ArticleClass) FindAllArticleClass() (data []ArticleClass, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 	err = db.Find(&data).Error

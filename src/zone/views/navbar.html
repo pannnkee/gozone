@@ -11,15 +11,15 @@
         <ul class="navbar-nav ml-auto">
 
             <li class="nav-item mr-2">
-                <a class="nav-link py-md-3 {% if request.path == index_url %}active{% endif %}" href="/"><i class="fa fa-home mr-1"></i>首页<span class="sr-only">(current)</span></a>
+                <a class="nav-link py-md-3" href="/"><i class="fa fa-home mr-1"></i>首页<span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item mr-2">
-                <a class="nav-link py-md-3 {% if request.path == archive_url %}active{% endif %}" href="/archive"><i class="fa fa-sitemap mr-1"></i>归档</a>
+                <a class="nav-link py-md-3" href="/archive"><i class="fa fa-sitemap mr-1"></i>归档</a>
             </li>
 
             <li class="nav-item mr-2 ">
-                <a class="nav-link py-md-3 {% if request.path == about_url %}active{% endif %}" href="<< .about_url >>"><i class="fa fa-anchor mr-1"></i>关于</a>
+                <a class="nav-link py-md-3" href="<< .about_url >>"><i class="fa fa-anchor mr-1"></i>关于</a>
             </li>
 
             <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform" action="{% url 'blog:search_view'%}">

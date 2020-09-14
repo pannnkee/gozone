@@ -13,7 +13,7 @@ func (this *Link) TableName() string {
 	return "link"
 }
 
-func (this *Link) FindLinks() (data []*Link, err error) {
+func (this *Link) FindLinks() (data []Link, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 	err = db.Find(&data).Error

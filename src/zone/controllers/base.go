@@ -120,7 +120,6 @@ func (this *BaseHandler) Response(code enum.ResponseCode, msg string, args ...in
 	body.Data = data
 	resp.Body = body
 
-	this.Data["zone"] = "213"
 	this.Data["json"] = *resp
 	this.ServeJSON()
 	this.StopRun()

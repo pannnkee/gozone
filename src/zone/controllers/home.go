@@ -12,10 +12,10 @@ type HomeController struct {
 
 func (this *HomeController) Content() {
 
-	typeId, _ := this.GetInt64("type", 0)
+	sortType, _ := this.GetInt64("sortType", 1)
 
 	//获取首页文章
-	Articles, count, err := models.ArticleInstance.PageList(this.Pager.Offset, this.Pager.Limit, typeId)
+	Articles, count, err := models.ArticleInstance.PageList(this.Pager.Offset, this.Pager.Limit, sortType)
 	if err != nil {
 		this.Response(enum.DefaultError, err.Error())
 		return
@@ -61,7 +61,7 @@ func (this *HomeController) Content() {
 	homeContent.ArticleClass = class
 	homeContent.Links = links
 	homeContent.PannnkeeZone = "Pannnkee's Zone"
-	homeContent.SortType = typeId
+	homeContent.SortType = sortType
 	homeContent.ContentType = enum.DefaultType
 
 	this.Response(enum.DefaultSuccess, "", homeContent)
