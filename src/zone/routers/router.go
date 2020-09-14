@@ -9,9 +9,10 @@ func init() {
     beego.Router("/", &controllers.ZoneController{}, "*:Home")
     beego.Router("/login", &controllers.ZoneController{}, "*:Login")
     beego.Router("/register", &controllers.ZoneController{}, "*:Register")
+    beego.Router("/articleClass", &controllers.ZoneController{}, "*:ArticleClass")
+    beego.Router("/articleTag", &controllers.ZoneController{},"*:ArticleTag")
 
     //beego.Router("/article", &controllers.ZoneController{},"*:Article")
-
 
 	v1 := beego.NewNamespace("/v1/api",
 

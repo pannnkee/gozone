@@ -45,6 +45,21 @@ func (this *Article) PageList(offset, limit, sortType int64) (datas []Article, c
 	return
 }
 
+// 获取分类下文章列表
+func (this *Article) PageListClass(offset, limit, sortType, classId int64) (datas []Article, count int64, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+
+	db = db.Where("article_class=?", classId)
+	if sortType == int64(enum.HotSort) {
+		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&datas).Error
+	} else {
+		err = db.Offset(offset).Limit(limit).Order("create_time asc").Find(&datas).Error
+	}
+	err = db.Count(&count).Error
+	return
+}
+
 func (this *Article) Get(id int64) (err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
