@@ -14,6 +14,7 @@ type Article struct {
 	Views            int64  `gorm:"column:views" json:"views"`
 	CommentNumber    int64  `gorm:"column:comment_number" json:"comment_number"`
 	Author           string `gorm:"column:author" json:"author"`
+	Pic              string `gorm:"column:pic" json:"pic"`
 	CreateTime       int64  `gorm:"column:create_time" json:"create_time"`
 	CreatedTimeStr   string `gorm:"column:created_time_str" json:"create_time_str"`
 	UpdateTime       int64  `gorm:"column:update_time" json:"update_time"`

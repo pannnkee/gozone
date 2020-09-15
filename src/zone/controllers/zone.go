@@ -123,3 +123,7 @@ func (this *ZoneController) Login() {
 func (this *ZoneController) Register() {
 	this.TplName = "register.html"
 }
+
+func (this *ZoneController) Profile() {
+	this.TplName = "profile.html"
+}

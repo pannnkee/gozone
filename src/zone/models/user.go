@@ -11,6 +11,7 @@ type User struct {
 	UserName       string `gorm:"column:user_name" json:"user_name"`
 	Email          string `gorm:"column:email" json:"email"`
 	Mobile         string `gorm:"column:mobile" json:"mobile"`
+	Avatar         string `gorm:"column:avatar" json:"avatar"`
 	PassWord       string `gorm:"column:password" json:"password"`
 	RepeatPassword string `gorm:"-" json:"repeat_password"`
 	Status         int64  `gorm:"column:status" json:"status"`
