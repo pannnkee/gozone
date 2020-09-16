@@ -117,6 +117,9 @@ func (this *ZoneController) Home() {
 }
 
 func (this *ZoneController) Login() {
+	if this.IsLogin == true {
+		this.Redirect("/", 302)
+	}
 	this.TplName = "login.html"
 }
 

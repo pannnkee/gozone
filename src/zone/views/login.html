@@ -103,7 +103,7 @@
                     data = JSON.stringify(data);
                     post("v1/api/user/login", data, function(data){
                             if(data.code==0){
-                                console.log(data);
+                                t.$toast("登录成功");
                                 top.location.href="/";
                             }else{
                                 t.$toast(data.msg);
