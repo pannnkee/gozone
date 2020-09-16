@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><<.ZoneName>></title>
+    <script>var UserInfo=<<.UserInfo>></script>
+
+    <<template "import.html" .>>
+    <script src="/static/js/mint-ui.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+
+    <style type="text/css">
+        .footer {
+            margin-top: -50px;
+            height: 50px;
+            background-color: #eee;
+            z-index: 9999;
+        }
+    </style>
+
+</head>
+<body>
+
+<!--导航开始-->
+<<template "navbar.html" .>>
+<!--导航结束-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-8 col-md-6 offset-sm-2 offset-md-3 px-xl-5">
+            <div class="card rounded-0 px-3 px-lg-4">
+                <div class="card-header text-center bg-white py-2"><h3 class="my-1 text-info">修改资料</h3></div>
+                <div class="card-body">
+                    <form class="change_profile" method="post" enctype="multipart/form-data" id="alterData" @submit.prevent="AlterDataSubmit">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="3Iux6zrACgsgy2qvJjCQZdCQOXCJD308440wW3U2nVwDtTFTryBjxDnZPDAcqoL8">
+
+
+                        <div id="div_id_link" class="form-group">
+                            <label for="id_link" class="col-form-label ">
+                                个人网址(暂未开放此功能)
+                            </label>
+                            <div class="">
+                                <input type="url" name="link" maxlength="200" class="urlinput form-control" id="id_link">
+                                <small id="hint_id_link" class="form-text text-muted">提示：网址必须填写以http开头的完整形式</small>
+                            </div>
+                        </div>
+
+                        <div id="div_id_avatar" class="form-group">
+                            <div class="">
+                                修改头像:
+                                <input type="file" name="avatar" accept="image/*" class="clearablefileinput" id="id_avatar" v-model="avatar">
+                            </div>
+                        </div>
+
+                        <button class="btn btn-info btn-sm rounded-0" type="submit">更新资料</button>
+                    </form>
+                </div>
+                <div class="text-center mb-5" id="social-login">
+                    <div class="login-title"><span>更多操作</span></div>
+                    <div class="more-link mt-3">
+                        <a class="btn btn-info btn-sm rounded-0 mx-3" href="/profile">查看资料</a>
+                        <a class="btn btn-info btn-sm rounded-0 mx-3" href="/alterPassword">修改密码</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="container-fluid mt-4 py-0">
+    <div class="card-body text-center px-0 f-14">
+        <p class="card-text mb-1">Copyright&nbsp;&copy;&nbsp;<span id="year-info"></span>
+            <a href="https://github.com/pannnkee" target="_blank" title="博客作者的Github">Pannnkee</a>.&nbsp;Powered&nbsp;by&nbsp;Beego.
+        </p>
+        <p class="mb-0">
+        </p>
+    </div>
+</footer>
+
+<script>
+    var alterData = new Vue({
+        el:"#alterData",
+        data:function(){
+            return {
+                avatar:[],
+            };
+        },
+        methods:{
+            AlterDataSubmit:function () {
+                var t = this;
+                var data = {
+                    avatar: this.avatar,
+                };
+                data = JSON.stringify(data);
+                post("v1/api/user/alterData", data, function(data) {
+                        if (data.code == 0) {
+                            t.$toast("暂未开发此功能");
+                            //t.$toast("修改资料成功");
+                            top.location.href = "/";
+                        } else {
+                            t.$toast("暂未开发此功能");
+                            //t.$toast(data.msg);
+                        }
+                    }
+                )
+            }
+        },
+    });
+</script>
+
+</body>
+</html>

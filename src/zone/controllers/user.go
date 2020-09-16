@@ -7,6 +7,7 @@ import (
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
+	"fmt"
 )
 
 type UserController struct {
@@ -84,6 +85,11 @@ func (this *UserController) AlterPassword() {
 	return
 }
 
-func (this *UserController) AlterAvatar() {
-
+func (this *UserController) AlterData() {
+	type Avatar struct {
+		Ava string `json:"avatar"`
+	}
+	var a Avatar
+	err := controller.ParseRequestStruct(this.Controller, &a)
+	fmt.Println(err)
 }

@@ -137,3 +137,8 @@ func (this *ZoneController) AlterPassword() {
 	this.MustLogin()
 	this.TplName = "alterpassword.html"
 }
+
+func (this *ZoneController) AlterData() {
+	this.MustLogin()
+	this.TplName = "alterdata.html"
+}
