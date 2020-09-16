@@ -13,7 +13,7 @@ import (
 
 type LoginService struct{}
 
-func (this *LoginService) Login(eMail, password string) (cookie []byte, err error) {
+func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) {
 
 	userInfo, err := new(models.User).UserInfo(eMail)
 	// 登陆失败

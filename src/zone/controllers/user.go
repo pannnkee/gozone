@@ -22,7 +22,7 @@ func (this *UserController) Register() {
 		return
 	}
 
-	err, _ = new(dao.RegisterService).Register(modelUser.UserName, modelUser.Email, modelUser.PassWord, modelUser.RepeatPassword)
+	err, _ = new(dao.RegisterService).Do(modelUser.UserName, modelUser.Email, modelUser.PassWord, modelUser.RepeatPassword)
 	if err != nil {
 		this.Response(enum.DefaultError, err.Error())
 		return
@@ -48,7 +48,7 @@ func (this *UserController) Login() {
 		this.Response(1,"请填写登录密码")
 	}
 
-	m, err := new(dao.LoginService).Login(modelUser.Email, modelUser.PassWord)
+	m, err := new(dao.LoginService).Do(modelUser.Email, modelUser.PassWord)
 	if err != nil {
 		this.Response(enum.DefaultError, err.Error())
 		return
@@ -66,4 +66,24 @@ func (this *UserController) Logout() {
 	this.DeleteCookie(auth.ZoneToken)
 	this.DelSession(SESSION_USER_KEY)
 	this.Redirect("/", 302)
+}
+
+func (this *UserController) AlterPassword() {
+	var modelUser model_view.User
+	err := controller.ParseRequestStruct(this.Controller, &modelUser)
+	if err != nil {
+		this.Response(enum.DefaultError,err.Error())
+		return
+	}
+	err = new(dao.AlterPasswordService).Do(modelUser.Email, modelUser.PassWord, modelUser.NewPassword, modelUser.RepeatPassword)
+	if err != nil {
+		this.Response(enum.DefaultError,err.Error())
+		return
+	}
+	this.Response(enum.DefaultSuccess, "")
+	return
+}
+
+func (this *UserController) AlterAvatar() {
+
 }

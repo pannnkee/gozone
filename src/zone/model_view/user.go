@@ -6,4 +6,5 @@ type User struct {
 	PassWord       string `json:"password"`
 	RepeatPassword string `json:"repeatpassword"`
 	Email          string `json:"email"`
+	NewPassword    string `json:"newpassword"`
 }

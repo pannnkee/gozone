@@ -9,7 +9,7 @@ import (
 
 type RegisterService struct {}
 
-func (this *RegisterService) Register(userName, eMail, password, repeatPassword string) (error, bool) {
+func (this *RegisterService) Do(userName, eMail, password, repeatPassword string) (error, bool) {
 
 	UsernameExist := models.UserInstance.UserNameExist(userName)
 	if UsernameExist {
