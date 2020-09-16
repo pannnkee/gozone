@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <<template "import.html" .>>
+    <script src="/static/js/mint-ui.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
 </head>
 
 <body>
@@ -25,7 +30,7 @@
                                     账号<span class="asteriskField">*</span>
                                 </label>
                                 <div class="">
-                                    <input type="text" class="form-control" v-model="email" placeholder="email">
+                                    <input type="email" class="textinput textInput form-control" v-model="email" placeholder="email" id="email" name="email" required="">
                                 </div>
                             </div>
 
@@ -34,7 +39,7 @@
                                     密码<span class="asteriskField">*</span>
                                 </label>
                                 <div class="">
-                                    <input type="password" class="form-control" v-model="password" placeholder="password">
+                                    <input type="password" class="textinput textInput form-control" v-model="password" placeholder="password" name="password" required="">
                                 </div>
                             </div>
 
@@ -83,14 +88,14 @@
             methods:{
                 loginSubmit:function(){
                     var t = this;
-                    if(t.email==""){
-                        //t.$toast("请填写email");
-                        return;
-                    }
-                    if(t.password==""){
-                        // t.$toast("请填写登录密码");
-                        return;
-                    }
+                    // if(t.email==""){
+                    //     //t.$toast("请填写email");
+                    //     return;
+                    // }
+                    // if(t.password==""){
+                    //     // t.$toast("请填写登录密码");
+                    //     return;
+                    // }
                     var data = {
                         email: t.email,
                         password: t.password,
@@ -101,7 +106,7 @@
                                 console.log(data);
                                 top.location.href="/";
                             }else{
-
+                                t.$toast(data.msg);
                             }
                         }
                     )
