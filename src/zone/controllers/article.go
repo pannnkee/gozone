@@ -63,17 +63,22 @@ func (this *ArticleController) Get() {
 		return
 	}
 
-	tagNames := []string{}
+	var tagIds []int64
 	for _, v := range signs {
-		tag := new(models.Tag)
-		tagName, _ := tag.GetTagName(v.TagId)
-		tagNames = append(tagNames, tagName)
+		tagIds = append(tagIds, v.TagId)
+	}
+
+	tag := new(models.Tag)
+	tags, err := tag.GetTags(tagIds)
+	if err != nil {
+		this.Response(1,err.Error())
+		return
 	}
 
 	data := models.ArticleListResp{
 		Article:        *article,
 		ArticleContent: html.UnescapeString(articleContent.Content),
-		ArticleTags:    tagNames,
+		ArticleTags:    tags,
 		ArticleClassName: ArticleClass.ClassName,
 	}
 	jsonMap, err := util.Struct2JsonMap(data)

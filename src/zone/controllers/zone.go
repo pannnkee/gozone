@@ -128,5 +128,12 @@ func (this *ZoneController) Register() {
 }
 
 func (this *ZoneController) Profile() {
+	this.MustLogin()
+	this.Data["UserInfo"] = this.User
 	this.TplName = "profile.html"
+}
+
+func (this *ZoneController) AlterPassword() {
+	this.MustLogin()
+	this.TplName = "alterpassword.html"
 }

@@ -6,7 +6,7 @@ import (
 	"errors"
 )
 
-type AlterPasswordService struct {}
+type AlterPasswordService struct{}
 
 func (this *AlterPasswordService) Do(email, password, newPassword, repeatPassword string) (err error) {
 
@@ -25,6 +25,11 @@ func (this *AlterPasswordService) Do(email, password, newPassword, repeatPasswor
 	user := new(models.User)
 	user.Email = email
 	user.PassWord = str.Md5(newPassword)
-	_ = user.Updates()
+
+	exmap := map[string]interface{}{
+		"email":    email,
+		"password": str.Md5(newPassword),
+	}
+	_ = user.Updates(email, exmap)
 	return nil
 }

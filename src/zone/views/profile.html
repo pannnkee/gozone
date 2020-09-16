@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title><<.ZoneName>></title>
+    <script>var UserInfo=<<.UserInfo>></script>
     <<template "import.html" .>>
+
+    <style type="text/css">
+        .footer {
+            margin-top: -50px;
+            height: 50px;
+            background-color: #eee;
+            z-index: 9999;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -19,28 +30,25 @@
                 <div class="card-body">
                     <ul class="list-group">
                         <li class="list-group-item text-center border-0" id="profile-avatar">
-                            666
+                            <img class="avatar" src="/static/img/avator.png">
                         </li>
                         <li class="list-group-item ml-5 border-0">
                             <span class="font-weight-bold">用户名：</span>
-                            <span>pannnkee</span>
+                            <span><<.UserInfo.UserName>></span>
                         </li>
                         <li class="list-group-item ml-5 border-0" title="提示：已验证邮箱的用户有更多特权！">
                             <span class="font-weight-bold">邮&emsp;箱：</span>
-                            <span>522240909@qq.com</span>
-                        </li>
-                        <li class="list-group-item ml-5 border-0">
-                            <span class="font-weight-bold">网&emsp;址：</span>
-                            <span>www.baidu.com</span>
+                            <span><<.UserInfo.Email>></span>
                         </li>
                     </ul>
                 </div>
-                    <div class="text-center mb-5">
-                        <div class="login-title"><span>更多操作</span></div>
+                    <div class="text-center mb-5" id="social-login">
+                        <div class="login-title">
+                            <span>更多操作</span>
+                        </div>
                         <div class="more-link mt-3">
                             <a class="btn btn-info btn-sm rounded-0 mx-lg-3 mx-sm-2" href="/">修改资料</a>
-                            <a class="btn btn-info btn-sm rounded-0 mx-lg-3 mx-sm-2" href="/">修改密码</a>
-                            <a class="btn btn-info btn-sm rounded-0 mx-lg-3 mx-sm-2" href="/">邮箱验证</a>
+                            <a class="btn btn-info btn-sm rounded-0 mx-lg-3 mx-sm-2" href="/alterPassword">修改密码</a>
                         </div>
                     </div>
             </div>

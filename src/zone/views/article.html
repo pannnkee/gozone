@@ -59,7 +59,7 @@
 
                         <div class="tag-cloud my-4">
                             <<range $ImpressionIndex, $Impression := .articleResp.article_tags>>
-                                <a class="tags f-16" href="/"><<$Impression>></a>
+                                <a class="tags f-16" href="<<$Impression.url>>" title="<<$Impression.tag_content>>" ><<$Impression.tag_name>></a>
                             <<end>>
                         </div>
 

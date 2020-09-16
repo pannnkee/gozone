@@ -76,7 +76,8 @@ func (this *User) UserInfo(eMail string) (user User, err error) {
 	return
 }
 
-func (this *User) Updates() error {
+
+func (this *User) Updates(email string, exmap map[string]interface{}) error {
 	db := conn.GetORMByName("zone")
-	return db.Save(&this).Error
+	return db.Model(this).Where("email=?", email).Updates(exmap).Error
 }

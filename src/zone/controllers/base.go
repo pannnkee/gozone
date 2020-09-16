@@ -204,7 +204,8 @@ func (this *BaseHandler) DeleteCookie(key string) {
 
 func (this *BaseHandler) MustLogin() {
 	if !this.IsLogin {
-		this.Response(enum.DefaultError, "用户未登录")
+		//this.Response(enum.DefaultError, "用户未登录")
+		this.Redirect("/", 302)
 		return
 	}
 }

@@ -29,9 +29,11 @@ func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) 
 	}
 
 	// 登陆成功
-	userInfo.LoginTimes = userInfo.LoginTimes + 1
-	userInfo.UpdateTime = time.Now().Unix()
-	_ = userInfo.Updates()
+	exmap := map[string]interface{} {
+		"login_time" : userInfo.LoginTimes + 1,
+		"update_time" : time.Now().Unix(),
+	}
+	_ = userInfo.Updates(userInfo.Email, exmap)
 
 	// 生成token
 	token, err := new(LoginService).CreateToken(&userInfo)

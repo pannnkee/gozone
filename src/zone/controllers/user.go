@@ -75,7 +75,7 @@ func (this *UserController) AlterPassword() {
 		this.Response(enum.DefaultError,err.Error())
 		return
 	}
-	err = new(dao.AlterPasswordService).Do(modelUser.Email, modelUser.PassWord, modelUser.NewPassword, modelUser.RepeatPassword)
+	err = new(dao.AlterPasswordService).Do(this.User.Email, modelUser.PassWord, modelUser.NewPassword, modelUser.RepeatPassword)
 	if err != nil {
 		this.Response(enum.DefaultError,err.Error())
 		return

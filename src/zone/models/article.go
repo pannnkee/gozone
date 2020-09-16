@@ -25,7 +25,7 @@ type Article struct {
 type ArticleListResp struct {
 	Article
 	ArticleContent   string   `json:"article_content"`
-	ArticleTags      []string `json:"article_tags"`
+	ArticleTags      []Tag    `json:"article_tags"`
 	ArticleClassName string   `json:"article_class_name"`
 }
 
