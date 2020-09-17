@@ -33,6 +33,9 @@ func (this *ZoneController) Home() {
 			Articles[k].CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 		}
 		this.Pager.Count = count
+
+		//获取轮播图
+
 	} else {
 		//获取base_top内容
 
@@ -108,7 +111,6 @@ func (this *ZoneController) Home() {
 	homeContent.Tags = tag
 	homeContent.ArticleClass = class
 	homeContent.Links = links
-	homeContent.PannnkeeZone = "Pannnkee's Zone"
 	homeContent.SortType = sortType
 	homeContent.ContentType = enum.ContentType(contentType)
 	homeContent.TopContent = TopContent

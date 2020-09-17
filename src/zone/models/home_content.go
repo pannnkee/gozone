@@ -15,6 +15,4 @@ type HomeContent struct {
 	Articles    []Article
 	SortType    int64
 	ContentType enum.ContentType
-
-	PannnkeeZone string `json:"pannnkee_zone"`
 }

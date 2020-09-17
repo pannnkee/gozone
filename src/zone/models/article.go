@@ -15,6 +15,7 @@ type Article struct {
 	CommentNumber    int64  `gorm:"column:comment_number" json:"comment_number"`
 	Author           string `gorm:"column:author" json:"author"`
 	Pic              string `gorm:"column:pic" json:"pic"`
+	Carousel         int64  `gorm:"column:carousel" json:"carousel"`
 	CreateTime       int64  `gorm:"column:create_time" json:"create_time"`
 	CreatedTimeStr   string `gorm:"column:created_time_str" json:"create_time_str"`
 	UpdateTime       int64  `gorm:"column:update_time" json:"update_time"`
@@ -24,9 +25,9 @@ type Article struct {
 // 文章详情 Text
 type ArticleListResp struct {
 	Article
-	ArticleContent   string   `json:"article_content"`
-	ArticleTags      []Tag    `json:"article_tags"`
-	ArticleClassName string   `json:"article_class_name"`
+	ArticleContent   string `json:"article_content"`
+	ArticleTags      []Tag  `json:"article_tags"`
+	ArticleClassName string `json:"article_class_name"`
 }
 
 func (this *Article) TableName() string {

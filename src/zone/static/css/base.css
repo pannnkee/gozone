@@ -20,6 +20,7 @@ body {
 main {
 	flex: 1 0 auto;
 }
+
 .container {
     padding-right: 5px;
     padding-left: 5px;
