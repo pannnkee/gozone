@@ -20,5 +20,56 @@
                 </div>
             </div>
         </div>
+    <<else>>
+            <div class="card-body text-center m-2 m-md-3 f-16" id="no-editor">
+                <div>您尚未登录，请
+                    <a class="text-danger" href="/login">登录</a> 或
+                    <a class="text-danger" href="/register">注册</a> 后评论
+                </div>
+            </div>
     <<end>>
+
+    <div class="card-body p-2 p-md-3 f-17" id="comment-list">
+        <ul class="list-unstyled">
+            <div class="mb-3">
+                <strong>50&nbsp;人参与&nbsp;|&nbsp;666&nbsp;条评论</strong>
+            </div>
+            <div class="comment-parent pt-2" id="com-1">
+                <li class="media">
+                    <img class="avatar" src="https://avatars2.githubusercontent.com/u/39892062?v=4" alt="uglylittlehacker">
+                    <div class="media-body ml-2">
+                        <a class="float-right small mr-2 rep-btn" href="#editor-block"
+                           data-repid="1" data-repuser="jack">回复</a>
+                        <p class="mt-0 mb-1">
+                            <strong>
+                                <a target="_blank">pannnkee</a>
+                            </strong>
+                        </p>
+                        <p class="small text-muted">3&nbsp;楼&nbsp;-&nbsp;一周前</p>
+                    </div>
+                </li>
+                <div class="comment-body">这是一条评论</div>
+
+                <ul class="list-unstyled ml-4">
+                    <div class="comment-child pt-2" id="com-6">
+                        <li class="media">
+                            <img class="avatar" src="https://avatars2.githubusercontent.com/u/39892062?v=4" alt="uglylittlehacker">
+                            <div class="media-body ml-2">
+                                <a class="float-right small mr-2 rep-btn" href="#editor-block"
+                                   data-repid="6" data-repuser="rose">回复</a>
+                                <p class="mt-0 mb-1">
+                                    <strong>
+                                        <a target="_blank">张三李四</a>
+                                    </strong>
+                                    <i class="fa fa-share"></i>
+                                    @pannnkee
+                                </p>
+                                <p class="small text-muted">两周前</p>
+                            </div>
+                        </li>
+                        <div class="comment-body">这是第二条评论</div>
+                </ul>
+            </div>
+        </ul>
+    </div>
 </div>
