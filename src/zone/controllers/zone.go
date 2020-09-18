@@ -3,6 +3,7 @@ package controllers
 import (
 	"Gozone/library/enum"
 	"Gozone/src/zone/models"
+	"fmt"
 	"time"
 )
 
@@ -11,6 +12,10 @@ type ZoneController struct {
 }
 
 func (this *ZoneController) Home() {
+
+	cookie := this.Ctx.GetCookie("toggleTheme")
+	fmt.Println(cookie)
+
 	sortType, _ := this.GetInt64("sortType", 1)
 	contentType, _ := this.GetInt64("contentType", 0)
 

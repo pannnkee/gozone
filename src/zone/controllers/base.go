@@ -65,6 +65,9 @@ func (this *BaseHandler) Prepare() {
 			this.IsLogin = true
 		}
 	}
+
+	cookie := this.Ctx.GetCookie("toggleTheme")
+	this.Data["ToggleTheme"] = cookie
 	this.Data["IsLogin"] = this.IsLogin
 }
 

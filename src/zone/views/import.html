@@ -13,10 +13,13 @@
 <link href="/static/css/detail.css" rel="stylesheet">
 <link href="/static/css/account.css" rel="stylesheet">
 
-<!-- blog CSS -->
+<!-- blog CSS > -->
 <link href="/static/css/base.css" rel="stylesheet">
-<link id="theme-css-dark" href="/static/css/night.css" rel="stylesheet">
-<style>
+<<if eq .ToggleTheme "dark">>
+    <link id="theme-css-dark" href="/static/css/night.css" rel="stylesheet">
+<<end>>
+
+    <style>
     .lb{
         height: 300px;
         width: 600px;
