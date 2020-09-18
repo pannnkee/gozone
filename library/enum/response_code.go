@@ -10,7 +10,7 @@ const (
 type SortType int
 
 const (
-	TimeSort SortType = iota
+	TimeSort SortType = iota + 1
 	HotSort
 )
 

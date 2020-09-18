@@ -7,7 +7,6 @@ import (
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
-	"fmt"
 )
 
 type UserController struct {
@@ -86,10 +85,5 @@ func (this *UserController) AlterPassword() {
 }
 
 func (this *UserController) AlterData() {
-	type Avatar struct {
-		Ava string `json:"avatar"`
-	}
-	var a Avatar
-	err := controller.ParseRequestStruct(this.Controller, &a)
-	fmt.Println(err)
+	this.Response(enum.DefaultError,"暂时未开放此功能")
 }

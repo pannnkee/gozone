@@ -52,6 +52,10 @@ func (this *ZoneController) Home() {
 				return
 			}
 
+			for k, v := range Articles {
+				Articles[k].CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
+			}
+
 			TopContent.ContentNum = class.Nums
 			TopContent.ContentText = class.ClassIntroduction
 			TopContent.TopContentClass = "文章分类"
