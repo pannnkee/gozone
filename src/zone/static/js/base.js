@@ -36,7 +36,7 @@ $(function(){
     //回到顶部
     $(window).scroll(function(){
         $('#to-top').hide();
-        if ($(window).scrollTop()>=600){
+        if ($(window).scrollTop()>=200){
             $('#to-top').show();
         };
 
