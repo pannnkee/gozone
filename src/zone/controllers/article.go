@@ -50,8 +50,8 @@ func (this *ArticleController) Get() {
 		articleInterface, err := new(cache.Helper).GetByItemKey(new(cache2.ArticleCache), articleId)
 		article := articleInterface.(*models.Article)
 		if err == nil {
-			article.CreatedTimeStr = time.Unix(article.CreateTime,0).Format("2006-01-02")
-			article.UpdateTimeStr = time.Unix(article.UpdateTime,0).Format("2006-01-02")
+			article.CreatedTimeStr = time.Unix(article.CreateTime, 0).Format("2006-01-02")
+			article.UpdateTimeStr = time.Unix(article.UpdateTime, 0).Format("2006-01-02")
 			data.Article = *article
 
 			articleClassInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.ArticleClassCache), article.ArticleClass)
@@ -60,7 +60,7 @@ func (this *ArticleController) Get() {
 		} else {
 			logger.ZoneLogger.Error("获取文章详情错误")
 		}
-		fmt.Println("文章详情:",time.Since(now))
+		fmt.Println("文章详情:", time.Since(now))
 	}()
 
 	go func() {
@@ -73,7 +73,7 @@ func (this *ArticleController) Get() {
 		} else {
 			logger.ZoneLogger.Error("获取文章内容错误")
 		}
-		fmt.Println("文章内容:",time.Since(now))
+		fmt.Println("文章内容:", time.Since(now))
 	}()
 
 	go func() {
@@ -98,9 +98,8 @@ func (this *ArticleController) Get() {
 		} else {
 			logger.ZoneLogger.Error("获取文章标签错误")
 		}
-		fmt.Println("文章标签:",time.Since(now))
+		fmt.Println("文章标签:", time.Since(now))
 	}()
-
 
 	go func() {
 		// 获取Emoji
@@ -123,13 +122,13 @@ func (this *ArticleController) Get() {
 		} else {
 			logger.ZoneLogger.Error("获取Emoji错误")
 		}
-		fmt.Println("emoji:",time.Since(now))
+		fmt.Println("emoji:", time.Since(now))
 	}()
 	wg.Wait()
 
 	jsonMap, err := util.Struct2JsonMap(data)
 	if err != nil {
-		this.Response(1,fmt.Sprintf("序列化错误:%v", err.Error()))
+		this.Response(1, fmt.Sprintf("序列化错误:%v", err.Error()))
 		return
 	}
 	this.Data["articleResp"] = jsonMap
@@ -137,5 +136,5 @@ func (this *ArticleController) Get() {
 }
 
 func (this *ArticleController) Comment() {
-
+	fmt.Print("test git")
 }
