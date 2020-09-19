@@ -8,8 +8,8 @@ import (
 type Article struct {
 	Id               int64  `gorm:"column:id" json:"id"`
 	ArticleTitle     string `gorm:"column:article_title" json:"article_title"`
-	ArticleClass     int64  `grom:"column:article_class" json:"article_class"`
-	ArticleClassName string `grom:"column:article_class_name" json:"article_class_name"`
+	ArticleClass     int64  `gorm:"column:article_class" json:"article_class"`
+	ArticleClassName string `gorm:"column:article_class_name" json:"article_class_name"`
 	SimpleContent    string `gorm:"column:simple_content" json:"simple_content"`
 	Views            int64  `gorm:"column:views" json:"views"`
 	CommentNumber    int64  `gorm:"column:comment_number" json:"comment_number"`
@@ -35,21 +35,21 @@ func (this *Article) TableName() string {
 	return "article"
 }
 
-func (this *Article) PageList(offset, limit, sortType int64) (datas []Article, count int64, err error) {
+func (this *Article) PageList(offset, limit, sortType int64) (data []Article, count int64, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 
 	if sortType == int64(enum.HotSort) {
-		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&datas).Error
+		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&data).Error
 	} else {
-		err = db.Offset(offset).Limit(limit).Order("create_time asc").Find(&datas).Error
+		err = db.Offset(offset).Limit(limit).Order("create_time asc").Find(&data).Error
 	}
 	err = db.Count(&count).Error
 	return
 }
 
 // 获取分类下文章列表
-func (this *Article) PageListClass(offset, limit, sortType, contentType int64) (datas []Article, count int64, err error) {
+func (this *Article) PageListClass(offset, limit, sortType, contentType int64) (data []Article, count int64, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 
@@ -57,9 +57,9 @@ func (this *Article) PageListClass(offset, limit, sortType, contentType int64) (
 		db = db.Where("article_class=?", contentType)
 	}
 	if sortType == int64(enum.HotSort) {
-		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&datas).Error
+		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&data).Error
 	} else {
-		err = db.Offset(offset).Limit(limit).Order("create_time asc").Find(&datas).Error
+		err = db.Offset(offset).Limit(limit).Order("create_time asc").Find(&data).Error
 	}
 	err = db.Count(&count).Error
 	return
@@ -79,11 +79,11 @@ func (this *Article) FindClassNums(classId int64) (nums int64, err error) {
 	return
 }
 
-func (this *Article) FindArticles(id []int64) (datas []Article, err error) {
+func (this *Article) FindArticles(id []int64) (data []Article, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 	db = db.Where("id in (?)", id)
-	err = db.Find(&datas).Error
+	err = db.Find(&data).Error
 	return
 }
 
