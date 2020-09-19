@@ -28,7 +28,7 @@ func (this *ZoneController) Home() {
 	var err error
 
 	homeContent := new(models.HomeContent)
-
+	//默认首页
 	if enum.ContentType(contentType) == enum.DefaultType {
 		//获取首页文章
 		Articles, count, err = models.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, contentType)
@@ -50,15 +50,13 @@ func (this *ZoneController) Home() {
 		//获取轮播图
 
 	} else {
-		//获取base_top内容
+	//base_top首页
 
 		// 文章分类
 		if enum.ContentType(contentType) < enum.Mysql {
-			class, err := models.ArticleClassInstance.FindArticleClassName(contentType)
-			if err != nil {
-				this.Response(enum.DefaultError, err.Error())
-				return
-			}
+
+			articleClassInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.ArticleClassCache), contentType)
+			class := articleClassInterface.(*models.ArticleClass)
 			Articles, _, err = models.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, contentType)
 			if err != nil {
 				this.Response(enum.DefaultError, err.Error())
@@ -76,11 +74,8 @@ func (this *ZoneController) Home() {
 			TopContent.TopArticle = Articles
 		} else {
 			// 标签分类
-			tag, err := models.TagInstance.GetTag(contentType - 100)
-			if err != nil {
-				this.Response(enum.DefaultError, err.Error())
-				return
-			}
+			tagInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.TagCache), contentType - 100)
+			tag := tagInterface.(*models.Tag)
 
 			var Tag[]int64
 			articles, _ := models.ArticleTagInstance.FindArticles(tag.Id)
@@ -103,14 +98,13 @@ func (this *ZoneController) Home() {
 
 	//base_right.html
 		//获取首页标签
-
 		tag, err := new(cache.Helper).GetAllData(new(cache2.TagCache))
 		if err == nil {
 			homeContent.Tags = tag.([]*models.Tag)
 		} else {
 			logger.ZoneLogger.Error("获取Tag错误")
 		}
-
+		// 获取文章分类
 		articleClass, err := new(cache.Helper).GetAllData(new(cache2.ArticleClassCache))
 		if err == nil {
 			homeContent.ArticleClass = articleClass.([]*models.ArticleClass)
