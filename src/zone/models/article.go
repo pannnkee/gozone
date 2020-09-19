@@ -28,7 +28,7 @@ type ArticleListResp struct {
 	ArticleContent   string  `json:"article_content"`
 	ArticleTags      []*Tag   `json:"article_tags"`
 	ArticleClassName string  `json:"article_class_name"`
-	Emoji            []*Emoji `json:"emoji"`
+	Emoji            [][]*Emoji `json:"emoji"`
 }
 
 func (this *Article) TableName() string {

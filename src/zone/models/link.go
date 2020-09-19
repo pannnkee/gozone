@@ -19,3 +19,10 @@ func (this *Link) FindLinks() (data []Link, err error) {
 	err = db.Find(&data).Error
 	return
 }
+
+func (this *Link) GetAllData() (data []*Link, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Order("id asc").Find(&data).Error
+	return
+}

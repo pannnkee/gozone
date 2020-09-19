@@ -10,6 +10,7 @@ type Emoji struct {
 	DataEmoji string `gorm:"column:data_emoji" json:"data_emoji"`
 }
 
+
 func (this *Emoji) TableName() string {
 	return "emoji"
 }

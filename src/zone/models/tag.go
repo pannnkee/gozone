@@ -37,9 +37,9 @@ func (this *Tag) GetTags(id []int64) (data []*Tag, err error) {
 	return
 }
 
-func (this *Tag) GetAllTag() (data []Tag, err error) {
+func (this *Tag) GetAllData() (data []*Tag, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
-	err = db.Find(&data).Error
+	err = db.Order("id asc").Find(&data).Error
 	return
 }

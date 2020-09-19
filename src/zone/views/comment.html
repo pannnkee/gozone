@@ -15,11 +15,15 @@
                 <i class="fa fa-smile-o fa-2x"></i>
             </button>
             <div class="dropdown-menu" id='emoji-list' aria-labelledby="emoji-btns">
-                <div class="editor-btns px-2">
-                    <button class="btn p-1">
-                        <img src="/static/comment/weibo/aini_org.png" title="爱你" alt="aini_org" data-emoji=":aini_org:">
-                    </button>
-                </div>
+                <<range $ImpressionIndex, $Impression := .articleResp.emoji>>
+                    <div class="editor-btns px-2">
+                        <<range $ImpressionIndexA, $ImpressionA := $Impression>>
+                            <button class="btn p-1">
+                                    <img src="<<$ImpressionA.src>>" title="<<$ImpressionA.title>>" alt="<<$ImpressionA.alt>>" data-emoji="<<$ImpressionA.data_emoji>>">
+                            </button>
+                        <<end>>
+                    </div>
+                <<end>>
             </div>
         </div>
     <<else>>

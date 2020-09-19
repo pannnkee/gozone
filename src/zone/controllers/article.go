@@ -108,8 +108,17 @@ func (this *ArticleController) Get() {
 		defer wg.Done()
 		allData, err := new(cache.Helper).GetAllData(new(cache2.EmojiCache))
 		if err == nil {
+			tempEmoji := new([]*models.Emoji)
+			i := 0
 			for _, v := range allData.([]*models.Emoji) {
-				data.Emoji = append(data.Emoji, v)
+				*tempEmoji = append(*tempEmoji, v)
+				i++
+
+				if i == 8 {
+					data.Emoji = append(data.Emoji, *tempEmoji)
+					*tempEmoji = nil
+					i = 0
+				}
 			}
 		} else {
 			logger.ZoneLogger.Error("获取Emoji错误")
@@ -125,4 +134,8 @@ func (this *ArticleController) Get() {
 	}
 	this.Data["articleResp"] = jsonMap
 	this.TplName = "article.html"
+}
+
+func (this *ArticleController) Comment() {
+
 }

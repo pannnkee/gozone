@@ -24,6 +24,7 @@ func init() {
 		beego.NSNamespace("/article",
 			beego.NSRouter("/page/?type:int", &controllers.ArticleController{}, "*:PageList"),
 			beego.NSRouter(":id:int", &controllers.ArticleController{}, "get:Get"),
+			beego.NSRouter("/", &controllers.ArticleController{}, "post,options:Comment"),
 		),
 	)
 	beego.AddNamespace(v1)

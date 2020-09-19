@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"Gozone/library/cache"
 	"Gozone/library/enum"
+	"Gozone/library/logger"
+	cache2 "Gozone/src/zone/cache"
 	"Gozone/src/zone/models"
 	"fmt"
 	"time"
@@ -24,6 +27,8 @@ func (this *ZoneController) Home() {
 	var count int64
 	var err error
 
+	homeContent := new(models.HomeContent)
+
 	if enum.ContentType(contentType) == enum.DefaultType {
 		//获取首页文章
 		Articles, count, err = models.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, contentType)
@@ -33,7 +38,10 @@ func (this *ZoneController) Home() {
 		}
 
 		for k, v := range Articles {
-			article, _ := models.ArticleClassInstance.FindArticleClassName(v.ArticleClass)
+
+			articleClassInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.ArticleClassCache), v.ArticleClass)
+			article := articleClassInterface.(*models.ArticleClass)
+
 			Articles[k].ArticleClassName = article.ClassName
 			Articles[k].CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 		}
@@ -95,31 +103,30 @@ func (this *ZoneController) Home() {
 
 	//base_right.html
 		//获取首页标签
-		tag, err := models.TagInstance.GetAllTag()
-		if err != nil {
-			this.Response(enum.DefaultError, err.Error())
-			return
+
+		tag, err := new(cache.Helper).GetAllData(new(cache2.TagCache))
+		if err == nil {
+			homeContent.Tags = tag.([]*models.Tag)
+		} else {
+			logger.ZoneLogger.Error("获取Tag错误")
 		}
 
-		//获取首页文章分类
-		class, err := models.ArticleClassInstance.FindAllArticleClass()
-		if err != nil {
-			this.Response(enum.DefaultError, err.Error())
-			return
+		articleClass, err := new(cache.Helper).GetAllData(new(cache2.ArticleClassCache))
+		if err == nil {
+			homeContent.ArticleClass = articleClass.([]*models.ArticleClass)
+		} else {
+			logger.ZoneLogger.Error("获取文章分类错误")
 		}
 
 		//获取友情链接
-		links, err := models.LinkInstance.FindLinks()
-		if err != nil {
-			this.Response(enum.DefaultError, err.Error())
-			return
+		link, err := new(cache.Helper).GetAllData(new(cache2.LinkCache))
+		if err == nil {
+			homeContent.Links = link.([]*models.Link)
+		} else {
+			logger.ZoneLogger.Error("获取友情链接错误")
 		}
 
-	homeContent := new(models.HomeContent)
 	homeContent.Articles = Articles
-	homeContent.Tags = tag
-	homeContent.ArticleClass = class
-	homeContent.Links = links
 	homeContent.SortType = sortType
 	homeContent.ContentType = enum.ContentType(contentType)
 	homeContent.TopContent = TopContent
