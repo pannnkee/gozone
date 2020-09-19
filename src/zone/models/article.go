@@ -25,9 +25,10 @@ type Article struct {
 // 文章详情 Text
 type ArticleListResp struct {
 	Article
-	ArticleContent   string `json:"article_content"`
-	ArticleTags      []Tag  `json:"article_tags"`
-	ArticleClassName string `json:"article_class_name"`
+	ArticleContent   string  `json:"article_content"`
+	ArticleTags      []*Tag   `json:"article_tags"`
+	ArticleClassName string  `json:"article_class_name"`
+	Emoji            []*Emoji `json:"emoji"`
 }
 
 func (this *Article) TableName() string {
@@ -81,11 +82,14 @@ func (this *Article) FindClassNums(classId int64) (nums int64, err error) {
 func (this *Article) FindArticles(id []int64) (datas []Article, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
-	for _, v := range id {
-		if v > 0 {
-			db = db.Where("id=?", v)
-		}
-	}
+	db = db.Where("id in (?)", id)
 	err = db.Find(&datas).Error
+	return
+}
+
+func (this *Article) GetAllData() (data []*Article, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Order("id asc").Find(&data).Error
 	return
 }

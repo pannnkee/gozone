@@ -29,14 +29,10 @@ func (this *Tag) GetTag(id int64) (data Tag, err error) {
 	return
 }
 
-func (this *Tag) GetTags(id []int64) (data []Tag, err error) {
+func (this *Tag) GetTags(id []int64) (data []*Tag, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
-	for _, v := range id {
-		if v > 0 {
-			db = db.Where("id=?", v)
-		}
-	}
+	db = db.Where("id in (?)", id)
 	err = db.Find(&data).Error
 	return
 }

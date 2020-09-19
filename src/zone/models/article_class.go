@@ -27,3 +27,10 @@ func (this *ArticleClass) FindAllArticleClass() (data []ArticleClass, err error)
 	err = db.Find(&data).Error
 	return
 }
+
+func (this *ArticleClass) GetAllData() (data []*ArticleClass, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Order("id asc").Find(&data).Error
+	return
+}

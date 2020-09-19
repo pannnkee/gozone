@@ -17,3 +17,10 @@ func (this *ArticleContent) Get(id int64) (err error) {
 	err = db.Where("id=?", id).Take(&this).Error
 	return
 }
+
+func (this *ArticleContent) GetAllData() (data []*ArticleContent, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Order("id asc").Find(&data).Error
+	return
+}

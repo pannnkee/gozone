@@ -5,8 +5,10 @@
     <title>Login</title>
 
     <<template "import.html" .>>
-    <script src="/static/js/editor.js"></script>
-    <script src="/static/js/activate-power.js"></script>
+    <script src="/static/css/base_comment.css"></script>
+
+    <link href="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script>var articleResp=<<.articleResp>></script>
 </head>
 <body>
@@ -132,19 +134,7 @@
     </footer>
 
 </body>
-<!--
-<script type="text/javascript">
-    $(function() {
 
-        var editor = editormd("test-editor", {
-             width  : "100%",
-             height : "600px;",
-            path   : "static/plugin/lib/"
-        });
-    });
-</script>
-<script>
-    var sw=window.screen.width;if(sw>1200){POWERMODE.colorful=true;POWERMODE.shake=false;document.body.addEventListener('input',POWERMODE)};
-</script>
--->
+<script src="/static/js/activate-power.js"></script>
+
 </html>
