@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"Gozone/library/cache"
+	"Gozone/library/controller"
+	"Gozone/library/enum"
 	"Gozone/library/logger"
 	"Gozone/library/util"
 	cache2 "Gozone/src/zone/cache"
@@ -20,13 +22,13 @@ type ArticleController struct {
 func (this *ArticleController) PageList() {
 
 	typeId, _ := this.GetInt64("type", 0)
-	datas, count, err := models.ArticleInstance.PageList(this.Pager.Offset, this.Pager.Limit, typeId)
+	data, count, err := models.ArticleInstance.PageList(this.Pager.Offset, this.Pager.Limit, typeId)
 	if err != nil {
 		this.Response(1, fmt.Sprintf("查询错误:%v", err))
 	}
 
 	this.Pager.Count = count
-	this.Response(0, "", datas, this.Pager)
+	this.Response(0, "", data, this.Pager)
 }
 
 func (this *ArticleController) Get() {
@@ -136,5 +138,14 @@ func (this *ArticleController) Get() {
 }
 
 func (this *ArticleController) Comment() {
-	fmt.Print("test git")
+	type A struct {
+		RepID     int    `json:"rep_id"`
+		Content   string `json:"content"`
+		ArticleId int64  `json:"article_id"`
+	}
+	var a A
+	err := controller.ParseRequestStruct(this.Controller, &a)
+	fmt.Print(err)
+
+	this.Response(enum.DefaultSuccess, "1")
 }

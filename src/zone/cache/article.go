@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-type ArticleCache struct {}
+type ArticleCache struct{}
 
 func init() {
 	articleCache := new(ArticleCache)
