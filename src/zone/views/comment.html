@@ -1,6 +1,5 @@
 <div class="card border-0 rounded-0 f-16" id="editor-block">
-    <
-    <if .IsLogin>>
+    <<if .IsLogin>>
         <div class="card-body p-2 p-md-3">
             <textarea class="form-control rounded-0" id="comment-form" name="text"
                       placeholder="评论请使用 markdown 语法" rows="5" required></textarea>
@@ -16,11 +15,9 @@
                 <i class="fa fa-smile-o fa-2x"></i>
             </button>
             <div class="dropdown-menu" id='emoji-list' aria-labelledby="emoji-btns">
-                <
-                <range $ImpressionIndex, $Impression :=.articleResp.emoji>>
+                <<range $ImpressionIndex, $Impression :=.articleResp.emoji>>
                     <div class="editor-btns px-2">
-                        <
-                        <range $ImpressionIndexA, $ImpressionA :=$Impression>>
+                        <<range $ImpressionIndexA, $ImpressionA :=$Impression>>
                             <button class="btn p-1">
                                     <img src="<<$ImpressionA.src>>" title="<<$ImpressionA.title>>" alt="<<$ImpressionA.alt>>" data-emoji="<<$ImpressionA.data_emoji>>">
                             </button>
