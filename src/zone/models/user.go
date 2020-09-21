@@ -76,8 +76,14 @@ func (this *User) UserInfo(eMail string) (user User, err error) {
 	return
 }
 
-
 func (this *User) Updates(email string, exmap map[string]interface{}) error {
 	db := conn.GetORMByName("zone")
 	return db.Model(this).Where("email=?", email).Updates(exmap).Error
+}
+
+func (this *User) GetAllData() (data []*User, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Order("id asc").Find(&data).Error
+	return
 }

@@ -42,7 +42,7 @@ func (this *ArticleController) Get() {
 	wg := new(sync.WaitGroup)
 	data := models.ArticleListResp{}
 
-	wg.Add(4)
+	wg.Add(5)
 
 	go func() {
 		now := time.Now()
@@ -126,6 +126,28 @@ func (this *ArticleController) Get() {
 		}
 		fmt.Println("emoji:", time.Since(now))
 	}()
+
+	go func() {
+		// 获取文章评论
+		now := time.Now()
+		defer wg.Done()
+		comment, err := models.CommentInstance.GetArticleComment(articleId)
+		if err != nil {
+			this.Response(1, fmt.Sprintf("获取文章评论错误:%v", err.Error()))
+			return
+		}
+
+		for _, v := range comment {
+			userInfo, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), v.UserId)
+			v.UserInfo = userInfo.(*models.User)
+
+			models.CommentReplyInstance.GetReplyByCommentId(v.ID)
+		}
+
+		data.Comment = comment
+		fmt.Println("文章评论:", time.Since(now))
+	}()
+
 	wg.Wait()
 
 	jsonMap, err := util.Struct2JsonMap(data)
