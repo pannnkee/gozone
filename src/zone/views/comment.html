@@ -38,28 +38,28 @@
     <div class="card-body p-2 p-md-3 f-17" id="comment-list">
         <ul class="list-unstyled">
             <div class="mb-3">
-                <strong>50&nbsp;人参与&nbsp;|&nbsp;666&nbsp;条评论</strong>
+                <strong><<.articleResp.article_humans>>&nbsp;人参与&nbsp;|&nbsp;<<.articleResp.article_content_nums>>&nbsp;条评论</strong>
             </div>
-            <div class="comment-parent pt-2" id="com-1">
 
-                <<range $ImpressionIndex, $Impression := .articleResp.comment>>
-                    <li class="media">
-                        <img class="avatar" src="https://avatars2.githubusercontent.com/u/39892062?v=4" alt="uglylittlehacker">
-                        <div class="media-body ml-2">
-                            <a class="float-right small mr-2 rep-btn" href="#editor-block"
-                               data-repid="1" data-repuser="jack">回复</a>
-                            <p class="mt-0 mb-1">
-                                <strong>
-                                    <a target="_blank"><<$Impression.from_user.user_name>></a>
-                                </strong>
-                            </p>
-                            <p class="small text-muted"><<$Impression.floor>>&nbsp;楼&nbsp;-&nbsp;<<$Impression.create_time>></p>
-                        </div>
-                    </li>
-                    <div class="comment-body"><<$Impression.content>></div>
-                <<end>>
+            <<range $ImpressionIndex, $Impression := .articleResp.comment>>
+                <div class="comment-parent pt-2" id="com-1">
+                <li class="media">
+                    <img class="avatar" src="https://avatars2.githubusercontent.com/u/39892062?v=4" alt="uglylittlehacker">
+                    <div class="media-body ml-2">
+                        <a class="float-right small mr-2 rep-btn" href="#editor-block"
+                           data-repid="1" data-repuser="jack">回复</a>
+                        <p class="mt-0 mb-1">
+                            <strong>
+                                <a target="_blank"><<$Impression.user_name>></a>
+                            </strong>
+                        </p>
+                        <p class="small text-muted"><<$Impression.floor>>&nbsp;楼&nbsp;-&nbsp;<<$Impression.create_time_str>></p>
+                    </div>
+                </li>
+                <div class="comment-body"><<$Impression.content>></div>
 
-                <ul class="list-unstyled ml-4">
+                    <<range $ImpressionIndexA, $ImpressionA := $Impression.second_comment>>
+                        <ul class="list-unstyled ml-4">
                     <div class="comment-child pt-2" id="com-6">
                         <li class="media">
                             <img class="avatar" src="https://avatars2.githubusercontent.com/u/39892062?v=4" alt="uglylittlehacker">
@@ -68,17 +68,19 @@
                                    data-repid="6" data-repuser="rose">回复</a>
                                 <p class="mt-0 mb-1">
                                     <strong>
-                                        <a target="_blank">张三李四</a>
+                                        <a target="_blank"><<$ImpressionA.user_name>></a>
                                     </strong>
                                     <i class="fa fa-share"></i>
-                                    @pannnkee
+                                    @<<$Impression.user_name>>
                                 </p>
-                                <p class="small text-muted">两周前</p>
+                                <p class="small text-muted"><<$ImpressionA.create_time_str>></p>
                             </div>
                         </li>
-                        <div class="comment-body">这是第二条评论</div>
+                        <div class="comment-body"><<$ImpressionA.content>></div>
                 </ul>
+                    <<end>>
             </div>
+            <<end>>
         </ul>
     </div>
 </div>

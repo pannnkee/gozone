@@ -25,11 +25,13 @@ type Article struct {
 // 文章详情 Text
 type ArticleListResp struct {
 	Article
-	ArticleContent   string     `json:"article_content"`
-	ArticleTags      []*Tag     `json:"article_tags"`
-	ArticleClassName string     `json:"article_class_name"`
-	Emoji            [][]*Emoji `json:"emoji"`
-	Comment          []*Comment    `json:"comment"`
+	ArticleContent     string     `json:"article_content"`
+	ArticleClassName   string     `json:"article_class_name"`
+	ArticleContentNums int64      `json:"article_content_nums"`
+	ArticleHumans      int64      `json:"article_humans"`
+	ArticleTags        []*Tag     `json:"article_tags"`
+	Emoji              [][]*Emoji `json:"emoji"`
+	Comment            []*Comment `json:"comment"`
 }
 
 func (this *Article) TableName() string {

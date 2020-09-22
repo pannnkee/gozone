@@ -62,6 +62,11 @@ func (this *ArticleController) Get() {
 		} else {
 			logger.ZoneLogger.Error("获取文章详情错误")
 		}
+
+		// 评论数 参与人数
+		commentNums, Humans := models.CommentInstance.GetCommentNumsAndHuman(articleId)
+		data.ArticleContentNums = commentNums
+		data.ArticleHumans = Humans
 		fmt.Println("文章详情:", time.Since(now))
 	}()
 
@@ -127,6 +132,8 @@ func (this *ArticleController) Get() {
 		fmt.Println("emoji:", time.Since(now))
 	}()
 
+
+
 	go func() {
 		// 获取文章评论
 		now := time.Now()
@@ -137,10 +144,17 @@ func (this *ArticleController) Get() {
 			return
 		}
 
-		for _, v := range comment {
-			userInfo, err := new(cache.Helper).GetByItemKey(new(cache2.UserCache), v.FromUid)
-			fmt.Println(err)
-			v.FromUser = userInfo.(*models.User)
+		for k, v := range comment {
+			v.Floor = int64(len(comment) - k)
+			v.CreateTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
+
+			secondComment, err := models.CommentInstance.GetSecondComment(articleId, v.ID)
+			if err == nil {
+				for _, value := range secondComment {
+					value.CreateTimeStr = time.Unix(value.CreateTime,0).Format("2006-01-02")
+				}
+				v.SecondComment = secondComment
+			}
 		}
 
 		data.Comment = comment
