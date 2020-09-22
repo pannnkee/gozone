@@ -42,7 +42,7 @@
             </div>
             <div class="comment-parent pt-2" id="com-1">
 
-                <<range $ImpressionIndex, $Impression := .articleResp.comment_reply>>
+                <<range $ImpressionIndex, $Impression := .articleResp.comment>>
                     <li class="media">
                         <img class="avatar" src="https://avatars2.githubusercontent.com/u/39892062?v=4" alt="uglylittlehacker">
                         <div class="media-body ml-2">
@@ -50,7 +50,7 @@
                                data-repid="1" data-repuser="jack">回复</a>
                             <p class="mt-0 mb-1">
                                 <strong>
-                                    <a target="_blank"><<$Impression.user_info.user_name>></a>
+                                    <a target="_blank"><<$Impression.from_user.user_name>></a>
                                 </strong>
                             </p>
                             <p class="small text-muted"><<$Impression.floor>>&nbsp;楼&nbsp;-&nbsp;<<$Impression.create_time>></p>

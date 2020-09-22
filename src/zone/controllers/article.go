@@ -131,17 +131,16 @@ func (this *ArticleController) Get() {
 		// 获取文章评论
 		now := time.Now()
 		defer wg.Done()
-		comment, err := models.CommentInstance.GetArticleComment(articleId)
+		comment, err := models.CommentInstance.GetFirstComment(articleId)
 		if err != nil {
 			this.Response(1, fmt.Sprintf("获取文章评论错误:%v", err.Error()))
 			return
 		}
 
 		for _, v := range comment {
-			userInfo, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), v.UserId)
-			v.UserInfo = userInfo.(*models.User)
-
-			models.CommentReplyInstance.GetReplyByCommentId(v.ID)
+			userInfo, err := new(cache.Helper).GetByItemKey(new(cache2.UserCache), v.FromUid)
+			fmt.Println(err)
+			v.FromUser = userInfo.(*models.User)
 		}
 
 		data.Comment = comment
