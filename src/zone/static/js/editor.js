@@ -1,4 +1,5 @@
 $(function() {
+
 	var simplemde = new SimpleMDE({
 		element: document.getElementById("comment-form"),
 		autoDownloadFontAwesome:false,
@@ -70,7 +71,12 @@ $(function() {
 	    simplemde.value('')
 	    var u = $(this).data('repuser')
 	    var i = $(this).data('repid')
+		var j  =$(this).data('repid2')
+		var k  =$(this).data('repuserid')
 	    sessionStorage.setItem('rep_id',i);
+		sessionStorage.setItem('reply_father_id', j);
+		sessionStorage.setItem('rep_user_id', k);
+
 	    $("#rep-to").text("回复 @"+u).removeClass('hidden');
 		$("#no-rep").removeClass('hidden');
 		$(".rep-btn").css("color", "#868e96");
@@ -84,6 +90,8 @@ $(function() {
 	$("#no-rep").click(function(){
 	    simplemde.value('')
 	    sessionStorage.removeItem('rep_id');
+		sessionStorage.removeItem('reply_father_id');
+		sessionStorage.removeItem('rep_user_id');
 	    $("#rep-to").text('').addClass('hidden');
 		$("#no-rep").addClass('hidden');
 		$(".rep-btn").css("color", "#868e96");
@@ -104,7 +112,7 @@ $(function() {
         var now_t = Date.parse(new Date());
         if (base_t) {
             var tt = now_t - base_t;
-            if (tt < 40000) {
+            if (tt < 10) {
                 alert('两次评论时间间隔必须大于40秒，还需等待' + (40 - parseInt(tt / 1000)) + '秒');
                 return;
             } else {
@@ -114,10 +122,16 @@ $(function() {
             sessionStorage.setItem('base_t', now_t)
         };
         var csrf = $(this).data('csrf');
-        var article_id = $(this).data('article-id');
+        var article_id = $(this).data('article_id');
         var URL = $(this).data('ajax-url');
         var rep_id = sessionStorage.getItem('rep_id');
-        $.ajaxSetup({
+        var reply_father_id = sessionStorage.getItem('reply_father_id');
+		var rep_user_id = sessionStorage.getItem('rep_user_id');
+
+        console.log("rep_id:", rep_id);
+		console.log("reply_father_id:", reply_father_id);
+		console.log("rep_user_id:", rep_user_id);
+		$.ajaxSetup({
             data: {
                 'csrfmiddlewaretoken': csrf
             }
@@ -125,15 +139,19 @@ $(function() {
         $.ajax({
             type: 'post',
             url: URL,
-            data: {
-                'rep_id': rep_id,
-                'content': content,
-                'article_id': article_id
-            },
+            data: JSON.stringify({
+                "rep_id": Number(rep_id),
+				"reply_father_id": Number(reply_father_id),
+				"rep_user_id": Number(rep_user_id),
+                "content": content,
+                "article_id": article_id
+            }),
             dataType: 'json',
             success: function(ret) {
                 simplemde.value('')
                 sessionStorage.removeItem('rep_id');
+				sessionStorage.removeItem('reply_father_id');
+				sessionStorage.removeItem('rep_user_id');
                 sessionStorage.setItem('new_point', ret.new_point);
                 window.location.reload();
             },

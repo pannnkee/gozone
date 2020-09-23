@@ -7,6 +7,7 @@ import (
 	"Gozone/library/logger"
 	"Gozone/library/util"
 	cache2 "Gozone/src/zone/cache"
+	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
 	"fmt"
 	"html"
@@ -132,8 +133,6 @@ func (this *ArticleController) Get() {
 		fmt.Println("emoji:", time.Since(now))
 	}()
 
-
-
 	go func() {
 		// 获取文章评论
 		now := time.Now()
@@ -146,12 +145,12 @@ func (this *ArticleController) Get() {
 
 		for k, v := range comment {
 			v.Floor = int64(len(comment) - k)
-			v.CreateTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
+			v.CreateTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02")
 
 			secondComment, err := models.CommentInstance.GetSecondComment(articleId, v.ID)
 			if err == nil {
 				for _, value := range secondComment {
-					value.CreateTimeStr = time.Unix(value.CreateTime,0).Format("2006-01-02")
+					value.CreateTimeStr = time.Unix(value.CreateTime, 0).Format("2006-01-02")
 				}
 				v.SecondComment = secondComment
 			}
@@ -173,14 +172,59 @@ func (this *ArticleController) Get() {
 }
 
 func (this *ArticleController) Comment() {
-	type A struct {
-		RepID     int    `json:"rep_id"`
-		Content   string `json:"content"`
-		ArticleId int64  `json:"article_id"`
+	if !this.IsLogin {
+		this.Response(enum.DefaultError, "请登录账号后再评论")
 	}
-	var a A
-	err := controller.ParseRequestStruct(this.Controller, &a)
-	fmt.Print(err)
 
+	//TODO 关键词屏蔽
+	commentWeb := new(model_view.CommentWeb)
+	err := controller.ParseRequestStruct(this.Controller, &commentWeb)
+	if err != nil {
+		this.Response(enum.DefaultError, err.Error())
+	}
+
+	now := time.Now().Unix()
+	//盖楼
+	if commentWeb.RepID == 0 {
+		comment := models.Comment{
+			UserID:        this.User.Id,
+			UserName:      this.User.UserName,
+			ArticleID:     commentWeb.ArticleId,
+			CommentLevel:  1,
+			Content:       commentWeb.Content,
+			Status:        1,
+			CreateTime:    now,
+			CreateTimeStr: time.Unix(now, 0).Format("2006-01-02"),
+		}
+		err := comment.AddComment()
+		if err != nil {
+			this.Response(enum.DefaultError, err.Error())
+		}
+	} else {
+		//回复评论
+		comment := models.Comment{
+			UserID:          this.User.Id,
+			UserName:        this.User.UserName,
+			ArticleID:       commentWeb.ArticleId,
+			ParentCommentID: commentWeb.RepID,
+			ReplyCommentID:  commentWeb.ReplyFatherID,
+			CommentLevel:    2,
+			Content:         commentWeb.Content,
+			Status:          1,
+			CreateTime:      now,
+			CreateTimeStr:   time.Unix(now, 0).Format("2006-01-02"),
+		}
+		if commentWeb.ReplyFatherID != 0 {
+			//说明是二级评论的回复
+			userInstance, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), commentWeb.RepUserID)
+			user := userInstance.(*models.User)
+			comment.ReplyCommentUserID = user.Id
+			comment.ReplyCommentUserName = user.UserName
+		}
+		err := comment.AddComment()
+		if err != nil {
+			this.Response(enum.DefaultError, err.Error())
+		}
+	}
 	this.Response(enum.DefaultSuccess, "1")
 }

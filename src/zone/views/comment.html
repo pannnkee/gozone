@@ -7,7 +7,7 @@
 
 
         <div class="card-footer border-0 bg-white py-0 px-2 px-md-3" id="editor-footer">
-            <button type="button" class="btn btn-info btn-sm float-right f-16" id="push-com">
+            <button type="button" class="btn btn-info btn-sm float-right f-16" id="push-com" data-article_id="<<.articleResp.id>>">
                 提交评论
             </button>
             <button class="btn btn-sm py-0 px-2" id="emoji-btns" type="button"
@@ -47,7 +47,7 @@
                     <img class="avatar" src="https://avatars2.githubusercontent.com/u/39892062?v=4" alt="uglylittlehacker">
                     <div class="media-body ml-2">
                         <a class="float-right small mr-2 rep-btn" href="#editor-block"
-                           data-repid="1" data-repuser="jack">回复</a>
+                           data-repid="<<$Impression.id>>" data-repuser="<<$Impression.user_name>>">回复</a>
                         <p class="mt-0 mb-1">
                             <strong>
                                 <a target="_blank"><<$Impression.user_name>></a>
@@ -56,7 +56,7 @@
                         <p class="small text-muted"><<$Impression.floor>>&nbsp;楼&nbsp;-&nbsp;<<$Impression.create_time_str>></p>
                     </div>
                 </li>
-                <div class="comment-body"><<$Impression.content>></div>
+                <div class="comment-body"><<str2html $Impression.content>></div>
 
                     <<range $ImpressionIndexA, $ImpressionA := $Impression.second_comment>>
                         <ul class="list-unstyled ml-4">
@@ -65,18 +65,25 @@
                             <img class="avatar" src="https://avatars2.githubusercontent.com/u/39892062?v=4" alt="uglylittlehacker">
                             <div class="media-body ml-2">
                                 <a class="float-right small mr-2 rep-btn" href="#editor-block"
-                                   data-repid="6" data-repuser="rose">回复</a>
+                                   data-repid="<<$ImpressionA.id>>" data-repid2="<<$Impression.id>>" data-repuser="<<$ImpressionA.user_name>>"
+                                    data-repuserid="<<$ImpressionA.user_id>>">回复</a>
                                 <p class="mt-0 mb-1">
                                     <strong>
                                         <a target="_blank"><<$ImpressionA.user_name>></a>
                                     </strong>
                                     <i class="fa fa-share"></i>
-                                    @<<$Impression.user_name>>
+                                    @
+                                    <<if $ImpressionA.reply_comment_user_name>>
+                                            <<$ImpressionA.reply_comment_user_name>>
+                                    <<else>>
+                                            <<$Impression.user_name>>
+                                    <<end>>
+
                                 </p>
                                 <p class="small text-muted"><<$ImpressionA.create_time_str>></p>
                             </div>
                         </li>
-                        <div class="comment-body"><<$ImpressionA.content>></div>
+                        <div class="comment-body"><<str2html $ImpressionA.content>></div>
                 </ul>
                     <<end>>
             </div>
