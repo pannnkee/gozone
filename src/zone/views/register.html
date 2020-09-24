@@ -99,15 +99,27 @@
                     password: t.password,
                     repeatpassword: t.repeatpassword,
                 };
+                var next = this.GetUrlPara();
+                var url = "v1/api/user/register?"+next;
                 data = JSON.stringify(data);
-                post("v1/api/user/register", data, function(data){
+                post(url, data, function(data){
                         if(data.code==0){
-                            top.location.href="/";
+                            t.$toast("注册成功");
+                            console.log("data.msg:", data.msg);
+                            top.location.href=data.msg;
                         }else{
-
+                            t.$toast(data.msg);
                         }
                     }
                 )
+            },
+
+            GetUrlPara:function () {
+                var url = document.location.toString();
+                var arrUrl = url.split("?");
+
+                var para = arrUrl[1];
+                return para;
             }
         },
 

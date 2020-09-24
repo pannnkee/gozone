@@ -94,15 +94,40 @@
                         password: t.password,
                     };
                     data = JSON.stringify(data);
-                    post("v1/api/user/login", data, function(data){
+                    var next = this.GetUrlPara();
+                    console.log(next);
+                    var url = "v1/api/user/login?"+next;
+                    post(url, data, function(data){
                             if(data.code==0){
                                 t.$toast("登录成功");
-                                top.location.href="/";
+                                console.log("data.msg:", data.msg);
+                                top.location.href=data.msg;
                             }else{
                                 t.$toast(data.msg);
                             }
                         }
                     )
+                },
+
+                GetUrlRelativePath:function () {
+                    var url = document.location.toString();
+                    var arrUrl = url.split("//");
+
+                    var start = arrUrl[1].indexOf("/");
+                    var relUrl = arrUrl[1].substring(start);//stop省略，截取从start开始到结尾的所有字符
+
+                    if(relUrl.indexOf("?") != -1){
+                        relUrl = relUrl.split("?")[0];
+                    }
+                    return relUrl;
+                },
+
+                GetUrlPara:function () {
+                    var url = document.location.toString();
+                    var arrUrl = url.split("?");
+
+                    var para = arrUrl[1];
+                    return para;
                 }
             },
 

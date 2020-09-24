@@ -27,12 +27,11 @@ func (this *UserController) Register() {
 		this.Response(enum.DefaultError, err.Error())
 		return
 	}
-	this.Response(enum.DefaultSuccess, "")
+	this.Response(enum.DefaultSuccess, this.GetString("next"))
 
 }
 
 func (this *UserController) Login() {
-
 	//TODO 检查账号密码合法性
 	var modelUser model_view.User
 	err := controller.ParseRequestStruct(this.Controller, &modelUser)
@@ -57,7 +56,7 @@ func (this *UserController) Login() {
 	userInfo, _ := models.UserInstance.UserInfo(modelUser.Email)
 	this.SetCK(auth.ZoneToken, string(m), 168)
 	this.SetSession(SESSION_USER_KEY, userInfo)
-	this.Response(0, "登录成功")
+	this.Response(0, this.GetString("next"))
 }
 
 func (this *UserController) Logout() {

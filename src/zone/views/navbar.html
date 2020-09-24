@@ -50,16 +50,50 @@
 
             <li class="nav-item mr-2">
                 <<if eq .IsLogin false>>
-                    <a class="nav-link py-md-3" href="/login">登录</a>
+                    <a class="nav-link py-md-3"   onclick="GetLoginUrlRelativePath();" href="#">登录</a>
                 <<end>>
             </li>
             <li class="nav-item">
                 <<if eq .IsLogin false>>
-                    <a class="nav-link py-md-3" href="/register">注册</a>
+                    <a class="nav-link py-md-3" onclick="GetLRegisterUrlRelativePath();" href="#">注册</a>
                 <<end>>
             </li>
 
         </ul>
     </div>
 </nav>
+
+<script>
+
+    function GetLoginUrlRelativePath() {
+
+        var url = document.location.toString();
+        var arrUrl = url.split("//");
+
+        var start = arrUrl[1].indexOf("/");
+        var relUrl = arrUrl[1].substring(start);//stop省略，截取从start开始到结尾的所有字符
+
+        if(relUrl.indexOf("?") != -1){
+            relUrl = relUrl.split("?")[0];
+        }
+
+        var newurl = "/login?next="+relUrl;
+        window.location.href=newurl;
+    }
+
+    function GetLRegisterUrlRelativePath() {
+        var url = document.location.toString();
+        var arrUrl = url.split("//");
+
+        var start = arrUrl[1].indexOf("/");
+        var relUrl = arrUrl[1].substring(start);//stop省略，截取从start开始到结尾的所有字符
+
+        if(relUrl.indexOf("?") != -1){
+            relUrl = relUrl.split("?")[0];
+        }
+
+        var newurl = "/register?next="+relUrl;
+        window.location.href=newurl;
+    }
+</script>
 <!--导航结束-->

@@ -15,8 +15,8 @@ func init() {
 
 	v1 := beego.NewNamespace("/v1/api",
 		beego.NSNamespace("/user",
-			beego.NSRouter("/register", &controllers.UserController{}, "post,options:Register"),
-			beego.NSRouter("/login", &controllers.UserController{}, "post,options:Login"),
+			beego.NSRouter("/register/*", &controllers.UserController{}, "post,options:Register"),
+			beego.NSRouter("/login/*", &controllers.UserController{}, "post,options:Login"),
 			beego.NSRouter("/logout", &controllers.UserController{}, "*:Logout"),
 			beego.NSRouter("/alterPassword", &controllers.UserController{}, "post,options:AlterPassword"),
 			beego.NSRouter("/alterData", &controllers.UserController{}, "*:AlterData"),
