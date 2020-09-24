@@ -52,7 +52,7 @@ func (this *Article) PageList(offset, limit, sortType int64) (data []Article, co
 }
 
 // 获取分类下文章列表
-func (this *Article) PageListClass(offset, limit, sortType, contentType int64) (data []Article, count int64, err error) {
+func (this *Article) PageListClass(offset, limit, sortType, contentType int64) (data []*Article, count int64, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 
@@ -82,7 +82,7 @@ func (this *Article) FindClassNums(classId int64) (nums int64, err error) {
 	return
 }
 
-func (this *Article) FindArticles(id []int64) (data []Article, err error) {
+func (this *Article) FindArticles(id []int64) (data []*Article, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 	db = db.Where("id in (?)", id)

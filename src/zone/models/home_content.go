@@ -12,7 +12,7 @@ type HomeContent struct {
 	//base_top
 	TopContent TopContent // 分类内容
 
-	Articles    []Article
+	Articles    []*Article
 	SortType    int64
 	ContentType enum.ContentType
 }

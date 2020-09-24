@@ -6,7 +6,6 @@ import (
 	"Gozone/library/logger"
 	cache2 "Gozone/src/zone/cache"
 	"Gozone/src/zone/models"
-	"fmt"
 	"time"
 )
 
@@ -16,13 +15,12 @@ type ZoneController struct {
 
 func (this *ZoneController) Home() {
 
-	cookie := this.Ctx.GetCookie("toggleTheme")
-	fmt.Println(cookie)
-
+	// 时间排序 热度排序
 	sortType, _ := this.GetInt64("sortType", 1)
+	// 轮播图模式 top模式(分类 标签)
 	contentType, _ := this.GetInt64("contentType", 0)
 
-	var Articles []models.Article
+	var Articles []*models.Article
 	var TopContent models.TopContent
 	var count int64
 	var err error
@@ -37,13 +35,13 @@ func (this *ZoneController) Home() {
 			return
 		}
 
-		for k, v := range Articles {
+		for _, v := range Articles {
 
 			articleClassInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.ArticleClassCache), v.ArticleClass)
 			article := articleClassInterface.(*models.ArticleClass)
 
-			Articles[k].ArticleClassName = article.ClassName
-			Articles[k].CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
+			v.ArticleClassName = article.ClassName
+			v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 		}
 		this.Pager.Count = count
 
@@ -63,8 +61,8 @@ func (this *ZoneController) Home() {
 				return
 			}
 
-			for k, v := range Articles {
-				Articles[k].CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
+			for _, v := range Articles {
+				v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 			}
 
 			TopContent.ContentNum = class.Nums

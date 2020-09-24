@@ -14,4 +14,3 @@ var ArticleTagInstance = new(ArticleTag)
 
 var CommentInstance = new(Comment)
 
-var CommentReplyInstance = new(Comment)
