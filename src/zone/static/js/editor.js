@@ -63,6 +63,7 @@ $(function() {
 	var emoji_tag = $("#emoji-list img");
 	emoji_tag.click(function() {
 		var e = $(this).data('emoji');
+		console.log(e);
 		simplemde.value(simplemde.value()+e);
 	});
 
@@ -100,6 +101,8 @@ $(function() {
 //    点击提交评论
     $("#push-com").click(function() {
         var content = simplemde.value();
+        var mark = simplemde.markdown(content);
+        console.log("content:", content);
         if (content.length == 0) {
             alert("评论内容不能为空！");
             return;
@@ -143,7 +146,7 @@ $(function() {
                 "rep_id": Number(rep_id),
 				"reply_father_id": Number(reply_father_id),
 				"rep_user_id": Number(rep_user_id),
-                "content": content,
+                "content": mark,
                 "article_id": article_id
             }),
             dataType: 'json',

@@ -7,12 +7,10 @@ import (
 )
 
 func main() {
-
 	defer func() {
 		logger.ZoneLogger.Sync()
 	}()
-
-
 	beego.Run()
 }
+
 

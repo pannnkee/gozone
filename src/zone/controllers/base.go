@@ -173,7 +173,6 @@ func (this *BaseHandler) GetServerParams() {
 
 //GetIP 获取用户IP
 func (this *BaseHandler) GetIP() (ip string) {
-	//适应于API取H5/PC时
 	ip = this.Ctx.Request.Header.Get("X-Original-Forwarded-For")
 	if len(ip) == 0 {
 		ip = this.Ctx.Request.Header.Get("Remote-Host")
@@ -185,7 +184,7 @@ func (this *BaseHandler) GetIP() (ip string) {
 		ip = this.Ctx.Input.IP()
 	}
 	if len(ip) == 0 {
-		ip = "10.0.0.2"
+		ip = "127.0.0.1"
 	}
 	return
 }

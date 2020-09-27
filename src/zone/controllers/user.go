@@ -7,6 +7,7 @@ import (
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
+	"time"
 )
 
 type UserController struct {
@@ -52,6 +53,16 @@ func (this *UserController) Login() {
 		this.Response(enum.DefaultError, err.Error())
 		return
 	}
+
+	now := time.Now().Unix()
+	log := models.Log{
+		Ip:           this.GetIP(),
+		UserID:       modelUser.Id,
+		UserName:     modelUser.UserName,
+		LoginTime:    now,
+		LoginTimeStr: time.Unix(now, 0).Format("2006-01-02 15:04:05"),
+	}
+	_ = log.AddLoginLog()
 
 	userInfo, _ := models.UserInstance.UserInfo(modelUser.Email)
 	this.SetCK(auth.ZoneToken, string(m), 168)

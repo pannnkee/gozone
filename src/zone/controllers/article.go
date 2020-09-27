@@ -9,7 +9,9 @@ import (
 	cache2 "Gozone/src/zone/cache"
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
+	"bytes"
 	"fmt"
+	"github.com/PuerkitoBio/goquery"
 	"html"
 	"strconv"
 	"sync"
@@ -227,4 +229,15 @@ func (this *ArticleController) Comment() {
 		}
 	}
 	this.Response(enum.DefaultSuccess, "1")
+}
+
+func MarkDown2Html(content string) string {
+	c := html.UnescapeString(content)
+	br := bytes.NewReader([]byte(c))
+	doc, _ := goquery.NewDocumentFromReader(br)
+	htContent, _ := doc.Html()
+	gtBr := bytes.NewReader([]byte(htContent))
+	htDoc, _ := goquery.NewDocumentFromReader(gtBr)
+	html, _ := htDoc.Html()
+	return html
 }
