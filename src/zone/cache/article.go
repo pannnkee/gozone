@@ -17,7 +17,7 @@ func init() {
 }
 
 func (this *ArticleCache) CacheConfig() (cacheName string, needItem bool, itemKey string) {
-	return "article_type", false, "article_type:%v"
+	return "article_type", true, "article_type:%v"
 }
 
 func (this *ArticleCache) PrimaryKey(model interface{}) string {
@@ -27,4 +27,13 @@ func (this *ArticleCache) PrimaryKey(model interface{}) string {
 func (this *ArticleCache) GetAllData() (data interface{}, err error) {
 	data, err = new(models.Article).GetAllData()
 	return
+}
+
+func (this *ArticleCache) GetItemData(articleID int64) (data interface{}, err error) {
+	article := new(models.Article)
+	err = article.Get(articleID)
+	if err != nil {
+		return nil, err
+	}
+	return article,nil
 }

@@ -28,3 +28,7 @@ func (this *EmojiCache) GetAllData() (data interface{}, err error) {
 	data, err = new(models.Emoji).GetAllData()
 	return
 }
+
+func (this *EmojiCache) GetItemData(articleID int64) (data interface{}, err error) {
+	return nil, nil
+}

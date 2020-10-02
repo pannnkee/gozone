@@ -23,6 +23,10 @@ type Model interface {
 	CacheConfig() (cacheName string, needItem bool, itemKey string)
 	//查询全数据
 	GetAllData() (datas interface{}, err error)
+	//更新缓存
+	//UpDataItem() (id int64, err error)
+	//获取指定数据
+	GetItemData(id int64) (data interface{}, err error)
 }
 
 func (this *Helper) PushListCache(dataModel Model) (err error) {
@@ -109,4 +113,18 @@ func (s *Helper) GetByItemKey(dataModel Model, itemId int64) (data interface{}, 
 	}
 	return nil, errors.New("缓存不存在")
 }
+
+func (s *Helper) UpDataItem(dataModel Model, itemId int64) (err error) {
+	cacheName, _, itemKey := dataModel.CacheConfig()
+
+	data, err := dataModel.GetItemData(itemId)
+	if err != nil {
+		return err
+	}
+	itemCache, _ := itemCacheMap[cacheName]
+	_ = itemCache.Replace(fmt.Sprintf(itemKey, dataModel.PrimaryKey(data), -1), data, -1)
+	return nil
+}
+
+
 

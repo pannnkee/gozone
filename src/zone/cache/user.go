@@ -29,3 +29,8 @@ func (this *UserCache) GetAllData() (data interface{}, err error) {
 	return
 }
 
+func (this *UserCache) GetItemData(articleID int64) (data interface{}, err error) {
+	return nil, nil
+}
+
+

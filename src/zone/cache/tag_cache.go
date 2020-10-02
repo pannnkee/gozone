@@ -28,3 +28,7 @@ func (this *TagCache) GetAllData() (data interface{}, err error) {
 	data, err = new(models.Tag).GetAllData()
 	return
 }
+
+func (this *TagCache) GetItemData(articleID int64) (data interface{}, err error) {
+	return nil, nil
+}

@@ -75,6 +75,17 @@ func (this *Article) Get(id int64) (err error) {
 	return
 }
 
+func (this *Article) UpdateViews(id int64) (err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+
+	err = db.First(&this, id).Error
+	if err != nil {
+		return err
+	}
+	return db.Model(this).Where("id=?", id).Update("views", this.Views+1).Error
+}
+
 func (this *Article) FindClassNums(classId int64) (nums int64, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)

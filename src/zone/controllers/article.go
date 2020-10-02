@@ -42,6 +42,10 @@ func (this *ArticleController) Get() {
 		return
 	}
 
+	//文章观看次数+1
+	_ = new(models.Article).UpdateViews(articleId)
+	_ = new(cache.Helper).UpDataItem(new(cache2.ArticleCache), articleId)
+
 	wg := new(sync.WaitGroup)
 	data := models.ArticleListResp{}
 

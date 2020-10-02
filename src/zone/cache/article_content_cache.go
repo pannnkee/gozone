@@ -28,3 +28,7 @@ func (this *ArticleContentCache) GetAllData() (data interface{}, err error) {
 	data, err = new(models.ArticleContent).GetAllData()
 	return
 }
+
+func (this *ArticleContentCache) GetItemData(articleID int64) (data interface{}, err error) {
+	return nil, nil
+}

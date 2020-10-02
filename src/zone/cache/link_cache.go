@@ -28,3 +28,7 @@ func (this *LinkCache) GetAllData() (data interface{}, err error) {
 	data, err = new(models.Link).GetAllData()
 	return
 }
+
+func (this *LinkCache) GetItemData(articleID int64) (data interface{}, err error) {
+	return nil, nil
+}

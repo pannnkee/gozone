@@ -39,9 +39,11 @@ func (this *ZoneController) Home() {
 
 			articleClassInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.ArticleClassCache), v.ArticleClass)
 			article := articleClassInterface.(*models.ArticleClass)
+			commentNums, _ := models.CommentInstance.GetCommentNumsAndHuman(v.Id)
 
 			v.ArticleClassName = article.ClassName
 			v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
+			v.CommentNumber = commentNums
 		}
 		this.Pager.Count = count
 
