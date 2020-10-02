@@ -46,7 +46,7 @@ func (this *ZoneController) Home() {
 			v.CommentNumber = commentNums
 		}
 		this.Pager.Count = count
-
+		this.Data["title"] = "PannnKee's Zone"
 		//获取轮播图
 
 	} else {
@@ -72,6 +72,7 @@ func (this *ZoneController) Home() {
 			TopContent.TopContentClass = "文章分类"
 			TopContent.TopContentName = class.ClassName
 			TopContent.TopArticle = Articles
+			this.Data["title"] = "文章分类-PannnKee's Zone"
 		} else {
 			// 标签分类
 			tagInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.TagCache), contentType - 100)
@@ -93,6 +94,7 @@ func (this *ZoneController) Home() {
 			TopContent.TopContentClass = "标签分类"
 			TopContent.TopContentName = tag.TagName
 			TopContent.TopArticle = TagArticles
+			this.Data["title"] = "标签分类-PannnKee's Zone"
 		}
 	}
 
