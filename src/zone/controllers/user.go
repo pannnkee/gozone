@@ -65,6 +65,9 @@ func (this *UserController) Login() {
 	_ = log.AddLoginLog()
 
 	userInfo, _ := models.UserInstance.UserInfo(modelUser.Email)
+	if userInfo.Avatar == "" {
+		userInfo.Avatar = "/static/img/default_avatar.png"
+	}
 	this.SetCK(auth.ZoneToken, string(m), 168)
 	this.SetSession(SESSION_USER_KEY, userInfo)
 	this.Response(0, this.GetString("next"))
