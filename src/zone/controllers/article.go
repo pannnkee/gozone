@@ -206,6 +206,7 @@ func (this *ArticleController) Get() {
 		this.Response(1, fmt.Sprintf("序列化错误:%v", err.Error()))
 		return
 	}
+	this.Data["title"] = fmt.Sprintf("%v-PannnKee's Zone", data.Article.ArticleTitle)
 	this.Data["articleResp"] = jsonMap
 	this.TplName = "article.html"
 }

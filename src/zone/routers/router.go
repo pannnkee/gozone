@@ -12,6 +12,7 @@ func init() {
 	beego.Router("/profile", &controllers.ZoneController{}, "*:Profile")
 	beego.Router("/alterPassword", &controllers.ZoneController{}, "*:AlterPassword")
 	beego.Router("/alterData", &controllers.ZoneController{}, "*:AlterData")
+	beego.Router("/timeline", &controllers.ZoneController{}, "*:TimeLine")
 
 	v1 := beego.NewNamespace("/v1/api",
 		beego.NSNamespace("/user",
@@ -26,6 +27,10 @@ func init() {
 			beego.NSRouter(":id:int", &controllers.ArticleController{}, "get:Get"),
 			beego.NSRouter(":id:int", &controllers.ArticleController{}, "post,options:Comment"),
 		),
+
+		beego.NSNamespace("/static",
+			beego.NSRouter("/search", &controllers.StaticController{}, "*:Search"),
+			),
 	)
 	beego.AddNamespace(v1)
 }

@@ -156,3 +156,12 @@ func (this *ZoneController) AlterData() {
 	this.MustLogin()
 	this.TplName = "alterdata.html"
 }
+
+func (this *ZoneController) TimeLine() {
+	data, _ := models.TimeLineInstance.GetAllData()
+	for _, v := range data {
+		v.UpdateTimeStr = time.Unix(v.UpdateTime, 0).Format("2006-01-02")
+	}
+	this.Data["Timeline"] = data
+	this.TplName = "timeline.html"
+}

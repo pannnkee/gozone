@@ -16,3 +16,5 @@ var CommentInstance = new(Comment)
 
 var EmojiInstance = new(Emoji)
 
+var TimeLineInstance = new(Timeline)
+

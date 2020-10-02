@@ -22,7 +22,8 @@
                 <a class="nav-link py-md-3" href="<< .about_url >>"><i class="fa fa-anchor mr-1"></i>关于</a>
             </li>
 
-            <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform" action="{% url 'blog:search_view'%}">
+            <!-- action="/v1/api/static/search" -->
+            <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform">
                 <div class="input-group">
                     <input type="search" name="q" class="form-control rounded-0" placeholder="站内搜索" autocomplete="off" required=True>
                     <div class="input-group-btn">

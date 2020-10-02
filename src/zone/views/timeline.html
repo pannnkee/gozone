@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><<.title>></title>
+
+    <<template "import.html" .>>
+    <script src="/static/css/base_comment.css"></script>
+    <script>var Timeline = <<.Timeline>></script>
+
+    <link href="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
+    <link href="/static/css/timeline.css" rel="stylesheet">
+</head>
+<body>
+
+</body>
+    <<template "navbar.html" .>>
+    <meta name="description"
+          content="本网站是一个采用django+bootstrap4搭建的个人博客，本着学习和分享的精神，博客项目开源，源代码可以到我的Github中查看，网站建站历程可以查看页面Timeline内容。">
+    <meta name="keywords" content="Timeline时间轴,个人博客建站日志">
+
+    <div class="container">
+        <div class="page-header mt-0">
+            <h1 id="timeline"><i class="fa fa-hourglass-half mr-2"></i>建站日志</h1>
+        </div>
+        <ul class="timeline" id="timeline">
+            <<range $ImpressionIndex, $Impression := .Timeline>>
+                <<if eq $Impression.Side "left">>
+                        <li>
+                <<else>>
+                        <li class="timeline-inverted">
+                <<end>>
+
+                    <div class="timeline-badge <<$Impression.IconColor>>"><i class="<<$Impression.Icon>>"></i></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h2 class="timeline-title text-info"><<$Impression.Title>></h2>
+                            <p class="mb-1">
+                                <span class="text-muted"><i class="glyphicon glyphicon-time"></i><<$Impression.UpdateTimeStr>></span>
+                                <span class="pull-right" id="star"> <<$Impression.StatNum | StarHtml>></span>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <<str2html $Impression.Markdown>>
+                        </div>
+                    </div>
+                </li>
+            <<end>>
+        </ul>
+    </div>
+
+<script>
+    $(document).ready(function(){
+        $(".timeline-body a").attr("target","_blank");
+    });
+
+</script>
+
+</html>
