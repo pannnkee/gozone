@@ -23,8 +23,6 @@ type Model interface {
 	CacheConfig() (cacheName string, needItem bool, itemKey string)
 	//查询全数据
 	GetAllData() (datas interface{}, err error)
-	//更新缓存
-	//UpDataItem() (id int64, err error)
 	//获取指定数据
 	GetItemData(id int64) (data interface{}, err error)
 }

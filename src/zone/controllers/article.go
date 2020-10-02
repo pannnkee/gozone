@@ -9,17 +9,30 @@ import (
 	cache2 "Gozone/src/zone/cache"
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
-	"bytes"
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
 	"html"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
 
 type ArticleController struct {
 	BaseHandler
+}
+
+var EmojiMap map[string]*models.Emoji
+
+func init() {
+	EmojiMap = make(map[string]*models.Emoji)
+	data, err := models.EmojiInstance.GetAllData()
+	if err != nil {
+		logger.ZoneLogger.Error("初始化EmojiMap错误:", err.Error())
+	} else {
+		for _, v := range data {
+			EmojiMap[v.DataEmoji] = v
+		}
+	}
 }
 
 func (this *ArticleController) PageList() {
@@ -152,10 +165,12 @@ func (this *ArticleController) Get() {
 		for k, v := range comment {
 			v.Floor = int64(len(comment) - k)
 			v.CreateTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02")
+			v.Content = Emoji2Html(v.Content)
 
 			secondComment, err := models.CommentInstance.GetSecondComment(articleId, v.ID)
 			if err == nil {
 				for _, value := range secondComment {
+					value.Content = Emoji2Html(value.Content)
 					value.CreateTimeStr = time.Unix(value.CreateTime, 0).Format("2006-01-02")
 				}
 				v.SecondComment = secondComment
@@ -167,6 +182,7 @@ func (this *ArticleController) Get() {
 	}()
 
 	wg.Wait()
+
 
 	jsonMap, err := util.Struct2JsonMap(data)
 	if err != nil {
@@ -235,13 +251,15 @@ func (this *ArticleController) Comment() {
 	this.Response(enum.DefaultSuccess, "1")
 }
 
-func MarkDown2Html(content string) string {
-	c := html.UnescapeString(content)
-	br := bytes.NewReader([]byte(c))
-	doc, _ := goquery.NewDocumentFromReader(br)
-	htContent, _ := doc.Html()
-	gtBr := bytes.NewReader([]byte(htContent))
-	htDoc, _ := goquery.NewDocumentFromReader(gtBr)
-	html, _ := htDoc.Html()
-	return html
+func Emoji2Html(comment string) (html string) {
+	for _,v := range EmojiMap {
+		if strings.Contains(comment, v.DataEmoji) {
+			if emoji, ok := EmojiMap[v.DataEmoji]; ok {
+				replaceHTML := fmt.Sprintf("<img class=\"comment-emoji-img\" src=\"%v\" title=\"%v\" alt=\"%v\" data-emoji=\"%v\">",
+					emoji.Src, emoji.Title, emoji.Alt, emoji.DataEmoji)
+				comment = strings.Replace(comment, v.DataEmoji, replaceHTML, -1)
+			}
+		}
+	}
+	return comment
 }
