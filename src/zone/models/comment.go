@@ -6,6 +6,7 @@ type Comment struct {
 	ID                   int64  `json:"id" gorm:"column:id"`                                           // 评论id
 	UserID               int64  `json:"user_id" gorm:"column:user_id"`                                 // 评论人userId
 	UserName             string `json:"user_name" gorm:"column:user_name"`                             // 评论人名称
+	UserAvatar           string `json:"user_avatar" gorm:"-"`                                          //评论头像
 	ArticleID            int64  `json:"article_id" gorm:"column:article_id"`                           // 评论的文章id
 	ArticleTitle         string `json:"article_title" gorm:"column:article_title"`                     // 评论的文章标题
 	ParentCommentID      int64  `json:"parent_comment_id" gorm:"column:parent_comment_id"`             // 父评论id

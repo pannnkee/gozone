@@ -164,14 +164,31 @@ func (this *ArticleController) Get() {
 
 		for k, v := range comment {
 			v.Floor = int64(len(comment) - k)
-			v.CreateTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02")
+			v.CreateTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02 15:04:05")
 			v.Content = Emoji2Html(v.Content)
+
+			userInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), v.UserID)
+			if userInterface != nil {
+				v.UserAvatar = userInterface.(*models.User).Avatar
+				if v.UserAvatar == "" {
+					v.UserAvatar = "/static/img/default_avatar.png"
+				}
+			}
+
 
 			secondComment, err := models.CommentInstance.GetSecondComment(articleId, v.ID)
 			if err == nil {
 				for _, value := range secondComment {
 					value.Content = Emoji2Html(value.Content)
-					value.CreateTimeStr = time.Unix(value.CreateTime, 0).Format("2006-01-02")
+					value.CreateTimeStr = time.Unix(value.CreateTime, 0).Format("2006-01-02 15:04:05")
+
+					userInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), value.UserID)
+					if userInterface != nil {
+						value.UserAvatar = userInterface.(*models.User).Avatar
+						if value.UserAvatar == "" {
+							value.UserAvatar = "/static/img/default_avatar.png"
+						}
+					}
 				}
 				v.SecondComment = secondComment
 			}

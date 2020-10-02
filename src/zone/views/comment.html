@@ -44,7 +44,7 @@
             <<range $ImpressionIndex, $Impression := .articleResp.comment>>
                 <div class="comment-parent pt-2" id="com-1">
                 <li class="media">
-                    <img class="avatar" src="/static/img/default_avatar.png" alt="uglylittlehacker">
+                    <img class="avatar" src="<<$Impression.user_avatar>>" alt="uglylittlehacker">
                     <div class="media-body ml-2">
                         <a class="float-right small mr-2 rep-btn" href="#editor-block"
                            data-repid="<<$Impression.id>>" data-repuser="<<$Impression.user_name>>">回复</a>
@@ -52,6 +52,9 @@
                             <strong>
                                 <a target="_blank"><<$Impression.user_name>></a>
                             </strong>
+                            <<if eq $Impression.user_id "1">>
+                                <small class="text-danger">[博主]</small>
+                            <<end>>
                         </p>
                         <p class="small text-muted"><<$Impression.floor>>&nbsp;楼&nbsp;-&nbsp;<<$Impression.create_time_str>></p>
                     </div>
@@ -62,7 +65,7 @@
                         <ul class="list-unstyled ml-4">
                     <div class="comment-child pt-2" id="com-6">
                         <li class="media">
-                            <img class="avatar" src="/static/img/default_avatar.png" alt="uglylittlehacker">
+                            <img class="avatar" src="<<$ImpressionA.user_avatar>>" alt="uglylittlehacker">
                             <div class="media-body ml-2">
                                 <a class="float-right small mr-2 rep-btn" href="#editor-block"
                                    data-repid="<<$ImpressionA.id>>" data-repid2="<<$Impression.id>>" data-repuser="<<$ImpressionA.user_name>>"
@@ -71,6 +74,9 @@
                                     <strong>
                                         <a target="_blank"><<$ImpressionA.user_name>></a>
                                     </strong>
+                                    <<if eq $ImpressionA.user_id "1">>
+                                        <small class="text-danger">[博主]</small>
+                                    <<end>>
                                     <i class="fa fa-share"></i>
                                     @
                                     <<if $ImpressionA.reply_comment_user_name>>
