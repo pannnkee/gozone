@@ -40,10 +40,14 @@
                         <img src = "https://tendcode.com//cdn/blog/20200723/pypi.png" class="w-100 article-img"  >
                     </div>
 
-                    <div style="width: 70%;">
+                    <div class="media-body" style="width: 70%;">
                         <div>
-                            <span><<$Impression.Author>></span>
-                            <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i><<$Impression.CreatedTimeStr>></span>
+                            <div class="text-muted mb-2 f-12">
+                                <img class="avatar" src="/static/img/avatar.png" alt="Hopetree">
+                                <span><<$Impression.Author>></span>
+                                <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i><<$Impression.CreatedTimeStr>></span>
+                            </div>
+
 
                             <h2 class="mt-0 font-weight-bold text-info f-17">
                                 <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank" >
