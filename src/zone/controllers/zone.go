@@ -134,26 +134,31 @@ func (this *ZoneController) Login() {
 	if this.IsLogin == true {
 		this.Redirect("/", 302)
 	}
+	this.Data["title"] = "登录-PannnKee's Zone"
 	this.TplName = "login.html"
 }
 
 func (this *ZoneController) Register() {
+	this.Data["title"] = "注册-PannnKee's Zone"
 	this.TplName = "register.html"
 }
 
 func (this *ZoneController) Profile() {
 	this.MustLogin()
 	this.Data["UserInfo"] = this.User
+	this.Data["title"] = "个人资料-PannnKee's Zone"
 	this.TplName = "profile.html"
 }
 
 func (this *ZoneController) AlterPassword() {
 	this.MustLogin()
+	this.Data["title"] = "修改密码-PannnKee's Zone"
 	this.TplName = "alterpassword.html"
 }
 
 func (this *ZoneController) AlterData() {
 	this.MustLogin()
+	this.Data["title"] = "修改资料-PannnKee's Zone"
 	this.TplName = "alterdata.html"
 }
 
@@ -196,6 +201,6 @@ func (this *ZoneController) About() {
 	aboutData, _ := models.AboutInstance.GetAllData()
 	this.Data["AboutData"] = aboutData
 	this.Data["HomeContent"] = homeContent
-	this.Data["title"] = "关于网站"
+	this.Data["title"] = "关于网站-PannnKee's Zone"
 	this.TplName = "about.html"
 }
