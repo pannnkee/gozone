@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><<.title>></title>
+
+    <<template "import.html" .>>
+    <script src="/static/css/base_comment.css"></script>
+    <script>var Timeline = <<.Timeline>></script>
+
+</head>
+<body>
+
+</body>
+    <<template "navbar.html" .>>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" style="line-height:2">
+                <div class="card rounded-0 border-0 p-3 f-16">
+                    <h2><strong>关于网站</strong></h2>
+                </div>
+                <p>
+                    <a href="https://github.com/pannnkee/GoZone/actions?query=workflow/gozone">
+                        <img alt="" src="https://github.com/pannnkee/GoZone/workflows/gozone.svg">
+                    </a>
+                    <a href="https://github.com/pannnkee/GoZone">
+                        <img alt="" src="https://img.shields.io/github/stars/pannnkee/GoZone.svg?style=social">
+                    </a>
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <<template "base_right.html" .>>
+            </div>
+        </div>
+    </div>
+
+</html>

@@ -163,5 +163,35 @@ func (this *ZoneController) TimeLine() {
 		v.UpdateTimeStr = time.Unix(v.UpdateTime, 0).Format("2006-01-02")
 	}
 	this.Data["Timeline"] = data
+	this.Data["title"] = "Timeline-PannnKee's Zone"
 	this.TplName = "timeline.html"
+}
+
+func (this *ZoneController) About() {
+	homeContent := new(models.HomeContent)
+	//base_right.html
+	//获取首页标签
+	tag, err := new(cache.Helper).GetAllData(new(cache2.TagCache))
+	if err == nil {
+		homeContent.Tags = tag.([]*models.Tag)
+	} else {
+		logger.ZoneLogger.Error("获取Tag错误")
+	}
+	// 获取文章分类
+	articleClass, err := new(cache.Helper).GetAllData(new(cache2.ArticleClassCache))
+	if err == nil {
+		homeContent.ArticleClass = articleClass.([]*models.ArticleClass)
+	} else {
+		logger.ZoneLogger.Error("获取文章分类错误")
+	}
+
+	//获取友情链接
+	link, err := new(cache.Helper).GetAllData(new(cache2.LinkCache))
+	if err == nil {
+		homeContent.Links = link.([]*models.Link)
+	} else {
+		logger.ZoneLogger.Error("获取友情链接错误")
+	}
+	this.Data["HomeContent"] = homeContent
+	this.TplName = "about.html"
 }

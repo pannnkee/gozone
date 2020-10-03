@@ -13,6 +13,7 @@ func init() {
 	beego.Router("/alterPassword", &controllers.ZoneController{}, "*:AlterPassword")
 	beego.Router("/alterData", &controllers.ZoneController{}, "*:AlterData")
 	beego.Router("/timeline", &controllers.ZoneController{}, "*:TimeLine")
+	beego.Router("/about", &controllers.ZoneController{}, "*:About")
 
 	v1 := beego.NewNamespace("/v1/api",
 		beego.NSNamespace("/user",
