@@ -18,3 +18,5 @@ var EmojiInstance = new(Emoji)
 
 var TimeLineInstance = new(Timeline)
 
+var AboutInstance = new(About)
+

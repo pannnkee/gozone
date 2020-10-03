@@ -192,6 +192,10 @@ func (this *ZoneController) About() {
 	} else {
 		logger.ZoneLogger.Error("获取友情链接错误")
 	}
+
+	aboutData, _ := models.AboutInstance.GetAllData()
+	this.Data["AboutData"] = aboutData
 	this.Data["HomeContent"] = homeContent
+	this.Data["title"] = "关于网站"
 	this.TplName = "about.html"
 }

@@ -17,21 +17,20 @@
         <div class="row">
             <div class="col-lg-8" style="line-height:2">
                 <div class="card rounded-0 border-0 p-3 f-16">
-                    <h2><strong>关于网站</strong></h2>
+                    <<range $ImpressionIndex, $Impression := .AboutData>>
+                            <<str2html $Impression.Content>>
+                    <<end>>
                 </div>
-                <p>
-                    <a href="https://github.com/pannnkee/GoZone/actions?query=workflow/gozone">
-                        <img alt="" src="https://github.com/pannnkee/GoZone/workflows/gozone.svg">
-                    </a>
-                    <a href="https://github.com/pannnkee/GoZone">
-                        <img alt="" src="https://img.shields.io/github/stars/pannnkee/GoZone.svg?style=social">
-                    </a>
-                </p>
             </div>
             <div class="col-lg-4">
                 <<template "base_right.html" .>>
             </div>
         </div>
     </div>
+
+<!--回到顶部按钮-->
+<div class="text-center" id="to-top">
+    <i class="fa fa-chevron-up" id="btn-top" title="回到顶部"></i>
+</div>
 
 </html>
