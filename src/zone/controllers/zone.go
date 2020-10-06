@@ -47,6 +47,7 @@ func (this *ZoneController) Home() {
 		}
 		this.Pager.Count = count
 		this.Data["title"] = "PannnKee's Zone"
+		this.Data["isHome"] = true
 		//获取轮播图
 
 	} else {
@@ -201,6 +202,7 @@ func (this *ZoneController) About() {
 	aboutData, _ := models.AboutInstance.GetAllData()
 	this.Data["AboutData"] = aboutData
 	this.Data["HomeContent"] = homeContent
+	this.Data["isAbout"] = true
 	this.Data["title"] = "关于网站-PannnKee's Zone"
 	this.TplName = "about.html"
 }
