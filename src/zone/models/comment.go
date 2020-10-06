@@ -4,6 +4,7 @@ import "Gozone/library/conn"
 
 type Comment struct {
 	ID                   int64  `json:"id" gorm:"column:id"`                                           // 评论id
+	IP                   string `json:"ip" gorm:"column:ip"`                                           //评论ip
 	UserID               int64  `json:"user_id" gorm:"column:user_id"`                                 // 评论人userId
 	UserName             string `json:"user_name" gorm:"column:user_name"`                             // 评论人名称
 	UserAvatar           string `json:"user_avatar" gorm:"-"`                                          //评论头像

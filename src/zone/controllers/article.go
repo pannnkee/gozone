@@ -175,7 +175,6 @@ func (this *ArticleController) Get() {
 				}
 			}
 
-
 			secondComment, err := models.CommentInstance.GetSecondComment(articleId, v.ID)
 			if err == nil {
 				for _, value := range secondComment {
@@ -199,7 +198,6 @@ func (this *ArticleController) Get() {
 	}()
 
 	wg.Wait()
-
 
 	jsonMap, err := util.Struct2JsonMap(data)
 	if err != nil {
@@ -227,6 +225,7 @@ func (this *ArticleController) Comment() {
 	//盖楼
 	if commentWeb.RepID == 0 {
 		comment := models.Comment{
+			IP:            this.GetIP(),
 			UserID:        this.User.Id,
 			UserName:      this.User.UserName,
 			ArticleID:     commentWeb.ArticleId,
@@ -270,7 +269,7 @@ func (this *ArticleController) Comment() {
 }
 
 func Emoji2Html(comment string) (html string) {
-	for _,v := range EmojiMap {
+	for _, v := range EmojiMap {
 		if strings.Contains(comment, v.DataEmoji) {
 			if emoji, ok := EmojiMap[v.DataEmoji]; ok {
 				replaceHTML := fmt.Sprintf("<img class=\"comment-emoji-img\" src=\"%v\" title=\"%v\" alt=\"%v\" data-emoji=\"%v\">",
