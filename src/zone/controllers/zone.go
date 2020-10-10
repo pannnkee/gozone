@@ -214,10 +214,10 @@ func (this *ZoneController) Archive() {
 	article := articleInterface.([]*models.Article)
 
 
-	var year models.Year
-	var mouthitem models.MouthItem
-	var articleItem models.ArticleItem
-	var archiveResp models.ArchiveResp
+	//var year models.Year
+	//var mouthitem models.MouthItem
+	//var articleItem models.ArticleItem
+	//var archiveResp models.ArchiveResp
 	for k,v := range article {
 		fmt.Println(k,v)
 	}
