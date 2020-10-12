@@ -10,7 +10,6 @@ import (
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
 	"fmt"
-	"html"
 	"strconv"
 	"strings"
 	"sync"
@@ -68,17 +67,12 @@ func (this *ArticleController) Get() {
 		now := time.Now()
 		//文章详情
 		defer wg.Done()
-
-		articleInterface, err := new(cache.Helper).GetByItemKey(new(cache2.ArticleCache), articleId)
-		article := articleInterface.(*models.Article)
+		article := new(models.Article)
+		err := article.Get(articleId)
 		if err == nil {
-			article.CreatedTimeStr = time.Unix(article.CreateTime, 0).Format("2006-01-02")
-			article.UpdateTimeStr = time.Unix(article.UpdateTime, 0).Format("2006-01-02")
+			article.CreatedTimeStr = time.Unix(article.CreateTime, 0).Format("2006-01-02 15:04:05")
+			article.UpdateTimeStr = time.Unix(article.UpdateTime, 0).Format("2006-01-02 15:04:05")
 			data.Article = *article
-
-			articleClassInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.ArticleClassCache), article.ArticleClass)
-			ArticleClass := articleClassInterface.(*models.ArticleClass)
-			data.ArticleClassName = ArticleClass.ClassName
 		} else {
 			logger.ZoneLogger.Error("获取文章详情错误")
 		}
@@ -95,8 +89,11 @@ func (this *ArticleController) Get() {
 		//文章内容
 		defer wg.Done()
 		article, err := new(cache.Helper).GetByItemKey(new(cache2.ArticleContentCache), articleId)
+
 		if err == nil {
-			data.ArticleContent = html.UnescapeString(article.(*models.ArticleContent).Content)
+			down2Html := util.MarkDown2Html(article.(*models.ArticleContent).Content)
+			data.ArticleContent = down2Html
+
 		} else {
 			logger.ZoneLogger.Error("获取文章内容错误")
 		}
@@ -166,6 +163,7 @@ func (this *ArticleController) Get() {
 			v.Floor = int64(len(comment) - k)
 			v.CreateTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02 15:04:05")
 			v.Content = Emoji2Html(v.Content)
+			v.Content = util.MarkDown2Html(v.Content)
 
 			userInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), v.UserID)
 			if userInterface != nil {
@@ -179,6 +177,7 @@ func (this *ArticleController) Get() {
 			if err == nil {
 				for _, value := range secondComment {
 					value.Content = Emoji2Html(value.Content)
+					value.Content = util.MarkDown2Html(value.Content)
 					value.CreateTimeStr = time.Unix(value.CreateTime, 0).Format("2006-01-02 15:04:05")
 
 					userInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), value.UserID)

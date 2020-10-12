@@ -6,7 +6,6 @@ import (
 	"Gozone/library/logger"
 	cache2 "Gozone/src/zone/cache"
 	"Gozone/src/zone/models"
-	"fmt"
 	"time"
 )
 
@@ -209,20 +208,6 @@ func (this *ZoneController) About() {
 }
 
 func (this *ZoneController) Archive() {
-
-	articleInterface, _ := new(cache.Helper).GetAllData(new(cache2.ArticleCache))
-	article := articleInterface.([]*models.Article)
-
-
-	//var year models.Year
-	//var mouthitem models.MouthItem
-	//var articleItem models.ArticleItem
-	//var archiveResp models.ArchiveResp
-	for k,v := range article {
-		fmt.Println(k,v)
-	}
-
-
 	this.Data["isArchive"] = true
 	this.Data["title"] = "博客归档-PannnKee's Zone"
 	this.TplName = "archive.html"

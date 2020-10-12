@@ -3,8 +3,9 @@
         <<range $ImpressionIndex, $Impression := .HomeContent.TopContent.TopArticle>>
             <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
                 <div class="align-self-center mr-2 mr-lg-3 w-25 modal-open" style="width: 30%;">
-                    <a></a>
-                    <img src = "<<$Impression.Pic>>" class="w-100 article-img"  >
+                    <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank">
+                        <img class="w-100 article-img" src = "<<$Impression.Pic>>">
+                    </a>
                 </div>
 
                 <div style="width: 70%;">
@@ -36,8 +37,9 @@
             <<range $ImpressionIndex, $Impression := .HomeContent.Articles>>
                 <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
                     <div class="align-self-center mr-2 mr-lg-3 w-25 modal-open" style="width: 30%;">
-                        <a></a>
-                        <img src = "<<$Impression.Pic>>" class="w-100 article-img"  >
+                        <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank">
+                            <img class="w-100 article-img" src = "<<$Impression.Pic>>">
+                        </a>
                     </div>
 
                     <div class="media-body" style="width: 70%;">
