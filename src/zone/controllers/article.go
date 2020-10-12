@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"Gozone/library/cache"
+	"Gozone/library/config"
 	"Gozone/library/controller"
 	"Gozone/library/enum"
 	"Gozone/library/logger"
@@ -76,6 +77,10 @@ func (this *ArticleController) Get() {
 		} else {
 			logger.ZoneLogger.Error("获取文章详情错误")
 		}
+
+		// 获取文章分类
+		articleClass, _ := new(models.ArticleClass).FindArticleClassName(articleId)
+		data.ArticleClassName = articleClass.ClassName
 
 		// 评论数 参与人数
 		commentNums, Humans := models.CommentInstance.GetCommentNumsAndHuman(articleId)
@@ -204,6 +209,7 @@ func (this *ArticleController) Get() {
 		return
 	}
 	this.Data["title"] = fmt.Sprintf("%v-PannnKee's Zone", data.Article.ArticleTitle)
+	this.Data["articleURL"] = config.GetConfigStr("zone:site", "http://127.0.0.1") + this.RequestURL
 	this.Data["articleResp"] = jsonMap
 	this.TplName = "article.html"
 }
