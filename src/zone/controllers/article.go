@@ -57,7 +57,7 @@ func (this *ArticleController) Get() {
 
 	//文章观看次数+1
 	_ = new(models.Article).UpdateViews(articleId)
-	_ = new(cache.Helper).UpDataItem(new(cache2.ArticleCache), articleId)
+	//_ = new(cache.Helper).UpDataItem(new(cache2.ArticleCache), articleId)
 
 	wg := new(sync.WaitGroup)
 	data := models.ArticleListResp{}
@@ -79,7 +79,7 @@ func (this *ArticleController) Get() {
 		}
 
 		// 获取文章分类
-		articleClass, _ := new(models.ArticleClass).FindArticleClassName(articleId)
+		articleClass, _ := new(models.ArticleClass).Get(articleId)
 		data.ArticleClassName = articleClass.ClassName
 
 		// 评论数 参与人数
@@ -93,10 +93,11 @@ func (this *ArticleController) Get() {
 		now := time.Now()
 		//文章内容
 		defer wg.Done()
-		article, err := new(cache.Helper).GetByItemKey(new(cache2.ArticleContentCache), articleId)
 
+		articleContent := new(models.ArticleContent)
+		err := articleContent.Get(articleId)
 		if err == nil {
-			down2Html := util.MarkDown2Html(article.(*models.ArticleContent).Content)
+			down2Html := util.MarkDown2Html(articleContent.Content)
 			data.ArticleContent = down2Html
 
 		} else {
@@ -170,9 +171,9 @@ func (this *ArticleController) Get() {
 			v.Content = Emoji2Html(v.Content)
 			v.Content = util.MarkDown2Html(v.Content)
 
-			userInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), v.UserID)
-			if userInterface != nil {
-				v.UserAvatar = userInterface.(*models.User).Avatar
+			user, err := models.UserInstance.Get(v.UserID)
+			if err == nil {
+				v.UserAvatar = user.Avatar
 				if v.UserAvatar == "" {
 					v.UserAvatar = "/static/img/default_avatar.png"
 				}
@@ -185,9 +186,9 @@ func (this *ArticleController) Get() {
 					value.Content = util.MarkDown2Html(value.Content)
 					value.CreateTimeStr = time.Unix(value.CreateTime, 0).Format("2006-01-02 15:04:05")
 
-					userInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), value.UserID)
-					if userInterface != nil {
-						value.UserAvatar = userInterface.(*models.User).Avatar
+					user, err := models.UserInstance.Get(v.UserID)
+					if err == nil {
+						value.UserAvatar = user.Avatar
 						if value.UserAvatar == "" {
 							value.UserAvatar = "/static/img/default_avatar.png"
 						}
@@ -260,10 +261,11 @@ func (this *ArticleController) Comment() {
 		}
 		if commentWeb.ReplyFatherID != 0 {
 			//说明是二级评论的回复
-			userInstance, _ := new(cache.Helper).GetByItemKey(new(cache2.UserCache), commentWeb.RepUserID)
-			user := userInstance.(*models.User)
-			comment.ReplyCommentUserID = user.Id
-			comment.ReplyCommentUserName = user.UserName
+			user, err := models.UserInstance.Get(commentWeb.RepUserID)
+			if err == nil {
+				comment.ReplyCommentUserID = user.Id
+				comment.ReplyCommentUserName = user.UserName
+			}
 		}
 		err := comment.AddComment()
 		if err != nil {

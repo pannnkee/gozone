@@ -36,12 +36,10 @@ func (this *ZoneController) Home() {
 		}
 
 		for _, v := range Articles {
-
-			articleClassInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.ArticleClassCache), v.ArticleClass)
-			article := articleClassInterface.(*models.ArticleClass)
+			articleClass, _ := models.ArticleClassInstance.Get(v.ArticleClass)
 			commentNums, _ := models.CommentInstance.GetCommentNumsAndHuman(v.Id)
 
-			v.ArticleClassName = article.ClassName
+			v.ArticleClassName = articleClass.ClassName
 			v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 			v.CommentNumber = commentNums
 		}
@@ -56,8 +54,8 @@ func (this *ZoneController) Home() {
 		// 文章分类
 		if enum.ContentType(contentType) < enum.Mysql {
 
-			articleClassInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.ArticleClassCache), contentType)
-			class := articleClassInterface.(*models.ArticleClass)
+			articleClass, _ := new(models.ArticleClass).Get(contentType)
+
 			Articles, _, err = models.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, contentType)
 			if err != nil {
 				this.Response(enum.DefaultError, err.Error())
@@ -68,17 +66,16 @@ func (this *ZoneController) Home() {
 				v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 			}
 
-			TopContent.ContentNum = class.Nums
-			TopContent.ContentText = class.ClassIntroduction
+			TopContent.ContentNum = articleClass.Nums
+			TopContent.ContentText = articleClass.ClassIntroduction
 			TopContent.TopContentClass = "文章分类"
-			TopContent.TopContentName = class.ClassName
+			TopContent.TopContentName = articleClass.ClassName
 			TopContent.TopArticle = Articles
 			this.Data["title"] = "文章分类-PannnKee's Zone"
 		} else {
 			// 标签分类
-			tagInterface, _ := new(cache.Helper).GetByItemKey(new(cache2.TagCache), contentType - 100)
-			tag := tagInterface.(*models.Tag)
 
+			tag, _ := models.TagInstance.Get(contentType - 100)
 			var Tag[]int64
 			articles, _ := models.ArticleTagInstance.FindArticles(tag.Id)
 			for _, v := range articles {
@@ -101,16 +98,17 @@ func (this *ZoneController) Home() {
 
 	//base_right.html
 		//获取首页标签
-		tag, err := new(cache.Helper).GetAllData(new(cache2.TagCache))
+
+		tags, err := models.TagInstance.GetAllData()
 		if err == nil {
-			homeContent.Tags = tag.([]*models.Tag)
+			homeContent.Tags = tags
 		} else {
 			logger.ZoneLogger.Error("获取Tag错误")
 		}
 		// 获取文章分类
-		articleClass, err := new(cache.Helper).GetAllData(new(cache2.ArticleClassCache))
+		articleClass, _ := new(models.ArticleClass).GetAllData()
 		if err == nil {
-			homeContent.ArticleClass = articleClass.([]*models.ArticleClass)
+			homeContent.ArticleClass = articleClass
 		} else {
 			logger.ZoneLogger.Error("获取文章分类错误")
 		}
@@ -177,16 +175,16 @@ func (this *ZoneController) About() {
 	homeContent := new(models.HomeContent)
 	//base_right.html
 	//获取首页标签
-	tag, err := new(cache.Helper).GetAllData(new(cache2.TagCache))
+	tags, err := models.TagInstance.GetAllData()
 	if err == nil {
-		homeContent.Tags = tag.([]*models.Tag)
+		homeContent.Tags = tags
 	} else {
 		logger.ZoneLogger.Error("获取Tag错误")
 	}
 	// 获取文章分类
-	articleClass, err := new(cache.Helper).GetAllData(new(cache2.ArticleClassCache))
+	articleClass, _ := new(models.ArticleClass).GetAllData()
 	if err == nil {
-		homeContent.ArticleClass = articleClass.([]*models.ArticleClass)
+		homeContent.ArticleClass = articleClass
 	} else {
 		logger.ZoneLogger.Error("获取文章分类错误")
 	}

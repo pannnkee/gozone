@@ -1,79 +1,119 @@
-pre {
-    background: #fafafa;
-    font-family: Menlo,Bitstream Vera Sans Mono,DejaVu Sans Mono,Monaco,Consolas,monospace;
-    border: 0!important
+/*! Color themes for Google Code Prettify | MIT License | github.com/jmblog/color-themes-for-google-code-prettify */
+.prettyprint {
+    background: #fefbec;
+    font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
+    border: 0 !important;
 }
 
 .pln {
-    color: #333
+    color: #20201d;
 }
 
+/* Specify class=linenums on a pre to get line numbering */
 ol.linenums {
     margin-top: 0;
     margin-bottom: 0;
-    color: #ccc
+    color: #999580;
 }
 
-li.L0,li.L1,li.L2,li.L3,li.L4,li.L5,li.L6,li.L7,li.L8,li.L9 {
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L4,
+li.L5,
+li.L6,
+li.L7,
+li.L8,
+li.L9 {
     padding-left: 1em;
-    background-color: #fff;
-    list-style-type: decimal
+    background-color: #fefbec;
+    list-style-type: decimal;
 }
 
 @media screen {
+
+    /* string content */
+
     .str {
-        color: #183691
+        color: #60ac39;
     }
+
+    /* keyword */
 
     .kwd {
-        color: #a71d5d
+        color: #b854d4;
     }
+
+    /* comment */
 
     .com {
-        color: #969896
+        color: #999580;
     }
+
+    /* type name */
 
     .typ {
-        color: #0086b3
+        color: #6684e1;
     }
+
+    /* literal value */
 
     .lit {
-        color: #0086b3
+        color: #b65611;
     }
+
+    /* punctuation */
 
     .pun {
-        color: #333
+        color: #20201d;
     }
+
+    /* lisp open bracket */
 
     .opn {
-        color: #333
+        color: #20201d;
     }
+
+    /* lisp close bracket */
 
     .clo {
-        color: #333
+        color: #20201d;
     }
+
+    /* markup tag name */
 
     .tag {
-        color: navy
+        color: #d73737;
     }
+
+    /* markup attribute name */
 
     .atn {
-        color: #795da3
+        color: #b65611;
     }
+
+    /* markup attribute value */
 
     .atv {
-        color: #183691
+        color: #1fad83;
     }
+
+    /* declaration */
 
     .dec {
-        color: #333
+        color: #b65611;
     }
+
+    /* variable name */
 
     .var {
-        color: teal
+        color: #d73737;
     }
 
+    /* function name */
+
     .fun {
-        color: #900
+        color: #6684e1;
     }
 }

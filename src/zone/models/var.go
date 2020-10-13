@@ -20,3 +20,5 @@ var TimeLineInstance = new(Timeline)
 
 var AboutInstance = new(About)
 
+var ArticleContentInstance = new(ArticleContent)
+

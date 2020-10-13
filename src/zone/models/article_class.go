@@ -14,7 +14,7 @@ func (this *ArticleClass) TableName() string {
 	return "article_class"
 }
 
-func (this *ArticleClass) FindArticleClassName(id int64) (data *ArticleClass, err error) {
+func (this *ArticleClass) Get(id int64) (data *ArticleClass, err error) {
 	db := conn.GetORMByName("zone")
 	data = new(ArticleClass)
 	err = db.Where("id=?", id).First(&data).Error
@@ -34,3 +34,4 @@ func (this *ArticleClass) GetAllData() (data []*ArticleClass, err error) {
 	err = db.Order("id asc").Find(&data).Error
 	return
 }
+
