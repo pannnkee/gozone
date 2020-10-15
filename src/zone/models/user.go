@@ -88,7 +88,7 @@ func (this *User) GetAllData() (data []*User, err error) {
 	return
 }
 
-func (this *User) Get(id int64) (data *User, err error) {
+func (this *User) Get(id int64) (data User, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 	err = db.Where("id=?", id).Take(&data).Error
