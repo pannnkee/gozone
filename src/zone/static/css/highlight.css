@@ -10,6 +10,13 @@ pre {
     color: #9caec7;
 }
 
+/*p code, li code {
+    padding: 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}*/
+
 .pln {
     color: #da5757;
 }
