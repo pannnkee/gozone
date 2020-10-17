@@ -54,20 +54,22 @@ func (this *UserController) Login() {
 		return
 	}
 
+	userInfo, _ := models.UserInstance.UserInfo(modelUser.Email)
+	if userInfo.Avatar == "" {
+		userInfo.Avatar = "/static/img/default_avatar.png"
+	}
+
 	now := time.Now().Unix()
 	log := models.Log{
 		Ip:           this.GetIP(),
-		UserID:       modelUser.Id,
-		UserName:     modelUser.UserName,
+		UserID:       userInfo.Id,
+		UserName:     userInfo.UserName,
 		LoginTime:    now,
 		LoginTimeStr: time.Unix(now, 0).Format("2006-01-02 15:04:05"),
 	}
 	_ = log.AddLoginLog()
 
-	userInfo, _ := models.UserInstance.UserInfo(modelUser.Email)
-	if userInfo.Avatar == "" {
-		userInfo.Avatar = "/static/img/default_avatar.png"
-	}
+
 	this.SetCK(auth.ZoneToken, string(m), 168)
 	this.SetSession(SESSION_USER_KEY, userInfo)
 	this.Response(0, this.GetString("next"))

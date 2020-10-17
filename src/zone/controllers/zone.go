@@ -79,7 +79,7 @@ func (this *ZoneController) Home() {
 			var Tag[]int64
 			articles, _ := models.ArticleTagInstance.FindArticles(tag.Id)
 			for _, v := range articles {
-				Tag = append(Tag, v.TagId)
+				Tag = append(Tag, v.ArticleId)
 			}
 
 			TagArticles, err := models.ArticleInstance.FindArticles(Tag)
