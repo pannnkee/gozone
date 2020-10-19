@@ -7,6 +7,8 @@ import (
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
+	"fmt"
+	"path"
 	"time"
 )
 
@@ -100,5 +102,31 @@ func (this *UserController) AlterPassword() {
 }
 
 func (this *UserController) AlterData() {
-	this.Response(enum.DefaultError,"暂时未开放此功能")
+	file, header, err := this.GetFile("avatar")
+	if err != nil {
+		this.Response(enum.DefaultError, "请选择正确的图片文件")
+		return
+	}
+	defer file.Close()
+
+	filename := header.Filename
+	filename = fmt.Sprintf("%d.png", this.User.Id)
+	err = this.SaveToFile("avatar", path.Join("static\\img\\user_avatar\\", filename))
+	if err != nil {
+		this.Response(enum.DefaultError,err.Error())
+		return
+	}
+
+	exmap := map[string]interface{}{
+		"avatar":    path.Join("/static/img/user_avatar/", filename),
+	}
+	err = models.UserInstance.Updates(this.User.Email, exmap)
+	if err != nil {
+		this.Response(enum.DefaultError,err.Error())
+		return
+	}
+
+	userInfo, _ := models.UserInstance.Get(this.User.Id)
+	this.SetSession(SESSION_USER_KEY, userInfo)
+	this.Response(enum.DefaultSuccess,"头像上传成功")
 }

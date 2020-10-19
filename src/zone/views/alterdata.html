@@ -91,11 +91,15 @@
         methods:{
             AlterDataSubmit:function () {
                 var t = this;
-                var data = {
-                    avatar: this.avatar,
-                };
-                data = JSON.stringify(data);
-                post("v1/api/user/alterData", data, function(data) {
+                console.log($("#id_avatar")[0].files[0]);
+                // var data = {
+                //     : $("#id_avatar")[0].files[0],
+                // };
+                var formData = new FormData();
+                formData.append("avatar", $("#id_avatar")[0].files[0])
+                console.log("this.avatar:" + $("#id_avatar")[0].files[0] + "formData:" + formData)
+                //data = JSON.stringify(data);
+                post2("v1/api/user/alterData", formData, function(data) {
                         if (data.code == 0) {
                             t.$toast("暂未开发此功能");
                             //t.$toast("修改资料成功");

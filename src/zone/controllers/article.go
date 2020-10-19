@@ -186,7 +186,7 @@ func (this *ArticleController) Get() {
 					value.Content = util.MarkDown2Html(value.Content)
 					value.CreateTimeStr = time.Unix(value.CreateTime, 0).Format("2006-01-02 15:04:05")
 
-					user, err := models.UserInstance.Get(v.UserID)
+					user, err := models.UserInstance.Get(value.UserID)
 					if err == nil {
 						value.UserAvatar = user.Avatar
 						if value.UserAvatar == "" {
