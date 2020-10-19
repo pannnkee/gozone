@@ -202,6 +202,10 @@ func (this *ZoneController) About() {
 	// 获取文章分类
 	articleClass, _ := new(models.ArticleClass).GetAllData()
 	if err == nil {
+		for _, v := range articleClass {
+			nums, _ := models.ArticleInstance.GetArticleClassNums(v.Id)
+			v.Nums = nums
+		}
 		homeContent.ArticleClass = articleClass
 	} else {
 		logger.ZoneLogger.Error("获取文章分类错误")
@@ -224,7 +228,38 @@ func (this *ZoneController) About() {
 }
 
 func (this *ZoneController) Archive() {
+
+	homeContent := new(models.HomeContent)
+	//base_right.html
+	//获取首页标签
+	tags, err := models.TagInstance.GetAllData()
+	if err == nil {
+		homeContent.Tags = tags
+	} else {
+		logger.ZoneLogger.Error("获取Tag错误")
+	}
+	// 获取文章分类
+	articleClass, _ := new(models.ArticleClass).GetAllData()
+	if err == nil {
+		for _, v := range articleClass {
+			nums, _ := models.ArticleInstance.GetArticleClassNums(v.Id)
+			v.Nums = nums
+		}
+		homeContent.ArticleClass = articleClass
+	} else {
+		logger.ZoneLogger.Error("获取文章分类错误")
+	}
+
+	//获取友情链接
+	link, err := new(cache.Helper).GetAllData(new(cache2.LinkCache))
+	if err == nil {
+		homeContent.Links = link.([]*models.Link)
+	} else {
+		logger.ZoneLogger.Error("获取友情链接错误")
+	}
+
 	this.Data["isArchive"] = true
 	this.Data["title"] = "博客归档-PannnKee's Zone"
+	this.Data["HomeContent"] = homeContent
 	this.TplName = "archive.html"
 }
