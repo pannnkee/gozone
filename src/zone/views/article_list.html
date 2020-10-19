@@ -1,40 +1,7 @@
 <div class="summary-list">
     <<if ne .HomeContent.ContentType 0 >>
-        <<range $ImpressionIndex, $Impression := .HomeContent.TopContent.TopArticle>>
-            <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
-                <div class="align-self-center mr-2 mr-lg-3 w-25 modal-open" style="width: 30%;">
-                    <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank">
-                        <img class="w-100 article-img" src = "<<$Impression.Pic>>">
-                    </a>
-                </div>
-
-                <div style="width: 70%;">
-                    <div>
-                        <span><<$Impression.Author>></span>
-                        <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i><<$Impression.CreatedTimeStr>></span>
-
-                        <h2 class="mt-0 font-weight-bold text-info f-17">
-                            <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank" >
-                                <<$Impression.ArticleTitle>>
-                            </a>
-                        </h2>
-
-                        <p class="d-none d-sm-block mb-2 f-15"><<$Impression.SimpleContent>></p>
-                        <p class="d-block d-sm-none mb-2 f-15"><<$Impression.SimpleContent>></p>
-
-                        <div class="text-muted mb-0 f-12">
-                            <a class="cate" href="" title="查看当前分类下更多文章">
-                                <i class="fa fa-book mr-1"><<$Impression.ArticleClassName>></i></a>
-                            <a href="/v1/api/article/<<$Impression.Id>>#comment-block" target="_blank" title="查看文章评论">
-                                <i class="fa fa-comments ml-2 mr-1"><<$Impression.CommentNumber>></i></a>
-                            <span><i class="fa fa-eye ml-2 mr-1"><<$Impression.Views>></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-         <<end>>
-    <<else>>
-            <<range $ImpressionIndex, $Impression := .HomeContent.Articles>>
+        <<if .HomeContent.TopContent.TopArticle>>
+            <<range $ImpressionIndex, $Impression := .HomeContent.TopContent.TopArticle>>
                 <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
                     <div class="align-self-center mr-2 mr-lg-3 w-25 modal-open" style="width: 30%;">
                         <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank">
@@ -42,14 +9,10 @@
                         </a>
                     </div>
 
-                    <div class="media-body" style="width: 70%;">
+                    <div style="width: 70%;">
                         <div>
-                            <div class="text-muted mb-2 f-12">
-                                <img class="avatar" src="/static/img/avatar.png" alt="Hopetree">
-                                <span><<$Impression.Author>></span>
-                                <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i><<$Impression.CreatedTimeStr>></span>
-                            </div>
-
+                            <span><<$Impression.Author>></span>
+                            <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i><<$Impression.CreatedTimeStr>></span>
 
                             <h2 class="mt-0 font-weight-bold text-info f-17">
                                 <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank" >
@@ -63,13 +26,58 @@
                             <div class="text-muted mb-0 f-12">
                                 <a class="cate" href="" title="查看当前分类下更多文章">
                                     <i class="fa fa-book mr-1"><<$Impression.ArticleClassName>></i></a>
-                                <span><i class="fa fa-eye ml-2 mr-1"><<$Impression.Views>></i></span>
                                 <a href="/v1/api/article/<<$Impression.Id>>#comment-block" target="_blank" title="查看文章评论">
                                     <i class="fa fa-comments ml-2 mr-1"><<$Impression.CommentNumber>></i></a>
+                                <span><i class="fa fa-eye ml-2 mr-1"><<$Impression.Views>></i></span>
                             </div>
                         </div>
                     </div>
                 </div>
+            <<end>>
+        <<else>>
+             <div class="p-3 mt-3"><p>暂时没有文章!</p></div>
+        <<end>>
+    <<else>>
+            <<if .HomeContent.Articles>>
+                <<range $ImpressionIndex, $Impression := .HomeContent.Articles>>
+                    <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
+                        <div class="align-self-center mr-2 mr-lg-3 w-25 modal-open" style="width: 30%;">
+                            <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank">
+                                <img class="w-100 article-img" src = "<<$Impression.Pic>>">
+                            </a>
+                        </div>
+
+                        <div class="media-body" style="width: 70%;">
+                            <div>
+                                <div class="text-muted mb-2 f-12">
+                                    <img class="avatar" src="/static/img/avatar.png" alt="Hopetree">
+                                    <span><<$Impression.Author>></span>
+                                    <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i><<$Impression.CreatedTimeStr>></span>
+                                </div>
+
+
+                                <h2 class="mt-0 font-weight-bold text-info f-17">
+                                    <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank" >
+                                        <<$Impression.ArticleTitle>>
+                                    </a>
+                                </h2>
+
+                                <p class="d-none d-sm-block mb-2 f-15"><<$Impression.SimpleContent>></p>
+                                <p class="d-block d-sm-none mb-2 f-15"><<$Impression.SimpleContent>></p>
+
+                                <div class="text-muted mb-0 f-12">
+                                    <a class="cate" href="" title="查看当前分类下更多文章">
+                                        <i class="fa fa-book mr-1"><<$Impression.ArticleClassName>></i></a>
+                                    <span><i class="fa fa-eye ml-2 mr-1"><<$Impression.Views>></i></span>
+                                    <a href="/v1/api/article/<<$Impression.Id>>#comment-block" target="_blank" title="查看文章评论">
+                                        <i class="fa fa-comments ml-2 mr-1"><<$Impression.CommentNumber>></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <<end>>
+            <<else>>
+                  <div class="p-3 mt-3"><p>暂时没有文章!</p></div>
             <<end>>
     <<end>>
 
