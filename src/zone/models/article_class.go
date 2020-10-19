@@ -5,7 +5,7 @@ import "Gozone/library/conn"
 type ArticleClass struct {
 	Id                int64  `gorm:"column:id" json:"id"`
 	Url               string `gorm:"column:url" json:"url"`
-	Nums              int64  `gorm:"column:num" json:"nums"`
+	Nums              int64  `gorm:"-" json:"nums"`
 	ClassName         string `gorm:"column:class_name" json:"class_name"`
 	ClassIntroduction string `gorm:"column:class_introduction" json:"class_introduction"`
 }

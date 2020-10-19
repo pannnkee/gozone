@@ -9,7 +9,7 @@ type Article struct {
 	Id               int64  `gorm:"column:id" json:"id"`
 	ArticleTitle     string `gorm:"column:article_title" json:"article_title"`
 	ArticleClass     int64  `gorm:"column:article_class" json:"article_class"`
-	ArticleClassName string `gorm:"column:article_class_name" json:"article_class_name"`
+	ArticleClassName string `gorm:"-" json:"article_class_name"`
 	SimpleContent    string `gorm:"column:simple_content" json:"simple_content"`
 	Views            int64  `gorm:"column:views" json:"views"`
 	CommentNumber    int64  `gorm:"column:comment_number" json:"comment_number"`
@@ -62,7 +62,7 @@ func (this *Article) PageListClass(offset, limit, sortType, contentType int64) (
 	if sortType == int64(enum.HotSort) {
 		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&data).Error
 	} else {
-		err = db.Offset(offset).Limit(limit).Order("create_time asc").Find(&data).Error
+		err = db.Offset(offset).Limit(limit).Order("create_time desc").Find(&data).Error
 	}
 	err = db.Count(&count).Error
 	return
@@ -105,5 +105,12 @@ func (this *Article) GetAllData() (data []*Article, err error) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(this)
 	err = db.Order("id asc").Find(&data).Error
+	return
+}
+
+func (this *Article) GetArticleClassNums(classID int64) (count int64, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(this)
+	err = db.Where("article_class=?", classID).Count(&count).Error
 	return
 }

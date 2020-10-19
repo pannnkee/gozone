@@ -55,6 +55,8 @@ func (this *ZoneController) Home() {
 		if enum.ContentType(contentType) < enum.Mysql {
 
 			articleClass, _ := new(models.ArticleClass).Get(contentType)
+			nums, _ := models.ArticleInstance.GetArticleClassNums(articleClass.Id)
+			articleClass.Nums = nums
 
 			Articles, _, err = models.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, contentType)
 			if err != nil {
@@ -63,6 +65,11 @@ func (this *ZoneController) Home() {
 			}
 
 			for _, v := range Articles {
+				articleClass, _ := models.ArticleClassInstance.Get(v.ArticleClass)
+				commentNums, _ := models.CommentInstance.GetCommentNumsAndHuman(v.Id)
+
+				v.ArticleClassName = articleClass.ClassName
+				v.CommentNumber = commentNums
 				v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 			}
 
@@ -87,7 +94,14 @@ func (this *ZoneController) Home() {
 				this.Response(enum.DefaultError, err.Error())
 				return
 			}
-			TopContent.ContentNum = tag.TagNum
+			for _, v := range TagArticles {
+				articleClass, _ := models.ArticleClassInstance.Get(v.ArticleClass)
+				commentNums, _ := models.CommentInstance.GetCommentNumsAndHuman(v.Id)
+
+				v.ArticleClassName = articleClass.ClassName
+				v.CommentNumber = commentNums
+			}
+			TopContent.ContentNum = int64(len(articles))
 			TopContent.ContentText = tag.TagContent
 			TopContent.TopContentClass = "标签分类"
 			TopContent.TopContentName = tag.TagName
@@ -108,6 +122,10 @@ func (this *ZoneController) Home() {
 		// 获取文章分类
 		articleClass, _ := new(models.ArticleClass).GetAllData()
 		if err == nil {
+			for _, v := range articleClass {
+				nums, _ := models.ArticleInstance.GetArticleClassNums(v.Id)
+				v.Nums = nums
+			}
 			homeContent.ArticleClass = articleClass
 		} else {
 			logger.ZoneLogger.Error("获取文章分类错误")

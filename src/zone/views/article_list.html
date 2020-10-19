@@ -11,8 +11,11 @@
 
                     <div style="width: 70%;">
                         <div>
-                            <span><<$Impression.Author>></span>
-                            <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i><<$Impression.CreatedTimeStr>></span>
+                            <div class="text-muted mb-2 f-12">
+                                <img class="avatar" src="/static/img/avatar.png" alt="Hopetree">
+                                <span><<$Impression.Author>></span>
+                                <span><i class="fa fa-calendar-times-o ml-2 mr-1"></i><<$Impression.CreatedTimeStr>></span>
+                            </div>
 
                             <h2 class="mt-0 font-weight-bold text-info f-17">
                                 <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank" >
@@ -26,9 +29,9 @@
                             <div class="text-muted mb-0 f-12">
                                 <a class="cate" href="" title="查看当前分类下更多文章">
                                     <i class="fa fa-book mr-1"><<$Impression.ArticleClassName>></i></a>
+                                <span><i class="fa fa-eye ml-2 mr-1"><<$Impression.Views>></i></span>
                                 <a href="/v1/api/article/<<$Impression.Id>>#comment-block" target="_blank" title="查看文章评论">
                                     <i class="fa fa-comments ml-2 mr-1"><<$Impression.CommentNumber>></i></a>
-                                <span><i class="fa fa-eye ml-2 mr-1"><<$Impression.Views>></i></span>
                             </div>
                         </div>
                     </div>
