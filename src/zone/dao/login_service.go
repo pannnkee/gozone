@@ -13,19 +13,20 @@ import (
 
 type LoginService struct{}
 
+
 func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) {
 
 	userInfo, err := new(models.User).UserInfo(eMail)
 	// 登陆失败
 	if err != nil || userInfo.Id < 1 {
-		return nil, errors.New("账号或者密码错误")
+		return nil, ErrAccountOrPassword
 	}
 	if userInfo.Status == 1 {
-		return nil, errors.New("该账号被禁止登陆")
+		return nil, ErrAccountNotAllowed
 	}
 
 	if userInfo.PassWord != str.Md5(password) {
-		return nil, errors.New("账号或者密码错误")
+		return nil, ErrAccountOrPassword
 	}
 
 	// 登陆成功
@@ -45,7 +46,7 @@ func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) 
 	// 生成cookie
 	m, err := json.Marshal(&userInfo)
 	if err != nil {
-		return nil, errors.New("生成cookie失败")
+		return nil, ErrServerInternal
 	}
 	return m, nil
 }

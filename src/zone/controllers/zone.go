@@ -25,6 +25,7 @@ func (this *ZoneController) Home() {
 	var count int64
 	var err error
 
+
 	homeContent := new(models.HomeContent)
 	//默认首页
 	if enum.ContentType(contentType) == enum.DefaultType {

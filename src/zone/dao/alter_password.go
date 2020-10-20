@@ -3,7 +3,6 @@ package dao
 import (
 	"Gozone/library/util/str"
 	"Gozone/src/zone/models"
-	"errors"
 )
 
 type AlterPasswordService struct{}
@@ -13,12 +12,12 @@ func (this *AlterPasswordService) Do(email, password, newPassword, repeatPasswor
 	// 校验当前密码是否正确
 	login := models.UserInstance.Login(email, password)
 	if !login {
-		return errors.New("密码错误,请重新输入")
+		return ErrAccountOrPassword
 	}
 
 	// 判断两次输入密码是否一致
 	if newPassword != repeatPassword {
-		return errors.New("两次密码输入不一致,请检查")
+		return ErrPasswordNotEqual
 	}
 
 	// 更新密码
