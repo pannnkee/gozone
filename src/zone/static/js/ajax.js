@@ -34,9 +34,6 @@ function AjaxRequest(url,data,method,success){
 
 function AjaxRequest2(url,data,method,success){
     $.ajax({
-        // beforeSend: function(request) {
-        //     request.setRequestHeader("Content-Type", "multipart/form-data");
-        // },
         url:url,
         type:method,
         data:data,

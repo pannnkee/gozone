@@ -3,11 +3,14 @@ package controllers
 import (
 	"Gozone/library/controller"
 	"Gozone/library/enum"
+	"Gozone/library/mail"
+	"Gozone/library/verifycode"
 	"Gozone/src/zone/auth"
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
 	"fmt"
+	"math/rand"
 	"path"
 	"time"
 )
@@ -17,7 +20,6 @@ type UserController struct {
 }
 
 func (this *UserController) Register() {
-
 	var modelUser model_view.User
 	err := controller.ParseRequestStruct(this.Controller, &modelUser)
 	if err != nil {
@@ -25,7 +27,7 @@ func (this *UserController) Register() {
 		return
 	}
 
-	err, _ = new(dao.RegisterService).Do(modelUser.UserName, modelUser.Email, modelUser.PassWord, modelUser.RepeatPassword)
+	err, _ = new(dao.RegisterService).Do(modelUser.UserName, modelUser.Email, modelUser.PassWord, modelUser.RepeatPassword, modelUser.VerifyCode)
 	if err != nil {
 		this.Response(enum.DefaultError, err.Error())
 		return
@@ -58,7 +60,7 @@ func (this *UserController) Login() {
 
 	userInfo, _ := models.UserInstance.UserInfo(modelUser.Email)
 	if userInfo.Avatar == "" {
-		userInfo.Avatar = "/static/img/default_avatar.png"
+		userInfo.Avatar = "/static/img/user_avatar/default_avatar.png"
 	}
 
 	now := time.Now().Unix()
@@ -102,6 +104,9 @@ func (this *UserController) AlterPassword() {
 }
 
 func (this *UserController) AlterData() {
+
+	this.MustLogin()
+
 	file, header, err := this.GetFile("avatar")
 	if err != nil {
 		this.Response(enum.DefaultError, "请选择正确的图片文件")
@@ -129,4 +134,28 @@ func (this *UserController) AlterData() {
 	userInfo, _ := models.UserInstance.Get(this.User.Id)
 	this.SetSession(SESSION_USER_KEY, userInfo)
 	this.Response(enum.DefaultSuccess,"头像上传成功")
+}
+
+func (this *UserController) VerifyCode() {
+	var modelUser model_view.User
+	err := controller.ParseRequestStruct(this.Controller, &modelUser)
+	if err != nil {
+		this.Response(enum.DefaultError,err.Error())
+		return
+	}
+	if modelUser.Email == "" {
+		this.Response(enum.DefaultError, "邮箱为空，请检查")
+		return
+	}
+
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	code := fmt.Sprintf("%04v", r.Int31n(1000000))
+	_ = verifycode.Add(modelUser.Email, code)
+
+	//send email
+	err = mail.SendMail(modelUser.Email, code)
+	if err != nil {
+		this.Response(enum.DefaultSuccess,"发送邮件失败，请稍后重试")
+	}
+	this.Response(enum.DefaultSuccess,"发送邮件成功，请注意查收（5分钟内有效）")
 }

@@ -23,6 +23,7 @@ func init() {
 			beego.NSRouter("/logout", &controllers.UserController{}, "*:Logout"),
 			beego.NSRouter("/alterPassword", &controllers.UserController{}, "post,options:AlterPassword"),
 			beego.NSRouter("/alterData", &controllers.UserController{}, "*:AlterData"),
+			beego.NSRouter("/verifyCode", &controllers.UserController{},"post,options:VerifyCode"),
 		),
 		beego.NSNamespace("/article",
 			beego.NSRouter("/page/?type:int", &controllers.ArticleController{}, "*:PageList"),

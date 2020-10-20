@@ -54,10 +54,19 @@
                                            required="" id="id_password2" v-model="repeatpassword">
                                 </div>
                             </div>
-
+                            <!--
+                            <div id="div_verifyCode" class="form-group">
+                                <label for="" class="col-form-label requiredField">验证码<span class="asteriskField">*</span></label>
+                                <div class="">
+                                    <button class="pull-right btn btn-info btn-sm rounded-0" id="" style="width: 40%;">获取验证码</button>
+                                    <input type="verifyCode" name="verifyCode" placeholder="验证码" class="textinput textInput form-control" style="width: 40%;"
+                                            required="" id="verifyCode" v-model="verifyCode">
+                                </div>
+                            </div>
+                            -->
                             <input type="hidden" name="next" value="/accounts/login/">
 
-                            <a class="secondaryAction" href="/accounts/login/?next=%2Faccounts%2Flogin%2F">已有账号登录</a>
+                            <a class="secondaryAction" href="/accounts/login/">已有账号登录</a>
                             <button class="pull-right btn btn-info btn-sm rounded-0" id="submit">注册</button>
                         </form>
 

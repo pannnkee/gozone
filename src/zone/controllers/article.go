@@ -175,7 +175,7 @@ func (this *ArticleController) Get() {
 			if err == nil {
 				v.UserAvatar = user.Avatar
 				if v.UserAvatar == "" {
-					v.UserAvatar = "/static/img/default_avatar.png"
+					v.UserAvatar = "/static/img/user_avatar/default_avatar.png"
 				}
 			}
 
@@ -190,7 +190,7 @@ func (this *ArticleController) Get() {
 					if err == nil {
 						value.UserAvatar = user.Avatar
 						if value.UserAvatar == "" {
-							value.UserAvatar = "/static/img/default_avatar.png"
+							value.UserAvatar = "/static/img/user_avatar/default_avatar.png"
 						}
 					}
 				}
