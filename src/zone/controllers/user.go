@@ -33,7 +33,6 @@ func (this *UserController) Register() {
 		return
 	}
 	this.Response(enum.DefaultSuccess, this.GetString("next"))
-
 }
 
 func (this *UserController) Login() {
@@ -80,7 +79,6 @@ func (this *UserController) Login() {
 }
 
 func (this *UserController) Logout() {
-
 	this.MustLogin()
 	this.DeleteCookie(auth.ZoneToken)
 	this.DelSession(SESSION_USER_KEY)

@@ -79,7 +79,7 @@ func (this *ArticleController) Get() {
 		}
 
 		// 获取文章分类
-		articleClass, _ := new(models.ArticleClass).Get(articleId)
+		articleClass, _ := new(models.ArticleClass).Get(article.ArticleClass)
 		data.ArticleClassName = articleClass.ClassName
 
 		// 评论数 参与人数

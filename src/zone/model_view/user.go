@@ -4,8 +4,8 @@ type User struct {
 	Id             int64  `json:"id"`
 	UserName       string `json:"username"`
 	PassWord       string `json:"password"`
-	RepeatPassword string `json:"repeatpassword"`
+	RepeatPassword string `json:"repeat_password"`
 	Email          string `json:"email"`
-	NewPassword    string `json:"newpassword"`
-	VerifyCode     string `json:"verifycode"`
+	NewPassword    string `json:"new_password"`
+	VerifyCode     string `json:"verify_code"`
 }

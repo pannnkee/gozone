@@ -83,8 +83,8 @@ func (this *ZoneController) Home() {
 		} else {
 			// 标签分类
 
-			tag, _ := models.TagInstance.Get(contentType - 100)
 			var Tag[]int64
+			tag, _ := models.TagInstance.Get(contentType - 100)
 			articles, _ := models.ArticleTagInstance.FindArticles(tag.Id)
 			for _, v := range articles {
 				Tag = append(Tag, v.ArticleId)
@@ -101,6 +101,7 @@ func (this *ZoneController) Home() {
 
 				v.ArticleClassName = articleClass.ClassName
 				v.CommentNumber = commentNums
+				v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
 			}
 			TopContent.ContentNum = int64(len(articles))
 			TopContent.ContentText = tag.TagContent
