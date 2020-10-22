@@ -3,14 +3,11 @@ package controllers
 import (
 	"Gozone/library/controller"
 	"Gozone/library/enum"
-	"Gozone/library/mail"
-	"Gozone/library/verifycode"
 	"Gozone/src/zone/auth"
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
 	"fmt"
-	"math/rand"
 	"path"
 	"time"
 )
@@ -135,25 +132,27 @@ func (this *UserController) AlterData() {
 }
 
 func (this *UserController) VerifyCode() {
-	var modelUser model_view.User
-	err := controller.ParseRequestStruct(this.Controller, &modelUser)
-	if err != nil {
-		this.Response(enum.DefaultError,err.Error())
-		return
-	}
-	if modelUser.Email == "" {
-		this.Response(enum.DefaultError, "邮箱为空，请检查")
-		return
-	}
 
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	code := fmt.Sprintf("%04v", r.Int31n(1000000))
-	_ = verifycode.Add(modelUser.Email, code)
-
-	//send email
-	err = mail.SendMail(modelUser.Email, code)
-	if err != nil {
-		this.Response(enum.DefaultSuccess,"发送邮件失败，请稍后重试")
-	}
-	this.Response(enum.DefaultSuccess,"发送邮件成功，请注意查收（5分钟内有效）")
+	this.Response(enum.DefaultSuccess,"")
+	//var modelUser model_view.User
+	//err := controller.ParseRequestStruct(this.Controller, &modelUser)
+	//if err != nil {
+	//	this.Response(enum.DefaultError,err.Error())
+	//	return
+	//}
+	//if modelUser.Email == "" {
+	//	this.Response(enum.DefaultError, "邮箱为空，请检查")
+	//	return
+	//}
+	//
+	//r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	//code := fmt.Sprintf("%04v", r.Int31n(1000000))
+	//_ = verifycode.Add(modelUser.Email, code)
+	//
+	////send email
+	//err = mail.SendMail(modelUser.Email, code)
+	//if err != nil {
+	//	this.Response(enum.DefaultError,"发送邮件失败，请稍后重试")
+	//}
+	//this.Response(enum.DefaultSuccess,"发送邮件成功，请注意查收（5分钟内有效）")
 }

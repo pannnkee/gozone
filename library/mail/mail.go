@@ -14,7 +14,7 @@ func SendMail(email string, code string) error {
 	m.SetHeader("To", email)
 	m.SetHeader("Subject","[pannnkee.com] Please Confirm Your Verify Code")
 	m.SetBody("text/html", fmt.Sprintf("验证码:%s", code))
-	d := gomail.NewDialer("smtp.qq.com", 465, "522240909@qq.com", password)
+	d := gomail.NewDialer("smtp.qq.com", 465, "522240909@qq.com", "arrzshmjevcscaig")
 	err := d.DialAndSend(m)
 	return err
 }

@@ -54,7 +54,7 @@
                                            required="" id="id_password2" v-model="repeat_password">
                                 </div>
                             </div>
-
+<!--
                             <div id="div_verifyCode" class="form-group">
                                 <label for="" class="col-form-label requiredField">验证码<span class="asteriskField">*</span></label>
                                 <div class="">
@@ -63,7 +63,7 @@
                                            id="verify_code" v-model="verify_code">
                                 </div>
                             </div>
-
+-->
                             <input type="hidden" name="next" value="/accounts/login/">
 
                             <a class="secondaryAction" href="/accounts/login/">已有账号登录</a>
@@ -107,7 +107,7 @@
                     email: t.email,
                     username: t.username,
                     password: t.password,
-                    repeat_password: t.repeatpassword,
+                    repeat_password: t.repeat_password,
                     verify_code: t.verify_code,
                 };
                 var next = this.GetUrlPara();
@@ -138,56 +138,7 @@
 
         },
     });
-
-    var getverifycode = new Vue({
-        el:"#verify_code_btn",
-        data:function(){
-            return {
-                getCode:'获取验证码',
-                isGeting:false,
-                count:60,
-                disable:false
-            };
-        },
-
-        methods:{
-            GetCode:function (){
-                let data = {
-                    email: t.email,
-                    },
-                url = 'v1/api/user/verifyCode';
-                data = JSON.stringify(data);
-                post(url, data, function(data){
-                        if(data.code==0){
-
-                            var countDown = setInterval(()=>{
-                                if(this.count < 1){
-                                    this.isGeting = false;
-                                    this.disable = false;
-                                    this.getCode = '获取验证码';
-                                    this.count = 60;
-                                    clearInterval(countDown);
-                                }else{
-                                    this.isGeting = true;
-                                    this.disable = true;
-                                    this.getCode = this.count-- + 's后重发';
-                                }
-                            },1000);
-
-                            t.$toast("发送验证码成功");
-                            console.log("data.msg:", data.msg);
-                            top.location.href=data.msg;
-                        }else{
-                            t.$toast(data.msg);
-                        }
-                    }
-                )
-            },
-
-        created:function(){
-
-        },
-    });
+    
 </script>
 
 

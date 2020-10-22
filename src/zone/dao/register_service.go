@@ -2,7 +2,6 @@ package dao
 
 import (
 	"Gozone/library/util/str"
-	"Gozone/library/verifycode"
 	"Gozone/src/zone/models"
 	"time"
 )
@@ -25,14 +24,14 @@ func (this *RegisterService) Do(userName, eMail, password, repeatPassword, code 
 		return ErrPasswordNotEqual, false
 	}
 
-	codeRedis := verifycode.Get(eMail)
-	if codeRedis == "" {
-		return ErrVerifyCodeIsNil, false
-	}
-
-	if code != codeRedis {
-		return ErrVerifyCodeNotRight, false
-	}
+	//codeRedis := verifycode.Get(eMail)
+	//if codeRedis == "" {
+	//	return ErrVerifyCodeIsNil, false
+	//}
+	//
+	//if code != codeRedis {
+	//	return ErrVerifyCodeNotRight, false
+	//}
 
 	user := models.User{
 		UserName:    userName,
@@ -46,7 +45,7 @@ func (this *RegisterService) Do(userName, eMail, password, repeatPassword, code 
 	}
 
 	// 注册成功删除验证码
-	verifycode.Del(eMail)
+	//verifycode.Del(eMail)
 	return nil, true
 }
 
