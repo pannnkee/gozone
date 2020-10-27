@@ -204,6 +204,18 @@ func (this *ArticleController) Get() {
 
 	wg.Wait()
 
+	Keywords := ""
+	for k, v := range data.ArticleTags {
+		if k > 0 {
+			Keywords = Keywords + fmt.Sprintf(",%v", v.TagName)
+		} else {
+			Keywords = Keywords + fmt.Sprintf("%v", v.TagName)
+		}
+	}
+	this.Data["Keywords"] = Keywords
+	this.Data["Description"] = data.Article.ArticleTitle
+
+
 	jsonMap, err := util.Struct2JsonMap(data)
 	if err != nil {
 		this.Response(1, fmt.Sprintf("序列化错误:%v", err.Error()))

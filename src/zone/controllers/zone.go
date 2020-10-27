@@ -146,6 +146,8 @@ func (this *ZoneController) Home() {
 	homeContent.ContentType = enum.ContentType(contentType)
 	homeContent.TopContent = TopContent
 	this.Data["HomeContent"] = homeContent
+	this.Data["Description"] = "PannnKee's Zone是一个Beego搭建的博客，分享学习心得、经验总结。主要包括Golang、Docker、Kubernetes、ServerMesh等。"
+	this.Data["Keywords"] = "Golang编程，Docker入门，Kubernetes搭建，Golang Web开发，个人博客"
 	this.TplName = "base.html"
 }
 
