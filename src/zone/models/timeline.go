@@ -1,7 +1,5 @@
 package models
 
-import "Gozone/library/conn"
-
 type Timeline struct {
 	ID            int64  `json:"id" gorm:"column:id"`
 	Title         string `json:"title" gorm:"column:title"`
@@ -18,9 +16,3 @@ func (this *Timeline) TableName() string {
 	return "timeline"
 }
 
-func (this *Timeline) GetAllData() (data []*Timeline, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Find(&data).Error
-	return
-}

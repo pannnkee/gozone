@@ -1,7 +1,5 @@
 package models
 
-import "Gozone/library/conn"
-
 type Log struct {
 	ID           int64    `json:"id" gorm:"column:id"`
 	Ip           string `json:"ip" gorm:"column:ip"`               // 登录IP
@@ -15,8 +13,3 @@ func (this *Log) TableName() string {
 	return "log"
 }
 
-func (this *Log) AddLoginLog() (err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	return db.Create(&this).Error
-}

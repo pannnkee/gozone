@@ -1,10 +1,5 @@
 package models
 
-import (
-	"Gozone/library/conn"
-	"Gozone/library/enum"
-)
-
 type Article struct {
 	Id               int64  `gorm:"column:id" json:"id"`
 	ArticleTitle     string `gorm:"column:article_title" json:"article_title"`
@@ -38,79 +33,3 @@ func (this *Article) TableName() string {
 	return "article"
 }
 
-func (this *Article) PageList(offset, limit, sortType int64) (data []Article, count int64, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-
-	if sortType == int64(enum.HotSort) {
-		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&data).Error
-	} else {
-		err = db.Offset(offset).Limit(limit).Order("create_time asc").Find(&data).Error
-	}
-	err = db.Count(&count).Error
-	return
-}
-
-// 获取分类下文章列表
-func (this *Article) PageListClass(offset, limit, sortType, contentType int64) (data []*Article, count int64, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-
-	if contentType > 0 {
-		db = db.Where("article_class=?", contentType)
-	}
-	if sortType == int64(enum.HotSort) {
-		err = db.Offset(offset).Limit(limit).Order("views desc").Find(&data).Error
-	} else {
-		err = db.Offset(offset).Limit(limit).Order("create_time desc").Find(&data).Error
-	}
-	err = db.Count(&count).Error
-	return
-}
-
-func (this *Article) Get(id int64) (err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Where("id=?", id).Find(&this).Error
-	return
-}
-
-func (this *Article) UpdateViews(id int64) (err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-
-	err = db.First(&this, id).Error
-	if err != nil {
-		return err
-	}
-	return db.Model(this).Where("id=?", id).Update("views", this.Views+1).Error
-}
-
-func (this *Article) FindClassNums(classId int64) (nums int64, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Where("article_class=?", classId).Count(&nums).Error
-	return
-}
-
-func (this *Article) FindArticles(id []int64) (data []*Article, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	db = db.Where("id in (?)", id)
-	err = db.Find(&data).Error
-	return
-}
-
-func (this *Article) GetAllData() (data []*Article, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Order("id asc").Find(&data).Error
-	return
-}
-
-func (this *Article) GetArticleClassNums(classID int64) (count int64, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Where("article_class=?", classID).Count(&count).Error
-	return
-}

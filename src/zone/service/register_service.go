@@ -1,21 +1,29 @@
-package dao
+package service
 
 import (
 	"Gozone/library/util/str"
+	"Gozone/src/zone/dao"
 	"Gozone/src/zone/models"
 	"time"
 )
 
 type RegisterService struct{}
 
+// 注册账号
+// @param userName 用户名
+// @param eMail 邮件
+// @param password 密码
+// @param repeatPassword 重复密码
+// @param code 验证码
+// @return 错误信息 是否注册成功
 func (this *RegisterService) Do(userName, eMail, password, repeatPassword, code string) (error, bool) {
 
-	UsernameExist := models.UserInstance.UserNameExist(userName)
+	UsernameExist := dao.UserInstance.UserNameExist(userName)
 	if UsernameExist {
 		return ErrUserNameExist, false
 	}
 
-	eMailExist := models.UserInstance.EmailExist(eMail)
+	eMailExist := dao.UserInstance.EmailExist(eMail)
 	if eMailExist {
 		return ErrEmailExist, false
 	}
@@ -39,7 +47,7 @@ func (this *RegisterService) Do(userName, eMail, password, repeatPassword, code 
 		PassWord:    str.Md5(password),
 		CreatedTime: time.Now().Unix(),
 	}
-	err := user.Register()
+	err := dao.UserInstance.Create(&user)
 	if err != nil {
 		return err, false
 	}

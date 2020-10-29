@@ -2,6 +2,7 @@ package cache
 
 import (
 	"Gozone/library/cache"
+	"Gozone/src/zone/dao"
 	"Gozone/src/zone/models"
 	"fmt"
 )
@@ -25,7 +26,7 @@ func (this *EmojiCache) PrimaryKey(model interface{}) string {
 }
 
 func (this *EmojiCache) GetAllData() (data interface{}, err error) {
-	data, err = new(models.Emoji).GetAllData()
+	data, err = new(dao.EmojiDao).GetAll()
 	return
 }
 

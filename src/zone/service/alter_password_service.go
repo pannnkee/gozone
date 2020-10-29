@@ -1,7 +1,8 @@
-package dao
+package service
 
 import (
 	"Gozone/library/util/str"
+	"Gozone/src/zone/dao"
 	"Gozone/src/zone/models"
 )
 
@@ -10,7 +11,8 @@ type AlterPasswordService struct{}
 func (this *AlterPasswordService) Do(email, password, newPassword, repeatPassword string) (err error) {
 
 	// 校验当前密码是否正确
-	login := models.UserInstance.Login(email, password)
+	login := dao.UserInstance.Login(email, password)
+
 	if !login {
 		return ErrAccountOrPassword
 	}
@@ -29,6 +31,6 @@ func (this *AlterPasswordService) Do(email, password, newPassword, repeatPasswor
 		"email":    email,
 		"password": str.Md5(newPassword),
 	}
-	_ = user.Updates(email, exmap)
+	_ = dao.UserInstance.Updates(email, exmap)
 	return nil
 }

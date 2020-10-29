@@ -1,10 +1,11 @@
-package dao
+package service
 
 import (
 	"Gozone/library/authorization"
 	"Gozone/library/jwt"
 	"Gozone/library/model"
 	"Gozone/library/util/str"
+	"Gozone/src/zone/dao"
 	"Gozone/src/zone/models"
 	"encoding/json"
 	"errors"
@@ -14,9 +15,14 @@ import (
 type LoginService struct{}
 
 
+// 登录账号
+// @param eMail 邮件
+// @param password 密码
+// @return cookie 用户cookie
+// @return err 错误信息
 func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) {
 
-	userInfo, err := new(models.User).UserInfo(eMail)
+	userInfo, err := dao.UserInstance.UserInfo(eMail)
 	// 登陆失败
 	if err != nil || userInfo.Id < 1 {
 		return nil, ErrAccountOrPassword
@@ -34,10 +40,10 @@ func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) 
 		"login_time" : userInfo.LoginTimes + 1,
 		"update_time" : time.Now().Unix(),
 	}
-	_ = userInfo.Updates(userInfo.Email, exmap)
+	_ = dao.UserInstance.Updates(userInfo.Email, exmap)
 
 	// 生成token
-	token, err := new(LoginService).CreateToken(&userInfo)
+	token, err := new(LoginService).CreateToken(userInfo)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +57,7 @@ func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) 
 	return m, nil
 }
 
-func (this *LoginService) CreateToken(user *models.User) (string, error) {
+func (this *LoginService) CreateToken(user models.User) (string, error) {
 
 	userToken := new(model.UserToken)
 	if user.Id > 0 {

@@ -8,6 +8,9 @@ import (
 )
 
 // 解析Controller Json结构体
+// @param controller beego控制器
+// @param v 解码结构体
+// @return err 错误信息
 func ParseRequestStruct(controller beego.Controller, v interface{}) (err error) {
 	req := controller.Ctx.Input.RequestBody
 	if len(req) == 0 {

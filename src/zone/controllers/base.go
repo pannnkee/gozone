@@ -79,6 +79,10 @@ func (this *BaseHandler) Parse() {
 	logs.Info(fmt.Sprintf("%s | %s | %s | %s", this.ClientIP, this.Ctx.Request.Method, this.Ctx.Request.Host, this.Ctx.Request.RequestURI))
 }
 
+// 回复接口
+// @param code 回复码
+// @param msg 回复消息
+// @param args 回复数据
 func (this *BaseHandler) Response(code enum.ResponseCode, msg string, args ...interface{}) {
 	var (
 		err   error

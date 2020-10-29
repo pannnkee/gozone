@@ -1,15 +1,26 @@
 package dao
 
-import "errors"
+var UserInstance = new(UserDao)
 
-var (
-	ErrAccountOrPassword = errors.New("账号或者密码错误")
-	ErrAccountNotAllowed = errors.New("该账号被禁止登陆")
-	ErrServerInternal = errors.New("服务器内部错误")
+var ArticleInstance = new(ArticleDao)
 
-	ErrUserNameExist      = errors.New("用户名已被注册")
-	ErrEmailExist         = errors.New("邮件已被注册")
-	ErrPasswordNotEqual   = errors.New("两次输入的密码不一致")
-	ErrVerifyCodeNotRight = errors.New("输入的验证码错误, 请检查验证码")
-	ErrVerifyCodeIsNil    = errors.New("验证码已失效或者无效，请重新发起验证请求")
-)
+var TagInstance = new(TagDao)
+
+var ArticleClassInstance = new(ArticleClassDao)
+
+var LinkInstance = new(LinkDao)
+
+var LogInstance = new(LogDao)
+
+var ArticleTagInstance = new(ArticleTagDao)
+
+var CommentInstance = new(CommentDao)
+
+var EmojiInstance = new(EmojiDao)
+
+var TimeLineInstance = new(TimelineDao)
+
+var AboutInstance = new(AboutDao)
+
+var ArticleContentInstance = new(ArticleContentDao)
+

@@ -5,6 +5,7 @@ import (
 	"Gozone/library/enum"
 	"Gozone/library/logger"
 	cache2 "Gozone/src/zone/cache"
+	"Gozone/src/zone/dao"
 	"Gozone/src/zone/models"
 	"time"
 )
@@ -30,15 +31,15 @@ func (this *ZoneController) Home() {
 	//默认首页
 	if enum.ContentType(contentType) == enum.DefaultType {
 		//获取首页文章
-		Articles, count, err = models.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, contentType)
+		Articles, count, err = dao.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, contentType)
 		if err != nil {
 			this.Response(enum.DefaultError, err.Error())
 			return
 		}
 
 		for _, v := range Articles {
-			articleClass, _ := models.ArticleClassInstance.Get(v.ArticleClass)
-			commentNums, _ := models.CommentInstance.GetCommentNumsAndHuman(v.Id)
+			articleClass, _ := dao.ArticleClassInstance.Get(v.ArticleClass)
+			commentNums, _ := dao.CommentInstance.GetCommentNumsAndHuman(v.Id)
 
 			v.ArticleClassName = articleClass.ClassName
 			v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
@@ -55,19 +56,19 @@ func (this *ZoneController) Home() {
 		// 文章分类
 		if enum.ContentType(contentType) < enum.Mysql {
 
-			articleClass, _ := new(models.ArticleClass).Get(contentType)
-			nums, _ := models.ArticleInstance.GetArticleClassNums(articleClass.Id)
+			articleClass, _ := dao.ArticleClassInstance.Get(contentType)
+			nums, _ := dao.ArticleInstance.GetArticleClassNums(articleClass.Id)
 			articleClass.Nums = nums
 
-			Articles, _, err = models.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, contentType)
+			Articles, _, err = dao.ArticleInstance.PageListClass(this.Pager.Offset, this.Pager.Limit, sortType, contentType)
 			if err != nil {
 				this.Response(enum.DefaultError, err.Error())
 				return
 			}
 
 			for _, v := range Articles {
-				articleClass, _ := models.ArticleClassInstance.Get(v.ArticleClass)
-				commentNums, _ := models.CommentInstance.GetCommentNumsAndHuman(v.Id)
+				articleClass, _ := dao.ArticleClassInstance.Get(v.ArticleClass)
+				commentNums, _ := dao.CommentInstance.GetCommentNumsAndHuman(v.Id)
 
 				v.ArticleClassName = articleClass.ClassName
 				v.CommentNumber = commentNums
@@ -84,20 +85,20 @@ func (this *ZoneController) Home() {
 			// 标签分类
 
 			var Tag[]int64
-			tag, _ := models.TagInstance.Get(contentType - 100)
-			articles, _ := models.ArticleTagInstance.FindArticles(tag.Id)
+			tag, _ := dao.TagInstance.Get(contentType - 100)
+			articles, _ := dao.ArticleTagInstance.FindArticles(tag.Id)
 			for _, v := range articles {
 				Tag = append(Tag, v.ArticleId)
 			}
 
-			TagArticles, err := models.ArticleInstance.FindArticles(Tag)
+			TagArticles, err := dao.ArticleInstance.FindArticles(Tag)
 			if err != nil {
 				this.Response(enum.DefaultError, err.Error())
 				return
 			}
 			for _, v := range TagArticles {
-				articleClass, _ := models.ArticleClassInstance.Get(v.ArticleClass)
-				commentNums, _ := models.CommentInstance.GetCommentNumsAndHuman(v.Id)
+				articleClass, _ := dao.ArticleClassInstance.Get(v.ArticleClass)
+				commentNums, _ := dao.CommentInstance.GetCommentNumsAndHuman(v.Id)
 
 				v.ArticleClassName = articleClass.ClassName
 				v.CommentNumber = commentNums
@@ -115,17 +116,17 @@ func (this *ZoneController) Home() {
 	//base_right.html
 		//获取首页标签
 
-		tags, err := models.TagInstance.GetAllData()
+		tags, err := dao.TagInstance.GetAll()
 		if err == nil {
 			homeContent.Tags = tags
 		} else {
 			logger.ZoneLogger.Error("获取Tag错误")
 		}
 		// 获取文章分类
-		articleClass, _ := new(models.ArticleClass).GetAllData()
+		articleClass, _ := dao.ArticleClassInstance.GetAll()
 		if err == nil {
 			for _, v := range articleClass {
-				nums, _ := models.ArticleInstance.GetArticleClassNums(v.Id)
+				nums, _ := dao.ArticleInstance.GetArticleClassNums(v.Id)
 				v.Nums = nums
 			}
 			homeContent.ArticleClass = articleClass
@@ -184,7 +185,7 @@ func (this *ZoneController) AlterData() {
 }
 
 func (this *ZoneController) TimeLine() {
-	data, _ := models.TimeLineInstance.GetAllData()
+	data, _ := dao.TimeLineInstance.GetAll()
 	for _, v := range data {
 		v.UpdateTimeStr = time.Unix(v.UpdateTime, 0).Format("2006-01-02")
 	}
@@ -197,17 +198,17 @@ func (this *ZoneController) About() {
 	homeContent := new(models.HomeContent)
 	//base_right.html
 	//获取首页标签
-	tags, err := models.TagInstance.GetAllData()
+	tags, err := dao.TagInstance.GetAll()
 	if err == nil {
 		homeContent.Tags = tags
 	} else {
 		logger.ZoneLogger.Error("获取Tag错误")
 	}
 	// 获取文章分类
-	articleClass, _ := new(models.ArticleClass).GetAllData()
+	articleClass, _ := dao.ArticleClassInstance.GetAll()
 	if err == nil {
 		for _, v := range articleClass {
-			nums, _ := models.ArticleInstance.GetArticleClassNums(v.Id)
+			nums, _ := dao.ArticleInstance.GetArticleClassNums(v.Id)
 			v.Nums = nums
 		}
 		homeContent.ArticleClass = articleClass
@@ -223,7 +224,7 @@ func (this *ZoneController) About() {
 		logger.ZoneLogger.Error("获取友情链接错误")
 	}
 
-	aboutData, _ := models.AboutInstance.GetAllData()
+	aboutData, _ := dao.AboutInstance.GetAllData()
 	this.Data["AboutData"] = aboutData
 	this.Data["HomeContent"] = homeContent
 	this.Data["isAbout"] = true
@@ -236,17 +237,17 @@ func (this *ZoneController) Archive() {
 	homeContent := new(models.HomeContent)
 	//base_right.html
 	//获取首页标签
-	tags, err := models.TagInstance.GetAllData()
+	tags, err := dao.TagInstance.GetAll()
 	if err == nil {
 		homeContent.Tags = tags
 	} else {
 		logger.ZoneLogger.Error("获取Tag错误")
 	}
 	// 获取文章分类
-	articleClass, _ := new(models.ArticleClass).GetAllData()
+	articleClass, _ := dao.ArticleClassInstance.GetAll()
 	if err == nil {
 		for _, v := range articleClass {
-			nums, _ := models.ArticleInstance.GetArticleClassNums(v.Id)
+			nums, _ := dao.ArticleInstance.GetArticleClassNums(v.Id)
 			v.Nums = nums
 		}
 		homeContent.ArticleClass = articleClass

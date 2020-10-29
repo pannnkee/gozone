@@ -2,6 +2,7 @@ package cache
 
 import (
 	"Gozone/library/cache"
+	"Gozone/src/zone/dao"
 	"Gozone/src/zone/models"
 	"fmt"
 )
@@ -25,13 +26,12 @@ func (this *ArticleCache) PrimaryKey(model interface{}) string {
 }
 
 func (this *ArticleCache) GetAllData() (data interface{}, err error) {
-	data, err = new(models.Article).GetAllData()
+	data, err = new(dao.ArticleDao).GetAllData()
 	return
 }
 
 func (this *ArticleCache) GetItemData(articleID int64) (data interface{}, err error) {
-	article := new(models.Article)
-	err = article.Get(articleID)
+	article, err := new(dao.ArticleDao).Get(articleID)
 	if err != nil {
 		return nil, err
 	}

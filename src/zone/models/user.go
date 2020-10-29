@@ -1,11 +1,5 @@
 package models
 
-import (
-	"Gozone/library/conn"
-	"Gozone/library/util/str"
-	"github.com/jinzhu/gorm"
-)
-
 type User struct {
 	Id             int64  `gorm:"column:id" json:"id"`
 	UserName       string `gorm:"column:user_name" json:"user_name"`
@@ -24,73 +18,3 @@ func (this *User) TableName() string {
 	return "user"
 }
 
-func (this *User) Register() (err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Create(&this).Error
-	return
-}
-
-func (this *User) UserNameExist(userName string) bool {
-	user := User{}
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err := db.Where("user_name=?", userName).First(&user).Error
-	if err == gorm.ErrRecordNotFound {
-		return false
-	}
-	return true
-}
-
-func (this *User) EmailExist(eMail string) bool {
-	user := User{}
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err := db.Where("email=?", eMail).First(&user).Error
-	if err == gorm.ErrRecordNotFound {
-		return false
-	}
-	return true
-}
-
-func (this *User) Login(eMail, password string) (login bool) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	db = db.Where("email=?", eMail).Where("password=?", str.Md5(password))
-
-	var count int64
-	err := db.Count(&count).Error
-	if err != nil {
-		return false
-	}
-	if count != 1 {
-		return false
-	}
-	return true
-}
-
-func (this *User) UserInfo(eMail string) (user User, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Where("email=?", eMail).First(&user).Error
-	return
-}
-
-func (this *User) Updates(email string, exmap map[string]interface{}) error {
-	db := conn.GetORMByName("zone")
-	return db.Model(this).Where("email=?", email).Updates(exmap).Error
-}
-
-func (this *User) GetAllData() (data []*User, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Order("id asc").Find(&data).Error
-	return
-}
-
-func (this *User) Get(id int64) (data User, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Where("id=?", id).Take(&data).Error
-	return
-}

@@ -1,7 +1,5 @@
 package models
 
-import "Gozone/library/conn"
-
 type Comment struct {
 	ID                   int64  `json:"id" gorm:"column:id"`                                           // 评论id
 	IP                   string `json:"ip" gorm:"column:ip"`                                           //评论ip
@@ -31,30 +29,3 @@ func (this *Comment) TableName() string {
 	return "comment"
 }
 
-func (this *Comment) AddComment() (err error) {
-	db := conn.GetORMByName("zone")
-	return db.Model(this).Create(&this).Error
-}
-
-func (this *Comment) GetFirstComment(articleId int64) (data []*Comment, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Order("create_time desc").Where("article_id=?", articleId).Where("comment_level=1").Find(&data).Error
-	return
-}
-
-func (this *Comment) GetSecondComment(articleId, parentCommentId int64) (data []*Comment, err error) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	err = db.Order("create_time asc").Where("article_id=?", articleId).Where("comment_level=2").
-		Where("parent_comment_id=? or reply_comment_id=?", parentCommentId, parentCommentId).Find(&data).Error
-	return
-}
-
-func (this *Comment) GetCommentNumsAndHuman(articleId int64) (commentNums, Humans int64) {
-	db := conn.GetORMByName("zone")
-	db = db.Model(this)
-	db.Where("article_id=?", articleId).Count(&commentNums)
-	db.Where("article_id=?", articleId).Group("user_id").Count(&Humans)
-	return
-}

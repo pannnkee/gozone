@@ -22,3 +22,4 @@ var AboutInstance = new(About)
 
 var ArticleContentInstance = new(ArticleContent)
 
+var LogInstance = new(Log)

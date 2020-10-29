@@ -8,6 +8,7 @@ import (
 	"Gozone/library/logger"
 	"Gozone/library/util"
 	cache2 "Gozone/src/zone/cache"
+	"Gozone/src/zone/dao"
 	"Gozone/src/zone/model_view"
 	"Gozone/src/zone/models"
 	"fmt"
@@ -25,7 +26,7 @@ var EmojiMap map[string]*models.Emoji
 
 func init() {
 	EmojiMap = make(map[string]*models.Emoji)
-	data, err := models.EmojiInstance.GetAllData()
+	data, err := dao.EmojiInstance.GetAll()
 	if err != nil {
 		logger.ZoneLogger.Error("初始化EmojiMap错误:", err.Error())
 	} else {
@@ -38,7 +39,7 @@ func init() {
 func (this *ArticleController) PageList() {
 
 	typeId, _ := this.GetInt64("type", 0)
-	data, count, err := models.ArticleInstance.PageList(this.Pager.Offset, this.Pager.Limit, typeId)
+	data, count, err := dao.ArticleInstance.PageList(this.Pager.Offset, this.Pager.Limit, typeId)
 	if err != nil {
 		this.Response(1, fmt.Sprintf("查询错误:%v", err))
 	}
@@ -56,7 +57,7 @@ func (this *ArticleController) Get() {
 	}
 
 	//文章观看次数+1
-	_ = new(models.Article).UpdateViews(articleId)
+	_ = new(dao.ArticleDao).UpdateViews(articleId)
 	//_ = new(cache.Helper).UpDataItem(new(cache2.ArticleCache), articleId)
 
 	wg := new(sync.WaitGroup)
@@ -68,22 +69,23 @@ func (this *ArticleController) Get() {
 		now := time.Now()
 		//文章详情
 		defer wg.Done()
-		article := new(models.Article)
-		err := article.Get(articleId)
+
+		article, err := new(dao.ArticleDao).Get(articleId)
 		if err == nil {
 			article.CreatedTimeStr = time.Unix(article.CreateTime, 0).Format("2006-01-02 15:04:05")
 			article.UpdateTimeStr = time.Unix(article.UpdateTime, 0).Format("2006-01-02 15:04:05")
-			data.Article = *article
+			data.Article = article
+
+			// 获取文章分类
+			articleClass, _ := new(dao.ArticleClassDao).Get(article.ArticleClass)
+			data.ArticleClassName = articleClass.ClassName
+
 		} else {
 			logger.ZoneLogger.Error("获取文章详情错误")
 		}
 
-		// 获取文章分类
-		articleClass, _ := new(models.ArticleClass).Get(article.ArticleClass)
-		data.ArticleClassName = articleClass.ClassName
-
 		// 评论数 参与人数
-		commentNums, Humans := models.CommentInstance.GetCommentNumsAndHuman(articleId)
+		commentNums, Humans := dao.CommentInstance.GetCommentNumsAndHuman(articleId)
 		data.ArticleContentNums = commentNums
 		data.ArticleHumans = Humans
 		fmt.Println("文章详情:", time.Since(now))
@@ -94,8 +96,7 @@ func (this *ArticleController) Get() {
 		//文章内容
 		defer wg.Done()
 
-		articleContent := new(models.ArticleContent)
-		err := articleContent.Get(articleId)
+		articleContent, err := dao.ArticleContentInstance.Get(articleId)
 		if err == nil {
 			down2Html := util.MarkDown2Html(articleContent.Content)
 			data.ArticleContent = down2Html
@@ -111,15 +112,13 @@ func (this *ArticleController) Get() {
 		//文章标签
 		defer wg.Done()
 
-		articleTag := new(models.ArticleTag)
-		signs, err := articleTag.FindTags(articleId)
+		signs, err := dao.ArticleTagInstance.FindTags(articleId)
 		if err == nil {
 			var tagIds []int64
 			for _, v := range signs {
 				tagIds = append(tagIds, v.TagId)
 			}
-			tag := new(models.Tag)
-			tags, err := tag.GetTags(tagIds)
+			tags, err := dao.TagInstance.GetTags(tagIds)
 			if err == nil {
 				data.ArticleTags = tags
 			} else {
@@ -159,7 +158,7 @@ func (this *ArticleController) Get() {
 		// 获取文章评论
 		now := time.Now()
 		defer wg.Done()
-		comment, err := models.CommentInstance.GetFirstComment(articleId)
+		comment, err := dao.CommentInstance.GetFirstComment(articleId)
 		if err != nil {
 			this.Response(1, fmt.Sprintf("获取文章评论错误:%v", err.Error()))
 			return
@@ -171,7 +170,7 @@ func (this *ArticleController) Get() {
 			v.Content = Emoji2Html(v.Content)
 			v.Content = util.MarkDown2Html(v.Content)
 
-			user, err := models.UserInstance.Get(v.UserID)
+			user, err := dao.UserInstance.Get(v.UserID)
 			if err == nil {
 				v.UserAvatar = user.Avatar
 				if v.UserAvatar == "" {
@@ -179,14 +178,14 @@ func (this *ArticleController) Get() {
 				}
 			}
 
-			secondComment, err := models.CommentInstance.GetSecondComment(articleId, v.ID)
+			secondComment, err := dao.CommentInstance.GetSecondComment(articleId, v.ID)
 			if err == nil {
 				for _, value := range secondComment {
 					value.Content = Emoji2Html(value.Content)
 					value.Content = util.MarkDown2Html(value.Content)
 					value.CreateTimeStr = time.Unix(value.CreateTime, 0).Format("2006-01-02 15:04:05")
 
-					user, err := models.UserInstance.Get(value.UserID)
+					user, err := dao.UserInstance.Get(value.UserID)
 					if err == nil {
 						value.UserAvatar = user.Avatar
 						if value.UserAvatar == "" {
@@ -253,7 +252,7 @@ func (this *ArticleController) Comment() {
 			CreateTime:    now,
 			CreateTimeStr: time.Unix(now, 0).Format("2006-01-02"),
 		}
-		err := comment.AddComment()
+		err := dao.CommentInstance.AddComment(&comment)
 		if err != nil {
 			this.Response(enum.DefaultError, err.Error())
 		}
@@ -273,13 +272,13 @@ func (this *ArticleController) Comment() {
 		}
 		if commentWeb.ReplyFatherID != 0 {
 			//说明是二级评论的回复
-			user, err := models.UserInstance.Get(commentWeb.RepUserID)
+			user, err := dao.UserInstance.Get(commentWeb.RepUserID)
 			if err == nil {
 				comment.ReplyCommentUserID = user.Id
 				comment.ReplyCommentUserName = user.UserName
 			}
 		}
-		err := comment.AddComment()
+		err := dao.CommentInstance.AddComment(&comment)
 		if err != nil {
 			this.Response(enum.DefaultError, err.Error())
 		}
