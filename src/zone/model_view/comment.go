@@ -1,5 +1,6 @@
 package model_view
 
+// 评论
 type CommentWeb struct {
 	RepID         int64  `json:"rep_id"`
 	Content       string `json:"content"`

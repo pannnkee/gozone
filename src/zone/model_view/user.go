@@ -1,5 +1,6 @@
 package model_view
 
+// 用户
 type User struct {
 	Id             int64  `json:"id"`
 	UserName       string `json:"username"`
