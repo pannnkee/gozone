@@ -1,5 +1,6 @@
 package models
 
+// 评论
 type Comment struct {
 	ID                   int64  `json:"id" gorm:"column:id"`                                           // 评论id
 	IP                   string `json:"ip" gorm:"column:ip"`                                           //评论ip
@@ -28,4 +29,3 @@ type Comment struct {
 func (this *Comment) TableName() string {
 	return "comment"
 }
-

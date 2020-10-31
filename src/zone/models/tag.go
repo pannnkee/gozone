@@ -1,5 +1,6 @@
 package models
 
+// 标签
 type Tag struct {
 	Id         int64  `gorm:"column:id" json:"id"`
 	TagName    string `gorm:"column:tag_name" json:"tag_name"`
@@ -11,4 +12,3 @@ type Tag struct {
 func (this *Tag) TableName() string {
 	return "tag"
 }
-

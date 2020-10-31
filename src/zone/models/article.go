@@ -1,5 +1,6 @@
 package models
 
+// 文章
 type Article struct {
 	Id               int64  `gorm:"column:id" json:"id"`
 	ArticleTitle     string `gorm:"column:article_title" json:"article_title"`
@@ -17,7 +18,7 @@ type Article struct {
 	UpdateTimeStr    string `gorm:"column:update_time_str" json:"update_time_str"`
 }
 
-// 文章详情 Text
+// 文章列表详情
 type ArticleListResp struct {
 	Article
 	ArticleContent     string     `json:"article_content"`
@@ -32,4 +33,3 @@ type ArticleListResp struct {
 func (this *Article) TableName() string {
 	return "article"
 }
-

@@ -1,5 +1,6 @@
 package models
 
+// 用户信息
 type User struct {
 	Id             int64  `gorm:"column:id" json:"id"`
 	UserName       string `gorm:"column:user_name" json:"user_name"`
@@ -17,4 +18,3 @@ type User struct {
 func (this *User) TableName() string {
 	return "user"
 }
-

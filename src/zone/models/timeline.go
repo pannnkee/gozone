@@ -1,5 +1,6 @@
 package models
 
+// 时间线
 type Timeline struct {
 	ID            int64  `json:"id" gorm:"column:id"`
 	Title         string `json:"title" gorm:"column:title"`
@@ -15,4 +16,3 @@ type Timeline struct {
 func (this *Timeline) TableName() string {
 	return "timeline"
 }
-

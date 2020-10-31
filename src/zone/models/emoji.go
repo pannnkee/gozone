@@ -1,5 +1,6 @@
 package models
 
+// Emoji 表情
 type Emoji struct {
 	Id        int32  `gorm:"column:id" json:"id"`
 	Src       string `gorm:"column:src" json:"src"`
@@ -11,4 +12,3 @@ type Emoji struct {
 func (this *Emoji) TableName() string {
 	return "emoji"
 }
-

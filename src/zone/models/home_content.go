@@ -2,6 +2,7 @@ package models
 
 import "Gozone/library/enum"
 
+// 主页内容
 type HomeContent struct {
 
 	//base_right.html

@@ -14,7 +14,6 @@ import (
 
 type LoginService struct{}
 
-
 // 登录账号
 // @param eMail 邮件
 // @param password 密码
@@ -36,9 +35,9 @@ func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) 
 	}
 
 	// 登陆成功
-	exmap := map[string]interface{} {
-		"login_time" : userInfo.LoginTimes + 1,
-		"update_time" : time.Now().Unix(),
+	exmap := map[string]interface{}{
+		"login_time":  userInfo.LoginTimes + 1,
+		"update_time": time.Now().Unix(),
 	}
 	_ = dao.UserInstance.Updates(userInfo.Email, exmap)
 
@@ -57,6 +56,8 @@ func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) 
 	return m, nil
 }
 
+// 生成用户token
+// @param user 用户信息
 func (this *LoginService) CreateToken(user models.User) (string, error) {
 
 	userToken := new(model.UserToken)

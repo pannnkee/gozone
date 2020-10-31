@@ -8,6 +8,12 @@ import (
 
 type AlterPasswordService struct{}
 
+// 修改密码服务
+// @param email 邮件
+// @param password 密码
+// @param newPassword 新密码
+// @param repeatPassword 重复新密码
+// @return err 错误信息
 func (this *AlterPasswordService) Do(email, password, newPassword, repeatPassword string) (err error) {
 
 	// 校验当前密码是否正确

@@ -1,5 +1,6 @@
 package models
 
+// 文章分类
 type ArticleClass struct {
 	Id                int64  `gorm:"column:id" json:"id"`
 	Nums              int64  `gorm:"-" json:"nums"`
@@ -10,5 +11,3 @@ type ArticleClass struct {
 func (this *ArticleClass) TableName() string {
 	return "article_class"
 }
-
-

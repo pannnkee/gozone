@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+// 添加注册验证码
+// @param email 邮箱
+// @param code 验证码
+// @return err 错误信息
 func Add(email string, code string) error {
 	key := fmt.Sprintf(conn.UserVerifyCode, email)
 	client := conn.RFStruct.Client(conn.RedisZone)
@@ -14,6 +18,9 @@ func Add(email string, code string) error {
 	return nil
 }
 
+// 根据邮箱获取验证码
+// @param email  邮箱
+// @return code 验证码
 func Get(email string) (code string) {
 	key := fmt.Sprintf(conn.UserVerifyCode, email)
 	client := conn.RFStruct.Client(conn.RedisZone)
@@ -26,7 +33,9 @@ func Get(email string) (code string) {
 	return
 }
 
-func Del(email string)  {
+// 根据邮箱删除验证码
+// @param email 邮箱
+func Del(email string) {
 	key := fmt.Sprintf(conn.UserVerifyCode, email)
 	client := conn.RFStruct.Client(conn.RedisZone)
 	_ = client.Del(key)
