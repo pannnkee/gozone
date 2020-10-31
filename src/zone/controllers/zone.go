@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"Gozone/library/cache"
 	"Gozone/library/enum"
+	"Gozone/library/gocache"
 	"Gozone/library/logger"
 	cache2 "Gozone/src/zone/cache"
 	"Gozone/src/zone/dao"
@@ -26,7 +26,6 @@ func (this *ZoneController) Home() {
 	var count int64
 	var err error
 
-
 	homeContent := new(models.HomeContent)
 	//默认首页
 	if enum.ContentType(contentType) == enum.DefaultType {
@@ -42,7 +41,7 @@ func (this *ZoneController) Home() {
 			commentNums, _ := dao.CommentInstance.GetCommentNumsAndHuman(v.Id)
 
 			v.ArticleClassName = articleClass.ClassName
-			v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
+			v.CreatedTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02")
 			v.CommentNumber = commentNums
 		}
 		this.Pager.Count = count
@@ -51,7 +50,7 @@ func (this *ZoneController) Home() {
 		//获取轮播图
 
 	} else {
-	//base_top首页
+		//base_top首页
 
 		// 文章分类
 		if enum.ContentType(contentType) < enum.Mysql {
@@ -72,7 +71,7 @@ func (this *ZoneController) Home() {
 
 				v.ArticleClassName = articleClass.ClassName
 				v.CommentNumber = commentNums
-				v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
+				v.CreatedTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02")
 			}
 
 			TopContent.ContentNum = articleClass.Nums
@@ -84,7 +83,7 @@ func (this *ZoneController) Home() {
 		} else {
 			// 标签分类
 
-			var Tag[]int64
+			var Tag []int64
 			tag, _ := dao.TagInstance.Get(contentType - 100)
 			articles, _ := dao.ArticleTagInstance.FindArticles(tag.Id)
 			for _, v := range articles {
@@ -102,7 +101,7 @@ func (this *ZoneController) Home() {
 
 				v.ArticleClassName = articleClass.ClassName
 				v.CommentNumber = commentNums
-				v.CreatedTimeStr = time.Unix(v.CreateTime,0).Format("2006-01-02")
+				v.CreatedTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02")
 			}
 			TopContent.ContentNum = int64(len(articles))
 			TopContent.ContentText = tag.TagContent
@@ -114,33 +113,33 @@ func (this *ZoneController) Home() {
 	}
 
 	//base_right.html
-		//获取首页标签
+	//获取首页标签
 
-		tags, err := dao.TagInstance.GetAll()
-		if err == nil {
-			homeContent.Tags = tags
-		} else {
-			logger.ZoneLogger.Error("获取Tag错误")
+	tags, err := dao.TagInstance.GetAll()
+	if err == nil {
+		homeContent.Tags = tags
+	} else {
+		logger.ZoneLogger.Error("获取Tag错误")
+	}
+	// 获取文章分类
+	articleClass, _ := dao.ArticleClassInstance.GetAll()
+	if err == nil {
+		for _, v := range articleClass {
+			nums, _ := dao.ArticleInstance.GetArticleClassNums(v.Id)
+			v.Nums = nums
 		}
-		// 获取文章分类
-		articleClass, _ := dao.ArticleClassInstance.GetAll()
-		if err == nil {
-			for _, v := range articleClass {
-				nums, _ := dao.ArticleInstance.GetArticleClassNums(v.Id)
-				v.Nums = nums
-			}
-			homeContent.ArticleClass = articleClass
-		} else {
-			logger.ZoneLogger.Error("获取文章分类错误")
-		}
+		homeContent.ArticleClass = articleClass
+	} else {
+		logger.ZoneLogger.Error("获取文章分类错误")
+	}
 
-		//获取友情链接
-		link, err := new(cache.Helper).GetAllData(new(cache2.LinkCache))
-		if err == nil {
-			homeContent.Links = link.([]*models.Link)
-		} else {
-			logger.ZoneLogger.Error("获取友情链接错误")
-		}
+	//获取友情链接
+	link, err := new(gocache.Helper).GetAllData(new(cache2.LinkCache))
+	if err == nil {
+		homeContent.Links = link.([]*models.Link)
+	} else {
+		logger.ZoneLogger.Error("获取友情链接错误")
+	}
 
 	homeContent.Articles = Articles
 	homeContent.SortType = sortType
@@ -217,7 +216,7 @@ func (this *ZoneController) About() {
 	}
 
 	//获取友情链接
-	link, err := new(cache.Helper).GetAllData(new(cache2.LinkCache))
+	link, err := new(gocache.Helper).GetAllData(new(cache2.LinkCache))
 	if err == nil {
 		homeContent.Links = link.([]*models.Link)
 	} else {
@@ -256,7 +255,7 @@ func (this *ZoneController) Archive() {
 	}
 
 	//获取友情链接
-	link, err := new(cache.Helper).GetAllData(new(cache2.LinkCache))
+	link, err := new(gocache.Helper).GetAllData(new(cache2.LinkCache))
 	if err == nil {
 		homeContent.Links = link.([]*models.Link)
 	} else {

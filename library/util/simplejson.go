@@ -5,6 +5,7 @@ import (
 	"github.com/bitly/go-simplejson"
 )
 
+// 结构体转map
 func Struct2JsonMap(data interface{}) (map[string]interface{}, error) {
 	bytes, err := json.Marshal(data)
 	if err != nil {
@@ -20,5 +21,3 @@ func Struct2JsonMap(data interface{}) (map[string]interface{}, error) {
 	}
 	return jsonMap, nil
 }
-
-

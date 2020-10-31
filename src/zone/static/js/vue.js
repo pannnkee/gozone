@@ -821,7 +821,7 @@
         'reverse'
     ]
         .forEach(function (method) {
-            // cache original method
+            // gocache original method
             var original = arrayProto[method];
             def(arrayMethods, method, function mutator() {
                 var args = [], len = arguments.length;
@@ -2097,7 +2097,7 @@
             };
 
             var resolve = once(function (res) {
-                // cache resolved
+                // gocache resolved
                 factory.resolved = ensureCtor(res, baseCtor);
                 // invoke callbacks only if this is not a synchronous resolve
                 // (async resolves are shimmed as synchronous during SSR)
@@ -2724,7 +2724,7 @@
         //    its watchers can be skipped.
         queue.sort(function (a, b) { return a.id - b.id; });
 
-        // do not cache length because more watchers might be pushed
+        // do not gocache length because more watchers might be pushed
         // as we run existing watchers
         for (index = 0; index < queue.length; index++) {
             watcher = queue[index];
@@ -3111,7 +3111,7 @@
     function initProps(vm, propsOptions) {
         var propsData = vm.$options.propsData || {};
         var props = vm._props = {};
-        // cache prop keys so that future props updates can iterate using Array
+        // gocache prop keys so that future props updates can iterate using Array
         // instead of dynamic object key enumeration.
         var keys = vm.$options._propKeys = [];
         var isRoot = !vm.$parent;
@@ -4360,7 +4360,7 @@
         /**
          * Each instance constructor, including Vue, has a unique
          * cid. This enables us to create wrapped "child
-         * constructors" for prototypal inheritance and cache them.
+         * constructors" for prototypal inheritance and gocache them.
          */
         Vue.cid = 0;
         var cid = 1;
@@ -4432,7 +4432,7 @@
             Sub.extendOptions = extendOptions;
             Sub.sealedOptions = extend({}, Sub.options);
 
-            // cache constructor
+            // gocache constructor
             cachedCtors[SuperId] = Sub;
             return Sub
         };
@@ -9855,7 +9855,7 @@
                 }
             }
 
-            // check cache
+            // check gocache
             var key = options.delimiters
                 ? String(options.delimiters) + template
                 : template;

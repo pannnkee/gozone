@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"Gozone/library/cache"
+	"Gozone/library/gocache"
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/models"
 	"fmt"
@@ -11,7 +11,7 @@ type ArticleCache struct{}
 
 func init() {
 	articleCache := new(ArticleCache)
-	err := new(cache.Helper).PushListCache(articleCache)
+	err := new(gocache.Helper).PushListCache(articleCache)
 	if err != nil {
 		panic(err)
 	}
@@ -35,5 +35,5 @@ func (this *ArticleCache) GetItemData(articleID int64) (data interface{}, err er
 	if err != nil {
 		return nil, err
 	}
-	return article,nil
+	return article, nil
 }

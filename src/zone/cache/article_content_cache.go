@@ -1,17 +1,17 @@
 package cache
 
 import (
-	"Gozone/library/cache"
+	"Gozone/library/gocache"
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/models"
 	"fmt"
 )
 
-type ArticleContentCache struct {}
+type ArticleContentCache struct{}
 
 func init() {
 	articleContentCache := new(ArticleContentCache)
-	err := new(cache.Helper).PushListCache(articleContentCache)
+	err := new(gocache.Helper).PushListCache(articleContentCache)
 	if err != nil {
 		panic(err)
 	}

@@ -10,14 +10,25 @@ import (
 var ZoneLogger *zap.SugaredLogger
 
 func init() {
-	ZoneLogger = NewLogger("/logger/main.log", zap.InfoLevel,128,10,7, true,"Main")
+	ZoneLogger = NewLogger("/logger/main.log", zap.InfoLevel, 128, 10, 7, true, "Main")
 }
 
+// 创建一个日志对象
+// @param filePath 日志文件存放路径
+// @param level 日记记录优先级
+// @param maxSize 每个日志文件保存的最大尺寸 单位：M
+// @param maxBackups 日志文件最多保存多少个备份
+// @param maxAge 文件最多保存多少天
+// @param compress 是否压缩
+// @param serviceName 服务名称
+// @return zap日志对象
 func NewLogger(filePath string, level zapcore.Level, maxSize int, maxBackups int, maxAge int, compress bool, serviceName string) *zap.SugaredLogger {
 	core := newCore(filePath, level, maxSize, maxBackups, maxAge, compress)
 	return zap.New(core, zap.AddCaller(), zap.Development(), zap.Fields(zap.String("serviceName", serviceName))).Sugar()
 }
 
+// 创建一个新的记录器接口
+// @param 同NewLogger
 func newCore(filePath string, level zapcore.Level, maxSize int, maxBackups int, maxAge int, compress bool) zapcore.Core {
 	hook := lumberjack.Logger{
 		Filename:   filePath,   // 日志文件路径

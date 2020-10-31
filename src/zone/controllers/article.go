@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"Gozone/library/cache"
 	"Gozone/library/config"
 	"Gozone/library/controller"
 	"Gozone/library/enum"
+	"Gozone/library/gocache"
 	"Gozone/library/logger"
 	"Gozone/library/util"
 	cache2 "Gozone/src/zone/cache"
@@ -58,7 +58,7 @@ func (this *ArticleController) Get() {
 
 	//文章观看次数+1
 	_ = new(dao.ArticleDao).UpdateViews(articleId)
-	//_ = new(cache.Helper).UpDataItem(new(cache2.ArticleCache), articleId)
+	//_ = new(gocache.Helper).UpDataItem(new(cache2.ArticleCache), articleId)
 
 	wg := new(sync.WaitGroup)
 	data := models.ArticleListResp{}
@@ -134,7 +134,7 @@ func (this *ArticleController) Get() {
 		// 获取Emoji
 		now := time.Now()
 		defer wg.Done()
-		allData, err := new(cache.Helper).GetAllData(new(cache2.EmojiCache))
+		allData, err := new(gocache.Helper).GetAllData(new(cache2.EmojiCache))
 		if err == nil {
 			tempEmoji := new([]*models.Emoji)
 			i := 0
@@ -213,7 +213,6 @@ func (this *ArticleController) Get() {
 	}
 	this.Data["Keywords"] = Keywords
 	this.Data["Description"] = data.Article.ArticleTitle
-
 
 	jsonMap, err := util.Struct2JsonMap(data)
 	if err != nil {

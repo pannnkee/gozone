@@ -1,4 +1,4 @@
-package cache
+package gocache
 
 import (
 	"Gozone/library/logger"
@@ -16,18 +16,24 @@ type Helper struct {
 var itemCacheMap map[string]*cache.Cache = make(map[string]*cache.Cache, 0)
 
 //DB-MODEL普通类实现该接口
-type Model interface {
+type CacheModel interface {
 	//返回主键名称
-	PrimaryKey (model interface{}) string
+	PrimaryKey(model interface{}) string
+
 	//返回cache配置
 	CacheConfig() (cacheName string, needItem bool, itemKey string)
+
 	//查询全数据
-	GetAllData() (datas interface{}, err error)
+	GetAllData() (data interface{}, err error)
+
 	//获取指定数据
 	GetItemData(id int64) (data interface{}, err error)
 }
 
-func (this *Helper) PushListCache(dataModel Model) (err error) {
+// 使用GetAllData获取dataModel数据 存入缓存
+// @param dataModel 数据缓存结构
+// @return err 错误信息
+func (this *Helper) PushListCache(dataModel CacheModel) (err error) {
 	cacheName, needItem, itemKey := dataModel.CacheConfig()
 	// 查询全部数据
 	data, err := dataModel.GetAllData()
@@ -49,7 +55,7 @@ func (this *Helper) PushListCache(dataModel Model) (err error) {
 		if t.Kind() == reflect.Slice {
 			v := reflect.ValueOf(data)
 			sliceLen = v.Len()
-			for i:=0; i<v.Len(); i++ {
+			for i := 0; i < v.Len(); i++ {
 				itemData := v.Index(i).Interface()
 				itemCache.Set(fmt.Sprintf(itemKey, dataModel.PrimaryKey(itemData)), itemData, -1)
 			}
@@ -61,11 +67,15 @@ func (this *Helper) PushListCache(dataModel Model) (err error) {
 	return
 }
 
-func (this *Helper) GetAllData(dataModel Model) (datas interface{}, err error) {
+// 获取dataModel模型所有数据
+// @param dataModel 数据模型
+// @return data 数据
+// @return err 错误信息
+func (this *Helper) GetAllData(dataModel CacheModel) (data interface{}, err error) {
 	cacheName, _, _ := dataModel.CacheConfig()
-	datas, isExist := this.Get(cacheName)
+	data, isExist := this.Get(cacheName)
 	if !isExist {
-		datas, err = dataModel.GetAllData()
+		data, err = dataModel.GetAllData()
 		pErr := this.PushListCache(dataModel)
 		if pErr != nil {
 			logger.ZoneLogger.Error(pErr)
@@ -74,17 +84,22 @@ func (this *Helper) GetAllData(dataModel Model) (datas interface{}, err error) {
 	return
 }
 
-func (s *Helper) GetByItemKey(dataModel Model, itemId int64) (data interface{}, err error) {
+// 根据key获取value
+// @param dataModel 数据模型
+// @param itemId 单个数据key
+// @return data 数据
+// @return err 错误信息
+func (s *Helper) GetByItemKey(dataModel CacheModel, itemId int64) (data interface{}, err error) {
 	//判断是否需要存储单个元素
 	cacheName, needItem, itemKey := dataModel.CacheConfig()
 	if !needItem {
-		datas, err := s.GetAllData(dataModel)
+		data, err := s.GetAllData(dataModel)
 		if err != nil {
 			return nil, err
 		}
-		t := reflect.TypeOf(datas)
+		t := reflect.TypeOf(data)
 		if t.Kind() == reflect.Slice {
-			v := reflect.ValueOf(datas)
+			v := reflect.ValueOf(data)
 			idstr := strconv.Itoa(int(itemId))
 			for i := 0; i < v.Len(); i++ {
 				itemData := v.Index(i).Interface()
@@ -112,7 +127,11 @@ func (s *Helper) GetByItemKey(dataModel Model, itemId int64) (data interface{}, 
 	return nil, errors.New("缓存不存在")
 }
 
-func (s *Helper) UpDataItem(dataModel Model, itemId int64) (err error) {
+// 根据id更新一个缓存
+// @param dataModel 数据模型
+// @param itemId 缓存ID
+// @return err 错误信息
+func (s *Helper) UpDataItem(dataModel CacheModel, itemId int64) (err error) {
 	cacheName, _, itemKey := dataModel.CacheConfig()
 
 	data, err := dataModel.GetItemData(itemId)
@@ -123,6 +142,3 @@ func (s *Helper) UpDataItem(dataModel Model, itemId int64) (err error) {
 	_ = itemCache.Replace(fmt.Sprintf(itemKey, dataModel.PrimaryKey(data), -1), data, -1)
 	return nil
 }
-
-
-

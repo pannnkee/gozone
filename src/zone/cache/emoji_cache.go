@@ -1,17 +1,17 @@
 package cache
 
 import (
-	"Gozone/library/cache"
+	"Gozone/library/gocache"
 	"Gozone/src/zone/dao"
 	"Gozone/src/zone/models"
 	"fmt"
 )
 
-type EmojiCache struct {}
+type EmojiCache struct{}
 
 func init() {
-	emojiCache:= new(EmojiCache)
-	err := new(cache.Helper).PushListCache(emojiCache)
+	emojiCache := new(EmojiCache)
+	err := new(gocache.Helper).PushListCache(emojiCache)
 	if err != nil {
 		panic(err)
 	}
