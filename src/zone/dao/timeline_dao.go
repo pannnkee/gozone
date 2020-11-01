@@ -12,7 +12,7 @@ type TimelineDao struct {}
 // @return err 错误信息
 func (this *TimelineDao) GetAll() (data []*models.Timeline, err error) {
 	db := conn.GetORMByName("zone")
-	db = db.Model(this)
+	db = db.Model(models.TimeLineInstance)
 	err = db.Find(&data).Error
 	return
 }

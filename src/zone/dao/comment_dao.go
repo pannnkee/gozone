@@ -33,7 +33,7 @@ func (this *CommentDao) GetFirstComment(articleId int64) (data []*models.Comment
 // @return err 错误信息
 func (this *CommentDao) GetSecondComment(articleId, parentCommentId int64) (data []*models.Comment, err error) {
 	db := conn.GetORMByName("zone")
-	db = db.Model(this)
+	db = db.Model(models.CommentInstance)
 	err = db.Order("create_time asc").Where("article_id=?", articleId).Where("comment_level=2").
 		Where("parent_comment_id=? or reply_comment_id=?", parentCommentId, parentCommentId).Find(&data).Error
 	return
@@ -45,7 +45,7 @@ func (this *CommentDao) GetSecondComment(articleId, parentCommentId int64) (data
 // @return Humans 参与人数
 func (this *CommentDao) GetCommentNumsAndHuman(articleId int64) (commentNums, Humans int64) {
 	db := conn.GetORMByName("zone")
-	db = db.Model(this)
+	db = db.Model(models.CommentInstance)
 	db.Where("article_id=?", articleId).Count(&commentNums)
 	db.Where("article_id=?", articleId).Group("user_id").Count(&Humans)
 	return

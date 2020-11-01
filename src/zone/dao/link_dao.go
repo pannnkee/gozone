@@ -12,7 +12,7 @@ type LinkDao struct {}
 // @return err 错误信息
 func (this *LinkDao) GetAll() (data []*models.Link, err error) {
 	db := conn.GetORMByName("zone")
-	db = db.Model(this)
+	db = db.Model(models.LinkInstance)
 	err = db.Order("id asc").Find(&data).Error
 	return
 }
