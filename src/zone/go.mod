@@ -2,7 +2,7 @@ module gozone/src/zone
 
 go 1.13
 
-replace gozone/library => ../../library
+replace gozone/library => ./../../lib
 
 require (
 	github.com/astaxie/beego v1.12.2

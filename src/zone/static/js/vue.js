@@ -6279,7 +6279,7 @@
                 "<" + (el.tag) + " v-model=\"" + value + "\">: " +
                 "v-model is not supported on this element type. " +
                 'If you are working with contenteditable, it\'s recommended to ' +
-                'wrap a library dedicated for that purpose inside a custom component.'
+                'wrap a lib dedicated for that purpose inside a custom component.'
             );
         }
 
