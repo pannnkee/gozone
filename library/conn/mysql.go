@@ -1,7 +1,7 @@
 package conn
 
 import (
-	"Gozone/library/config"
+	"gozone/library/config"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"

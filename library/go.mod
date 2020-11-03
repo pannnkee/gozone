@@ -1,4 +1,4 @@
-module Gozone/library
+module gozone/library
 
 go 1.13
 

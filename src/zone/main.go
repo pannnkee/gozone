@@ -1,9 +1,9 @@
 package main
 
 import (
-	"Gozone/library/logger"
-	_ "Gozone/src/zone/routers"
 	"github.com/astaxie/beego"
+	"gozone/library/logger"
+	_ "gozone/src/zone/routers"
 	"html/template"
 )
 

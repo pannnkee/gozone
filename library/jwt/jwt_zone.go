@@ -1,8 +1,8 @@
 package jwt
 
 import (
-	"Gozone/library/conststr"
-	"Gozone/library/model"
+	"gozone/library/conststr"
+	"gozone/library/model"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 )

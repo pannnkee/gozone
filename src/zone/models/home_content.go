@@ -1,6 +1,6 @@
 package models
 
-import "Gozone/library/enum"
+import "gozone/library/enum"
 
 // 主页内容
 type HomeContent struct {

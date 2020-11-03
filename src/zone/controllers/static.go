@@ -1,6 +1,6 @@
 package controllers
 
-import "Gozone/library/enum"
+import "gozone/library/enum"
 
 type StaticController struct {
 	BaseHandler

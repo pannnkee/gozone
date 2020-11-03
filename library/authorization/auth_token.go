@@ -1,7 +1,7 @@
 package authorization
 
 import (
-	"Gozone/library/conn"
+	"gozone/library/conn"
 	"fmt"
 	"time"
 )

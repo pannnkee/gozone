@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"Gozone/library/enum"
-	"Gozone/library/util"
-	"Gozone/src/zone/auth"
-	"Gozone/src/zone/models"
+	"gozone/library/enum"
+	"gozone/library/util"
+	"gozone/src/zone/auth"
+	"gozone/src/zone/models"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"

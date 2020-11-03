@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"Gozone/library/conn"
-	"Gozone/src/zone/models"
+	"gozone/library/conn"
+	"gozone/src/zone/models"
 )
 
 type ArticleContentDao struct {}

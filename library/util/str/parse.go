@@ -1,7 +1,7 @@
 package str
 
 import (
-	"Gozone/library/util/validate"
+	"gozone/library/util/validate"
 	"fmt"
 	"strconv"
 	"strings"

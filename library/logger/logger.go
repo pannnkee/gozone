@@ -10,7 +10,7 @@ import (
 var ZoneLogger *zap.SugaredLogger
 
 func init() {
-	ZoneLogger = NewLogger("/logger/main.log", zap.InfoLevel, 128, 10, 7, true, "Main")
+	ZoneLogger = NewLogger("./log/main.log", zap.InfoLevel, 128, 10, 7, true, "Main")
 }
 
 // 创建一个日志对象

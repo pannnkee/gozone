@@ -1,7 +1,7 @@
 package verifycode
 
 import (
-	"Gozone/library/conn"
+	"gozone/library/conn"
 	"fmt"
 	"github.com/go-redis/redis"
 	"time"

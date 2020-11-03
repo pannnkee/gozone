@@ -1,9 +1,9 @@
 package dao
 
 import (
-	"Gozone/library/conn"
-	"Gozone/library/enum"
-	"Gozone/src/zone/models"
+	"gozone/library/conn"
+	"gozone/library/enum"
+	"gozone/src/zone/models"
 )
 
 type ArticleDao struct {}

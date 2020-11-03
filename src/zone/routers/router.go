@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"Gozone/src/zone/controllers"
+	"gozone/src/zone/controllers"
 	"github.com/astaxie/beego"
 )
 

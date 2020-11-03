@@ -1,10 +1,10 @@
 package conn
 
 import (
-	"Gozone/library/config"
 	"errors"
 	"fmt"
 	"github.com/go-redis/redis"
+	"gozone/library/config"
 	"sync"
 	"time"
 )

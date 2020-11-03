@@ -1,9 +1,9 @@
 package cache
 
 import (
-	"Gozone/library/gocache"
-	"Gozone/src/zone/dao"
-	"Gozone/src/zone/models"
+	"gozone/library/gocache"
+	"gozone/src/zone/dao"
+	"gozone/src/zone/models"
 	"fmt"
 )
 

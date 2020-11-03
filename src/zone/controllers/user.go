@@ -1,14 +1,14 @@
 package controllers
 
 import (
-	"Gozone/library/controller"
-	"Gozone/library/enum"
-	"Gozone/src/zone/auth"
-	"Gozone/src/zone/dao"
-	"Gozone/src/zone/model_view"
-	"Gozone/src/zone/models"
-	"Gozone/src/zone/service"
 	"fmt"
+	"gozone/library/controller"
+	"gozone/library/enum"
+	"gozone/src/zone/auth"
+	"gozone/src/zone/dao"
+	"gozone/src/zone/model_view"
+	"gozone/src/zone/models"
+	"gozone/src/zone/service"
 	"path"
 	"time"
 )

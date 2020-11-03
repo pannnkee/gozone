@@ -1,12 +1,12 @@
 package service
 
 import (
-	"Gozone/library/authorization"
-	"Gozone/library/jwt"
-	"Gozone/library/model"
-	"Gozone/library/util/str"
-	"Gozone/src/zone/dao"
-	"Gozone/src/zone/models"
+	"gozone/library/authorization"
+	"gozone/library/jwt"
+	"gozone/library/model"
+	"gozone/library/util/str"
+	"gozone/src/zone/dao"
+	"gozone/src/zone/models"
 	"encoding/json"
 	"errors"
 	"time"

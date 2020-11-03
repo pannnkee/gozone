@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"Gozone/library/enum"
-	"Gozone/library/gocache"
-	"Gozone/library/logger"
-	cache2 "Gozone/src/zone/cache"
-	"Gozone/src/zone/dao"
-	"Gozone/src/zone/models"
+	"gozone/library/enum"
+	"gozone/library/gocache"
+	"gozone/library/logger"
+	cache2 "gozone/src/zone/cache"
+	"gozone/src/zone/dao"
+	"gozone/src/zone/models"
 	"time"
 )
 

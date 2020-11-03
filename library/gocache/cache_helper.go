@@ -1,7 +1,7 @@
 package gocache
 
 import (
-	"Gozone/library/logger"
+	"gozone/library/logger"
 	"errors"
 	"fmt"
 	"github.com/patrickmn/go-cache"

@@ -1,9 +1,9 @@
 package dao
 
 import (
-	"Gozone/library/conn"
-	"Gozone/library/util/str"
-	"Gozone/src/zone/models"
+	"gozone/library/conn"
+	"gozone/library/util/str"
+	"gozone/src/zone/models"
 	"github.com/jinzhu/gorm"
 )
 
