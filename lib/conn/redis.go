@@ -14,6 +14,7 @@ var password = config.GetConfigStr("redis::password","root123")
 var port = config.GetConfigStr("redis::port","6379")
 
 func init() {
+	fmt.Println(fmt.Sprintf("redis: address:%v  password:%v", address, password))
 	RFStruct.Connect(&redis.Options{
 		Addr:       fmt.Sprintf("%v:%v", address, port),
 		Password:   password,
