@@ -37,31 +37,6 @@ spec:
 
 ---
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: redis
-  labels:
-    app: redis
-spec:
-  replicas: 1
-  template:
-    metadata:
-      name: redis
-      labels:
-        app: redis
-    spec:
-      containers:
-        - name: redis
-          image: redis
-          imagePullPolicy: IfNotPresent
-      restartPolicy: Always
-  selector:
-    matchLabels:
-      app: redis
-
----
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -71,21 +46,6 @@ spec:
     app: mysql
   ports:
     - port: 3306
-      nodePort: 30006
       protocol: TCP
       targetPort: 3306
-  type: NodePort
 
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: redis
-spec:
-  selector:
-    app: redis
-  ports:
-    - port: 6379
-      protocol: TCP
-      targetPort: 6379

@@ -1,62 +1,63 @@
 package controllers
 
 import (
+	"fmt"
+	"github.com/astaxie/beego"
+	"github.com/prometheus/common/log"
 	"gozone/library/enum"
+	"gozone/library/logger"
 	"gozone/library/util"
 	"gozone/src/zone/auth"
 	"gozone/src/zone/models"
-	"fmt"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
-	"github.com/prometheus/common/log"
 	"time"
 )
 
-//BaseHandler BaseHandler
+const SessionUserKey = "session_user_key"
+
+// gozone基础控制器
 type BaseHandler struct {
-	beego.Controller
-	ClientIP       string
-	UserAgent      string
+	Host           string // 访问者的域名
+	Body           string // 请求body
 	Method         string
-	Host           string
-	Body           string
+	ClientIP       string // 访问者IP
+	UserAgent      string
 	RequestURL     string
-	ControllerName string
 	ActionName     string
-	Pager          *Pager
-	IsLogin        bool
-	User           models.User
+	ControllerName string
+
+	IsLogin bool        // 是否登录
+	Pager   *Pager      // 分页Pager
+	User    models.User // 用户信息
+	beego.Controller
 }
 
-const SESSION_USER_KEY = "session_user_key"
-
-// DataResponse 返回数据模型
+// 返回数据模板结构
 type DataResponse struct {
-	Code  enum.ResponseCode `json:"code"`
-	Msg   string            `json:"msg"`
-	Stime string            `json:"stime"`
-	Body  *Body             `json:"body"`
+	Code      enum.ResponseCode `json:"code"`       // 返回码
+	Msg       string            `json:"msg"`        // 消息
+	StartTime string            `json:"start_time"` // 时间戳
+	Body      *Body             `json:"body"`
 }
 
-// Body 具体数据模型
+// 具体数据模型
 type Body struct {
 	Pager *Pager      `json:"pager"`
 	Data  interface{} `json:"data"`
 }
 
-//Pager Pager
+// 分页Pager
 type Pager struct {
-	Page      int64 `json:"page"`      //页数
-	Limit     int64 `json:"limit"`     //大小
-	Offset    int64 `json:"offset"`    //偏移量
-	Count     int64 `json:"count"`     //总数
-	PageCount int64 `json:"pagecount"` //当前页数量
+	Page      int64 `json:"page"`       //页数
+	Limit     int64 `json:"limit"`      //大小
+	Offset    int64 `json:"offset"`     //偏移量
+	Count     int64 `json:"count"`      //总数
+	PageCount int64 `json:"page_count"` //当前页数量
 }
 
 func (this *BaseHandler) Prepare() {
 	this.Parse()
 	this.IsLogin = false
-	session := this.GetSession(SESSION_USER_KEY)
+	session := this.GetSession(SessionUserKey)
 	if session != nil {
 		if user, ok := session.(models.User); ok {
 			this.User = user
@@ -65,18 +66,17 @@ func (this *BaseHandler) Prepare() {
 			this.IsLogin = true
 		}
 	}
-
 	cookie := this.Ctx.GetCookie("toggleTheme")
 	this.Data["ToggleTheme"] = cookie
 	this.Data["IsLogin"] = this.IsLogin
 }
 
-//Parse Parse
+// 解析请求信息
 func (this *BaseHandler) Parse() {
 	this.GetServerParams()
 	this.Data["version"] = 0
 	this.Data["year"] = time.Now().Year()
-	logs.Info(fmt.Sprintf("%s | %s | %s | %s", this.ClientIP, this.Ctx.Request.Method, this.Ctx.Request.Host, this.Ctx.Request.RequestURI))
+	logger.ZoneLogger.Info(fmt.Sprintf("%s | %s | %s | %s", this.ClientIP, this.Ctx.Request.Method, this.Ctx.Request.Host, this.Ctx.Request.RequestURI))
 }
 
 // 回复接口
@@ -111,9 +111,9 @@ func (this *BaseHandler) Response(code enum.ResponseCode, msg string, args ...in
 	}
 
 	resp := &DataResponse{
-		Code:  code,
-		Msg:   msg,
-		Stime: time.Now().Format("2006-01-02 15:04:05"),
+		Code:      code,
+		Msg:       msg,
+		StartTime: time.Now().Format("2006-01-02 15:04:05"),
 	}
 
 	body := new(Body)
@@ -147,16 +147,10 @@ func (this *BaseHandler) GetPageCount(count, limit int64) (pagecount int64) {
 func (this *BaseHandler) GetServerParams() {
 	this.ClientIP = this.GetIP()
 	this.Host = this.Ctx.Request.Host
-	//http method
 	this.Method = this.Ctx.Request.Method
-	// request url
 	this.RequestURL = this.Ctx.Request.RequestURI
-	//httpbody
 	this.Body = string(this.Ctx.Input.RequestBody)
-	//controllname
-
 	this.UserAgent = this.Ctx.Input.UserAgent()
-
 	this.ControllerName, this.ActionName = this.GetControllerAndAction()
 
 	//处理翻页
@@ -174,7 +168,7 @@ func (this *BaseHandler) GetServerParams() {
 
 }
 
-//GetIP 获取用户IP
+// 获取用户IP
 func (this *BaseHandler) GetIP() (ip string) {
 	ip = this.Ctx.Request.Header.Get("X-Original-Forwarded-For")
 	if len(ip) == 0 {
@@ -209,7 +203,6 @@ func (this *BaseHandler) DeleteCookie(key string) {
 
 func (this *BaseHandler) MustLogin() {
 	if !this.IsLogin {
-		//this.Response(enum.DefaultError, "用户未登录")
 		this.Redirect("/", 302)
 		return
 	}

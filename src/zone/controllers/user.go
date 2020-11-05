@@ -73,14 +73,14 @@ func (this *UserController) Login() {
 	_ = dao.LogInstance.AddLoginLog(&log)
 
 	this.SetCK(auth.ZoneToken, string(m), 168)
-	this.SetSession(SESSION_USER_KEY, userInfo)
+	this.SetSession(SessionUserKey, userInfo)
 	this.Response(0, this.GetString("next"))
 }
 
 func (this *UserController) Logout() {
 	this.MustLogin()
 	this.DeleteCookie(auth.ZoneToken)
-	this.DelSession(SESSION_USER_KEY)
+	this.DelSession(SessionUserKey)
 	this.Redirect("/", 302)
 }
 
@@ -129,7 +129,7 @@ func (this *UserController) AlterData() {
 	}
 
 	userInfo, _ := dao.UserInstance.Get(this.User.Id)
-	this.SetSession(SESSION_USER_KEY, userInfo)
+	this.SetSession(SessionUserKey, userInfo)
 	this.Response(enum.DefaultSuccess,"头像上传成功")
 }
 

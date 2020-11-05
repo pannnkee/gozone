@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// 将markDown内容转换成html 并且将code高亮
 func MarkDown2Html(Content string) string {
 
 	// 替换数据库回车 \r\n   --> \n
