@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gozone
+  labels:
+    app: gozone
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:     #由于replicas为3,则整个升级,pod个数在2-4个之间
+      maxSurge: 1      #滚动升级时会先启动1个pod
+      maxUnavailable: 0 #滚动升级时允许的最大Unavailable的pod个数
+  selector:
+        matchLabels:
+          app: gozone
+  template:
+    metadata:
+      name: gozone
+      labels:
+        app: gozone
+    spec:
+      containers:
+        - name: gozone
+          image: registry.cn-hangzhou.aliyuncs.com/pannnkeee/gozone:0.0.1
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      volumes:
+        - name: gozone-volume
+          persistentVolumeClaim:
+            claimName: gozone-pvc
