@@ -29,3 +29,19 @@ spec:
         - name: gozone-volume
           persistentVolumeClaim:
             claimName: gozone-pvc
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gozone-service
+  labels:
+    app: gozone-service
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: gozone-service
