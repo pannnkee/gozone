@@ -1,3 +1,4 @@
 *.css linguist-language=css
-*.js linguist-language=js
-*.html linguist-language=go
+*.js linguist-language=go
+*.html linguist-language=html
+*.yaml linguist-language=yaml
