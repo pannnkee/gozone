@@ -1,4 +1,3 @@
-*.css linguist-language=go
-*.less linguist-language=go
-*.js linguist-language=go
+*.css linguist-language=css
+*.js linguist-language=js
 *.html linguist-language=go
