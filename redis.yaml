@@ -1,29 +1,58 @@
+#apiVersion: apps/v1
+#kind: StatefulSet
+#metadata:
+#  name: redis
+#spec:
+#  podManagementPolicy: Parallel
+#  serviceName: redis
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: redis
+#  template:
+#    metadata:
+#      labels:
+#        app: redis
+#    spec:
+#      containers:
+#        - name: redis
+#          image: redis
+#          lifecycle:
+#            postStart:
+#              exec:
+#                command: [ "/bin/sh", "-c", "redis-cli config set requirepass root123" ]
+#          ports:
+#            - containerPort: 6379
+
+---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: redis
+  labels:
+    app: redis
 spec:
-  podManagementPolicy: Parallel
-  serviceName: redis
   replicas: 1
   selector:
     matchLabels:
       app: redis
   template:
     metadata:
+      name: redis
       labels:
         app: redis
     spec:
       containers:
         - name: redis
           image: redis
+          imagePullPolicy: IfNotPresent
           lifecycle:
             postStart:
               exec:
                 command: [ "/bin/sh", "-c", "redis-cli config set requirepass root123" ]
           ports:
             - containerPort: 6379
-
+      restartPolicy: Always
 ---
 
 apiVersion: v1
