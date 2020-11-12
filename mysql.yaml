@@ -29,6 +29,9 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: pv-storage
+          ports:
+            - containerPort: 3306
+              hostPort: 3306
       restartPolicy: Always
 
   selector:
@@ -48,4 +51,3 @@ spec:
     - port: 3306
       protocol: TCP
       targetPort: 3306
-

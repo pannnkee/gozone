@@ -25,7 +25,6 @@ spec:
     requests:
       storage: 1Gi
 
-
 ---
 
 apiVersion: v1

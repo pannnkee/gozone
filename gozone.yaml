@@ -22,6 +22,9 @@ spec:
     spec:
       containers:
         - name: gozone
+          env:
+            - name: BEEGO_RUNMODE
+              value: "prod"
           image: registry.cn-hangzhou.aliyuncs.com/pannnkeee/gozone:0.0.1
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
