@@ -28,6 +28,7 @@ spec:
           image: registry.cn-hangzhou.aliyuncs.com/pannnkeee/gozone:0.0.1
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
+      #hostNetwork: true
       volumes:
         - name: gozone-volume
           persistentVolumeClaim:
