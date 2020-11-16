@@ -1,12 +1,13 @@
 package conn
 
 import (
-	"gozone/library/config"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gozone/library/config"
+	"gozone/library/logger"
 	"strings"
 	"time"
 )
@@ -34,7 +35,7 @@ func initDataBase(dbName string)  {
 	// charset = utf8&
 	connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", user, password, host, port, dbName) + "?charset=utf8mb4&parseTime=true"
 	for orm, err = gorm.Open("mysql", connStr); err != nil; {
-		logs.Error("[mysql连接异常，正在重试:]", err.Error(), connStr)
+		logger.ZoneLogger.Error("[mysql连接异常，正在重试:]", err.Error(), connStr)
 		time.Sleep(5*time.Second)
 		orm, err = gorm.Open("mysql", connStr)
 	}

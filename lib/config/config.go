@@ -3,16 +3,18 @@ package config
 import (
 	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
+	"gozone/library/logger"
 	"os"
 	"strings"
 )
 
+// 获取配置字符串
+// @param defaultStr 默认值
 func GetConfigStr(key, defaultStr string) (str string) {
 	if beego.AppConfig.String("runmode") == "prod" || strings.ToLower(os.Getenv("BEEGO_RUNMODE")) == "prod" {
 		str = beego.AppConfig.String(key)
 		if len(str) == 0 {
-			logs.Error(fmt.Sprintf("缺少配置[%s]", key))
+			logger.ZoneLogger.Error(fmt.Sprintf("缺少配置[%s]", key))
 
 		}
 	} else {
@@ -21,7 +23,9 @@ func GetConfigStr(key, defaultStr string) (str string) {
 	return
 }
 
-func GetConfigInt(key string, def int64) (v int64) {
+// 获取配置整形
+// @param defInt 默认值
+func GetConfigInt(key string, defInt int64) (v int64) {
 	if beego.AppConfig.String("runmode") == "prod" || strings.ToLower(os.Getenv("BEEGO_RUNMODE")) == "prod" {
 		v, err := beego.AppConfig.Int64(key)
 		if v == 0 || err != nil {
@@ -29,7 +33,7 @@ func GetConfigInt(key string, def int64) (v int64) {
 		}
 		return v
 	} else {
-		v = beego.AppConfig.DefaultInt64(key, def)
+		v = beego.AppConfig.DefaultInt64(key, defInt)
 	}
 	return
 }
