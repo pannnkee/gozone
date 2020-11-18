@@ -49,4 +49,5 @@ spec:
       targetPort: 8080
   selector:
     app: gozone
-  type: NodePort
+
+
