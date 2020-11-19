@@ -6,15 +6,17 @@
     </ol>
     <div class="carousel-inner">
         <<range $ImpressionIndex, $Impression := .HomeContent.Articles>>
-            <<if eq $ImpressionIndex 0 >>
-                <div class="carousel-item active">
-            <<else>>
-                <div class="carousel-item">
-             <<end>>
-                <a :href='"/v1/api/article/"+<<$Impression.Id>>'>
-                  <img class="w-100" src="<<$Impression.Pic>>" alt="">
-                </a>
-             </div>
+            <<if eq $Impression.Carousel 1>>
+                <<if eq $ImpressionIndex 0 >>
+                    <div class="carousel-item active">
+                <<else>>
+                    <div class="carousel-item">
+                 <<end>>
+                    <a :href='"/v1/api/article/"+<<$Impression.Id>>'>
+                      <img class="w-100" src="<<$Impression.Pic>>" alt="">
+                    </a>
+                 </div>
+            <<end>>
         <<end>>
 
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

@@ -33,8 +33,6 @@ spec:
         - name: gozone-volume
           persistentVolumeClaim:
             claimName: gozone-pvc
-
-
 ---
 
 apiVersion: v1
