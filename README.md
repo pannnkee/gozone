@@ -8,10 +8,10 @@
 * 其他依赖查看网站源码解释
 
 ## 主要内容
-* Golang 源码剖析
 * Docker容器
-* 容器编排Kubernetes
 * 服务网格istio
-* mysql + redis 数据库
+* Golang 源码剖析
+* 容器编排Kubernetes
 * Serverless 学习笔记
+* mysql + redis 数据库
 * 敬请期待
