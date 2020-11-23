@@ -5,18 +5,16 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
-        <<range $ImpressionIndex, $Impression := .HomeContent.Articles>>
-            <<if eq $Impression.Carousel 1>>
-                <<if eq $ImpressionIndex 0 >>
-                    <div class="carousel-item active">
-                <<else>>
-                    <div class="carousel-item">
-                 <<end>>
-                    <a :href='"/v1/api/article/"+<<$Impression.Id>>'>
-                      <img class="w-100" src="<<$Impression.Pic>>" alt="">
-                    </a>
-                 </div>
+        <<range $ImpressionIndex, $Impression := .HomeContent.CarouselArticle>>
+            <<if eq $ImpressionIndex 0 >>
+                <div class="carousel-item active">
+            <<else>>
+                <div class="carousel-item">
             <<end>>
+                <a :href='"/v1/api/article/"+<<$Impression.Id>>'>
+                  <img class="w-100" src="<<$Impression.Pic>>" alt="">
+                </a>
+             </div>
         <<end>>
 
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

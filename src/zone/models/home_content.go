@@ -14,6 +14,7 @@ type HomeContent struct {
 	TopContent TopContent // 分类内容
 
 	Articles    []*Article
+	CarouselArticle []*Article
 	SortType    int64
 	ContentType enum.ContentType
 }

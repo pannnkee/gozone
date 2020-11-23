@@ -43,6 +43,10 @@ func (this *ZoneController) Home() {
 			v.ArticleClassName = articleClass.ClassName
 			v.CreatedTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02")
 			v.CommentNumber = commentNums
+
+			if v.Carousel == 1 {
+				homeContent.CarouselArticle = append(homeContent.CarouselArticle, v)
+			}
 		}
 		this.Pager.Count = count
 		this.Data["title"] = "PannnKee's Zone"
