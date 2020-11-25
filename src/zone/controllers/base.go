@@ -3,7 +3,6 @@ package controllers
 import (
 	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/prometheus/common/log"
 	"gozone/library/enum"
 	"gozone/library/logger"
 	"gozone/library/util"
@@ -103,7 +102,7 @@ func (this *BaseHandler) Response(code enum.ResponseCode, msg string, args ...in
 
 	//处理error 可记录到日志
 	if err != nil {
-		log.Errorf("%v | ERROR: %v", this.RequestURL, err)
+		logger.ZoneLogger.Errorf("%v | ERROR: %v", this.RequestURL, err)
 	}
 
 	if code == 0 && len(msg) == 0 {
@@ -159,9 +158,9 @@ func (this *BaseHandler) GetServerParams() {
 	if pager.Page < 1 {
 		pager.Page = 1
 	}
-	pager.Limit, _ = this.GetInt64("limit", 10)
+	pager.Limit, _ = this.GetInt64("limit", 4)
 	if pager.Limit < 1 {
-		pager.Limit = 10
+		pager.Limit = 4
 	}
 	pager.Offset = (pager.Page - 1) * pager.Limit
 	this.Pager = pager

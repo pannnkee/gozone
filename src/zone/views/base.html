@@ -34,6 +34,7 @@
                         <i class="fa fa-fire mr-1"></i>热度排序</a>
                 </div>
             <<template "article_list.html" .>>
+            <<template "pagecut.html" . >>
         </div>
     </div>
 
@@ -75,6 +76,10 @@
             return {
                 items: {},
                 item: {},
+                page: 1,
+                limit: 4,
+                count: 0,
+                pagecount: 1,
             };
         },
 
@@ -82,7 +87,10 @@
             getItem:function(){
                 const t = this;
                 const url = "/v1/api/home/content?type=1";
-                const data={};
+                const data={
+                    page: t.page,
+                    limit: t.limit,
+                };
                 get(url,data,function (d) {
                     if (d.code==0) {
                         t.items = d.body.data;
@@ -106,7 +114,7 @@
         },
 
         created:function(){
-            //this.getItem();
+            this.getItem();
         },
     });
 </script>

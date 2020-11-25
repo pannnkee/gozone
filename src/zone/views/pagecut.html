@@ -1,0 +1,16 @@
+<<if .PageInstance.IsShow>>
+    <div class="text-center mt-2 mt-sm-1 mt-md-0 mb-3 f-16">
+        <<if .PageInstance.HasPrevious>>
+            <a class="text-success" href="?page=<<.PageInstance.PreviousPageNumber>>&sortType=<<.PageInstance.SortType>>">上一页</a>
+        <<else>>
+            <span class="text-secondary" title="当前页已经是首页">上一页</span>
+        <<end>>
+
+        <span class="mx-2">第&nbsp;<< .PageInstance.CurrentNumber >>&nbsp;/&nbsp;<< .PageInstance.TotalNumber >>&nbsp;页</span>
+        <<if .PageInstance.HasNext>>
+            <a class="text-success" href="?page=<< .PageInstance.NextPageNumber >>&sortType=<<.PageInstance.SortType>>">下一页</a>
+        <<else>>
+            <span class="text-secondary" title="当前页已经是末页">下一页</span>
+        <<end>>
+    </div>
+<<end>>

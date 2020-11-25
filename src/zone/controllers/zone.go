@@ -4,6 +4,7 @@ import (
 	"gozone/library/enum"
 	"gozone/library/gocache"
 	"gozone/library/logger"
+	"gozone/library/util"
 	cache2 "gozone/src/zone/cache"
 	"gozone/src/zone/dao"
 	"gozone/src/zone/models"
@@ -20,6 +21,7 @@ func (this *ZoneController) Home() {
 	sortType, _ := this.GetInt64("sortType", 1)
 	// 轮播图模式 top模式(分类 标签)
 	contentType, _ := this.GetInt64("contentType", 0)
+
 
 	var Articles []*models.Article
 	var TopContent models.TopContent
@@ -43,15 +45,16 @@ func (this *ZoneController) Home() {
 			v.ArticleClassName = articleClass.ClassName
 			v.CreatedTimeStr = time.Unix(v.CreateTime, 0).Format("2006-01-02")
 			v.CommentNumber = commentNums
-
-			if v.Carousel == 1 {
-				homeContent.CarouselArticle = append(homeContent.CarouselArticle, v)
-			}
 		}
 		this.Pager.Count = count
 		this.Data["title"] = "PannnKee's Zone"
 		this.Data["isHome"] = true
+
 		//获取轮播图
+		articleCarousel, _ := dao.ArticleInstance.GetCarouselArticle()
+		for _, v := range articleCarousel {
+			homeContent.CarouselArticle = append(homeContent.CarouselArticle, v)
+		}
 
 	} else {
 		//base_top首页
@@ -117,32 +120,29 @@ func (this *ZoneController) Home() {
 	}
 
 	//base_right.html
-	//获取首页标签
 
-	tags, err := dao.TagInstance.GetAll()
-	if err == nil {
-		homeContent.Tags = tags
-	} else {
-		logger.ZoneLogger.Error("获取Tag错误")
-	}
+
+	//获取首页标签
+	tags, _ := dao.TagInstance.GetAll()
+	homeContent.Tags = tags
+
 	// 获取文章分类
 	articleClass, _ := dao.ArticleClassInstance.GetAll()
-	if err == nil {
-		for _, v := range articleClass {
-			nums, _ := dao.ArticleInstance.GetArticleClassNums(v.Id)
-			v.Nums = nums
-		}
-		homeContent.ArticleClass = articleClass
-	} else {
-		logger.ZoneLogger.Error("获取文章分类错误")
+	for _, v := range articleClass {
+		nums, _ := dao.ArticleInstance.GetArticleClassNums(v.Id)
+		v.Nums = nums
 	}
+	homeContent.ArticleClass = articleClass
 
 	//获取友情链接
-	link, err := new(gocache.Helper).GetAllData(new(cache2.LinkCache))
-	if err == nil {
-		homeContent.Links = link.([]*models.Link)
-	} else {
-		logger.ZoneLogger.Error("获取友情链接错误")
+	link, _ := new(gocache.Helper).GetAllData(new(cache2.LinkCache))
+	homeContent.Links = link.([]*models.Link)
+
+	nums, _ := new(dao.ArticleDao).GetArticleNums()
+	pageInstance := util.HtmlPage(this.Pager.Page, nums, this.Pager.Limit, sortType)
+	// 默认首页才有分页
+	if enum.ContentType(contentType) == enum.DefaultType {
+		pageInstance.IsShow = true
 	}
 
 	homeContent.Articles = Articles
@@ -150,6 +150,7 @@ func (this *ZoneController) Home() {
 	homeContent.ContentType = enum.ContentType(contentType)
 	homeContent.TopContent = TopContent
 	this.Data["HomeContent"] = homeContent
+	this.Data["PageInstance"] = pageInstance
 	this.Data["Description"] = "PannnKee's Zone是一个Beego搭建的博客，分享学习心得、经验总结。主要包括Golang、Docker、Kubernetes、ServerMesh等。"
 	this.Data["Keywords"] = "Golang编程，Docker入门，Kubernetes搭建，Golang Web开发，个人博客"
 	this.TplName = "base.html"

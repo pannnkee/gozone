@@ -52,6 +52,14 @@ func (this *ArticleDao) PageListClass(offset, limit, sortType, contentType int64
 	return
 }
 
+// 获取轮播图文章
+func (this *ArticleDao) GetCarouselArticle() (data []*models.Article, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(models.ArticleInstance)
+	err = db.Where("carousel=1").Find(&data).Error
+	return
+}
+
 // 根据文章ID获取文章详细信息
 // @param id 文章id
 // @return err 错误信息
@@ -118,5 +126,13 @@ func (this *ArticleDao) GetArticleClassNums(classID int64) (count int64, err err
 	db := conn.GetORMByName("zone")
 	db = db.Model(models.ArticleInstance)
 	err = db.Where("article_class=?", classID).Count(&count).Error
+	return
+}
+
+// 获取所有文章数量
+func (this *ArticleDao) GetArticleNums() (count int64, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(models.ArticleInstance)
+	err = db.Count(&count).Error
 	return
 }
