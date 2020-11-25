@@ -1,5 +1,4 @@
 $(function() {
-
 	var simplemde = new SimpleMDE({
 		element: document.getElementById("comment-form"),
 		autoDownloadFontAwesome:false,

@@ -27,7 +27,7 @@ function AjaxRequest(url,data,method,success){
         cache:false,
         success:success,
         error:function(data){
-            Vue.$toast(data.status+"错误的请求: "+url);
+           // Vue.$toast(data.status+"错误的请求: "+url);
         }
     })
 }
@@ -43,7 +43,7 @@ function AjaxRequest2(url,data,method,success){
         cache:false,
         success:success,
         error:function(data){
-            Vue.$toast(data.status+"错误的请求: "+url);
+            //Vue.$toast(data.status+"错误的请求: "+url);
         }
     })
 }
