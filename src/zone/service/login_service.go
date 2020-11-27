@@ -1,14 +1,14 @@
 package service
 
 import (
+	"encoding/json"
+	"errors"
 	"gozone/library/authorization"
 	"gozone/library/jwt"
 	"gozone/library/model"
-	"gozone/library/util/str"
+	"gozone/library/util"
 	"gozone/src/zone/dao"
 	"gozone/src/zone/models"
-	"encoding/json"
-	"errors"
 	"time"
 )
 
@@ -30,7 +30,7 @@ func (this *LoginService) Do(eMail, password string) (cookie []byte, err error) 
 		return nil, ErrAccountNotAllowed
 	}
 
-	if userInfo.PassWord != str.Md5(password) {
+	if userInfo.PassWord != util.Md5(password) {
 		return nil, ErrAccountOrPassword
 	}
 

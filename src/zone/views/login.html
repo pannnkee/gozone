@@ -96,7 +96,7 @@
                     data = JSON.stringify(data);
                     var next = this.GetUrlPara();
                     console.log(next);
-                    var url = "v1/api/user/login?"+next;
+                    var url = "/user/login?"+next;
                     post(url, data, function(data){
                             if(data.code==0){
                                 t.$toast("登录成功");

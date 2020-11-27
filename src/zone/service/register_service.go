@@ -1,7 +1,7 @@
 package service
 
 import (
-	"gozone/library/util/str"
+	"gozone/library/util"
 	"gozone/src/zone/dao"
 	"gozone/src/zone/models"
 	"time"
@@ -44,7 +44,7 @@ func (this *RegisterService) Do(userName, eMail, password, repeatPassword, code 
 	user := models.User{
 		UserName:    userName,
 		Email:       eMail,
-		PassWord:    str.Md5(password),
+		PassWord:    util.Md5(password),
 		CreatedTime: time.Now().Unix(),
 	}
 	err := dao.UserInstance.Create(&user)

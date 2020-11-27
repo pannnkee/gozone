@@ -12,6 +12,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/russross/blackfriday v2.0.0+incompatible
+	github.com/satori/go.uuid v1.2.0
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/sourcegraph/annotate v0.0.0-20160123013949-f4cad6c6324d // indirect
 	github.com/sourcegraph/syntaxhighlight v0.0.0-20170531221838-bd320f5d308e

@@ -66,6 +66,8 @@ func (this *BaseHandler) Prepare() {
 		}
 	}
 	cookie := this.Ctx.GetCookie("toggleTheme")
+
+	this.Data["HowToLive"] = util.HowManyToLive(time.Now(), time.Unix(util.BirthDay20201127, 0))
 	this.Data["ToggleTheme"] = cookie
 	this.Data["IsLogin"] = this.IsLogin
 }

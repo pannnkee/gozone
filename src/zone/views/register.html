@@ -111,7 +111,7 @@
                     verify_code: t.verify_code,
                 };
                 var next = this.GetUrlPara();
-                var url = "v1/api/user/register?"+next;
+                var url = "/user/register?"+next;
                 data = JSON.stringify(data);
                 post(url, data, function(data){
                         if(data.code==0){

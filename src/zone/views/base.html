@@ -57,16 +57,8 @@
     </div>
 </div>
 
-<footer class="container-fluid mt-4 py-0">
-    <div class="card-body text-center px-0 f-14">
-        <p class="card-text mb-1">Copyright&nbsp;&copy;&nbsp;<span id="year-info"></span>
-            <a href="https://github.com/pannnkee" target="_blank" title="博客作者的Github">Pannnkee</a>.&nbsp;Powered&nbsp;by&nbsp;Beego.
-        </p>
-        <p class="mb-0">
-        </p>
-    </div>
-</footer>
 
+<<template "foot.html" .>>
 
 <script>
     var page = new Vue({
@@ -85,7 +77,7 @@
         methods:{
             getItem:function(){
                 const t = this;
-                const url = "/v1/api/home/content?type=1";
+                const url = "/home/content?type=1";
                 const data={
                     page: t.page,
                     limit: t.limit,
@@ -100,7 +92,7 @@
             },
             getItemHot:function(){
                 const t = this;
-                const url = "/v1/api/home/content?type=2";
+                const url = "/home/content?type=2";
                 const data={};
                 get(url,data,function (d) {
                     if (d.code==0) {

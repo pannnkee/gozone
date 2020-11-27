@@ -1,7 +1,7 @@
 package service
 
 import (
-	"gozone/library/util/str"
+	"gozone/library/util"
 	"gozone/src/zone/dao"
 	"gozone/src/zone/models"
 )
@@ -31,11 +31,11 @@ func (this *AlterPasswordService) Do(email, password, newPassword, repeatPasswor
 	// 更新密码
 	user := new(models.User)
 	user.Email = email
-	user.PassWord = str.Md5(newPassword)
+	user.PassWord = util.Md5(newPassword)
 
 	exmap := map[string]interface{}{
 		"email":    email,
-		"password": str.Md5(newPassword),
+		"password": util.Md5(newPassword),
 	}
 	_ = dao.UserInstance.Updates(email, exmap)
 	return nil

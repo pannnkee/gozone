@@ -76,6 +76,9 @@
             <a href="https://github.com/pannnkee" target="_blank" title="博客作者的Github">Pannnkee</a>.&nbsp;Powered&nbsp;by&nbsp;Beego.
         </p>
         <p class="mb-0">
+            <a href="http://beian.miit.gov.cn/" target="_blank">蜀ICP备2020034190号</a> |
+            <script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1279471892&web_id=1279471892"></script> |
+            <span id="web-day">网站已续航 <<.HowToLive>> 天</span>
         </p>
     </div>
 </footer>
@@ -110,7 +113,7 @@
                 formData.append("avatar", $("#id_avatar")[0].files[0])
                 console.log("this.avatar:" + $("#id_avatar")[0].files[0] + "formData:" + formData)
                 //data = JSON.stringify(data);
-                post2("v1/api/user/alterData", formData, function(data) {
+                post2("user/alterData", formData, function(data) {
                         if (data.code == 0) {
                             top.location.href = "/";
                         } else {

@@ -1,12 +1,12 @@
 package util
 
 import (
+	"bytes"
+	"crypto/cipher"
+	"crypto/des"
 	"encoding/base64"
 	"strings"
 )
-
-//XXTEA XXTEA编码
-type XXTEA struct{}
 
 const delta = 0x9EC7E9B9
 
@@ -122,7 +122,10 @@ func Decrypt(data []byte, key []byte) []byte {
 	return toBytes(decrypt(toUint32s(data, false), toUint32s(key, false)), true)
 }
 
-// EncryptString the data with key.
+
+type XXTEA struct{}
+
+// Encrypt the data with key.
 // data is the string to be encrypted.
 // key is the string of encrypt key.
 func (x *XXTEA) EncryptString(str, key string) string {
@@ -132,7 +135,7 @@ func (x *XXTEA) EncryptString(str, key string) string {
 	return b64.EncodeToString(Encrypt(s, k))
 }
 
-// DecryptString the data with key.
+// Decrypt the data with key.
 // data is the string to be decrypted.
 // key is the decrypted key. It is the same as the encrypt key.
 func (x *XXTEA) DecryptString(str, key string) (string, error) {
@@ -146,17 +149,17 @@ func (x *XXTEA) DecryptString(str, key string) (string, error) {
 	return string(result), nil
 }
 
-// EncryptStdToURLString the string with key and convert the string to URL format
+// Encrypt the string with key and convert the string to URL format
 func (x *XXTEA) EncryptStdToURLString(str, key string) string {
 	return encryptBase64ToUrlFormat(x.EncryptString(str, key))
 }
 
-// DecryptURLToStdString the URL string with key and convert the URL string to the origin string
+// Decrypt the URL string with key and convert the URL string to the origin string
 func (x *XXTEA) DecryptURLToStdString(str, key string) (string, error) {
 	return x.DecryptString(decryptBase64ToStdFormat(str), key)
 }
 
-// encryptBase64ToUrlFormat Replace std character to URL character in base64 string
+// Replace std character to URL character in base64 string
 func encryptBase64ToUrlFormat(str string) string {
 	str = strings.Replace(str, "+", "-", -1)
 	str = strings.Replace(str, "/", "_", -1)
@@ -164,10 +167,43 @@ func encryptBase64ToUrlFormat(str string) string {
 	return str
 }
 
-// decryptBase64ToStdFormat Replace URL character to origin character in base64 string
+// Replace URL character to origin character in base64 string
 func decryptBase64ToStdFormat(str string) string {
 	str = strings.Replace(str, "-", "+", -1)
 	str = strings.Replace(str, "_", "/", -1)
 	str = strings.Replace(str, "~", "=", -1)
 	return str
+}
+
+func padding(src []byte, blocksize int) []byte {
+	n := len(src)
+	padnum := blocksize - n%blocksize
+	pad := bytes.Repeat([]byte{byte(padnum)}, padnum)
+	dst := append(src, pad...)
+	return dst
+}
+
+func unpadding(src []byte) []byte {
+	n := len(src)
+	unpadnum := int(src[n-1])
+	dst := src[:n-unpadnum]
+	return dst
+}
+
+//des 加密
+func EncryptDES(src []byte, key []byte) []byte {
+	block, _ := des.NewCipher(key)
+	src = padding(src, block.BlockSize())
+	blockmode := cipher.NewCBCEncrypter(block, key)
+	blockmode.CryptBlocks(src, src)
+	return src
+}
+
+//des 解密
+func DecryptDES(src []byte, key []byte) []byte {
+	block, _ := des.NewCipher(key)
+	blockmode := cipher.NewCBCDecrypter(block, key)
+	blockmode.CryptBlocks(src, src)
+	src = unpadding(src)
+	return src
 }

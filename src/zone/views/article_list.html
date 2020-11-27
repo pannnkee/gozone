@@ -4,7 +4,7 @@
             <<range $ImpressionIndex, $Impression := .HomeContent.TopContent.TopArticle>>
                 <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
                     <div class="align-self-center mr-2 mr-lg-3 w-25 modal-open" style="width: 30%;">
-                        <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank">
+                        <a :href='"/article/"+<<$Impression.Id>>' target="_blank">
                             <img class="w-100 article-img" src = "<<$Impression.Pic>>">
                         </a>
                     </div>
@@ -18,7 +18,7 @@
                             </div>
 
                             <h2 class="mt-0 font-weight-bold text-info f-17">
-                                <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank" >
+                                <a :href='"/article/"+<<$Impression.Id>>' target="_blank" >
                                     <<$Impression.ArticleTitle>>
                                 </a>
                             </h2>
@@ -30,7 +30,7 @@
                                 <a class="cate" href="" title="查看当前分类下更多文章">
                                     <i class="fa fa-book mr-1"><<$Impression.ArticleClassName>></i></a>
                                 <span><i class="fa fa-eye ml-2 mr-1"><<$Impression.Views>></i></span>
-                                <a href="/v1/api/article/<<$Impression.Id>>#comment-block" target="_blank" title="查看文章评论">
+                                <a href="/article/<<$Impression.Id>>#comment-block" target="_blank" title="查看文章评论">
                                     <i class="fa fa-comments ml-2 mr-1"><<$Impression.CommentNumber>></i></a>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                 <<range $ImpressionIndex, $Impression := .HomeContent.Articles>>
                     <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
                         <div class="align-self-center mr-2 mr-lg-3 w-25 modal-open" style="width: 30%;">
-                            <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank">
+                            <a :href='"/article/"+<<$Impression.Id>>' target="_blank">
                                 <img class="w-100 article-img" src = "<<$Impression.Pic>>">
                             </a>
                         </div>
@@ -60,7 +60,7 @@
 
 
                                 <h2 class="mt-0 font-weight-bold text-info f-17">
-                                    <a :href='"/v1/api/article/"+<<$Impression.Id>>' target="_blank" >
+                                    <a :href='"/article/"+<<$Impression.Id>>' target="_blank" >
                                         <<$Impression.ArticleTitle>>
                                     </a>
                                 </h2>
@@ -72,7 +72,7 @@
                                     <a class="cate" href="" title="查看当前分类下更多文章">
                                         <i class="fa fa-book mr-1"><<$Impression.ArticleClassName>></i></a>
                                     <span><i class="fa fa-eye ml-2 mr-1"><<$Impression.Views>></i></span>
-                                    <a href="/v1/api/article/<<$Impression.Id>>#comment-block" target="_blank" title="查看文章评论">
+                                    <a href="/article/<<$Impression.Id>>#comment-block" target="_blank" title="查看文章评论">
                                         <i class="fa fa-comments ml-2 mr-1"><<$Impression.CommentNumber>></i></a>
                                 </div>
                             </div>

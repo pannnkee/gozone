@@ -1,10 +1,10 @@
 package dao
 
 import (
-	"gozone/library/conn"
-	"gozone/library/util/str"
-	"gozone/src/zone/models"
 	"github.com/jinzhu/gorm"
+	"gozone/library/conn"
+	"gozone/library/util"
+	"gozone/src/zone/models"
 )
 
 type UserDao struct {}
@@ -51,7 +51,7 @@ func (this *UserDao) EmailExist(eMail string) bool {
 func (this *UserDao) Login(eMail, password string) (login bool) {
 	db := conn.GetORMByName("zone")
 	db = db.Model(models.UserInstance)
-	db = db.Where("email=?", eMail).Where("password=?", str.Md5(password))
+	db = db.Where("email=?", eMail).Where("password=?", util.Md5(password))
 
 	var count int64
 	err := db.Count(&count).Error
