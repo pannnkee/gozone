@@ -1,7 +1,8 @@
 package controllers
 
 import (
-	"gozone/library/config"
+	"fmt"
+	"gozone/library/conststr"
 	"gozone/library/controller"
 	"gozone/library/enum"
 	"gozone/library/gocache"
@@ -11,7 +12,6 @@ import (
 	"gozone/src/zone/dao"
 	"gozone/src/zone/model_view"
 	"gozone/src/zone/models"
-	"fmt"
 	"strconv"
 	"strings"
 	"sync"
@@ -219,8 +219,9 @@ func (this *ArticleController) Get() {
 		this.Response(1, fmt.Sprintf("序列化错误:%v", err.Error()))
 		return
 	}
+
 	this.Data["title"] = fmt.Sprintf("%v-PannnKee's Zone", data.Article.ArticleTitle)
-	this.Data["articleURL"] = config.GetConfigStr("zone:site", "http://127.0.0.1") + this.RequestURL
+	this.Data["articleURL"] = conststr.GozoneSite + this.RequestURL
 	this.Data["articleResp"] = jsonMap
 	this.TplName = "article.html"
 }
