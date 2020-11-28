@@ -10,8 +10,6 @@
 
 </head>
 <body>
-
-</body>
     <<template "navbar.html" .>>
     <div class="container">
         <div class="row">
@@ -26,11 +24,27 @@
                 <<template "base_right.html" .>>
             </div>
         </div>
+
     </div>
+
+<footer class="container-fluid mt-4 py-0">
+    <div class="card-body text-center px-0 f-14">
+        <p class="card-text mb-1">Copyright&nbsp;&copy;&nbsp;<span id="year-info"></span>
+            <a href="https://github.com/pannnkee" target="_blank" title="博客作者的Github">Pannnkee</a>.&nbsp;Powered&nbsp;by&nbsp;Beego.
+        </p>
+        <p class="mb-0">
+            <a href="http://beian.miit.gov.cn/" target="_blank">蜀ICP备2020034190号</a> |
+            <script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1279471892&web_id=1279471892"></script> |
+            <span id="web-day">网站已续航 <<.HowToLive>> 天</span>
+        </p>
+    </div>
+</footer>
 
 <!--回到顶部按钮-->
 <div class="text-center" id="to-top">
     <i class="fa fa-chevron-up" id="btn-top" title="回到顶部"></i>
 </div>
+
+</body>
 
 </html>

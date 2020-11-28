@@ -33,8 +33,13 @@ func HtmlPage(page, nums, limit, sortType int64) (data PagerInstance) {
 		data.HasPrevious = false
 		data.PreviousPageNumber = 0
 
-		data.HasNext = true
-		data.NextPageNumber = page + 1
+		if data.CurrentNumber == data.TotalNumber {
+			data.HasNext = false
+			data.NextPageNumber = 0
+		} else {
+			data.HasNext = true
+			data.NextPageNumber = page + 1
+		}
 
 	} else if data.CurrentNumber == data.TotalNumber {
 		data.HasNext = false
