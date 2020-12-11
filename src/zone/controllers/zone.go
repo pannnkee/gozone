@@ -286,18 +286,18 @@ func (this *ZoneController) Archive() {
 	html := ""
 	for k,v := range articleYearMap {
 		html += "<li>" + strconv.Itoa(k) + "年"
-		html += "<u1 class= \"pl-4\">"
+		html += "<ul class= \"pl-4\">"
 			for index, value := range v {
-				html += "<li>" + strconv.Itoa(int(index)) + "共 " + strconv.Itoa(len(value)) + " 篇"
+				html += "<li>" + strconv.Itoa(int(index))+ "月" + " (共 " + strconv.Itoa(len(value)) + " 篇)"
 					for _, a := range value {
 						html += "<ul class=\"pl-4\">"
 							html += fmt.Sprintf("<li class=\"text-info\">%v-%v&nbsp;&nbsp;<a href=\"/article/%v\">%v</a></li>",
 								int(time.Unix(a.CreateTime,0).Month()),time.Unix(a.CreateTime,0).Day(), a.Id, a.ArticleTitle)
 						html += "</ul>"
 					}
-				html += "</u1>"
+				html += "</li>"
 			}
-		html += "</u1>"
+		html += "</ul>"
 		html += "</li>"
 	}
 
