@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"gozone/library/enum"
 	"gozone/library/gocache"
 	"gozone/library/logger"
@@ -8,6 +9,7 @@ import (
 	cache2 "gozone/src/zone/cache"
 	"gozone/src/zone/dao"
 	"gozone/src/zone/models"
+	"strconv"
 	"time"
 )
 
@@ -267,8 +269,41 @@ func (this *ZoneController) Archive() {
 		logger.ZoneLogger.Error("获取友情链接错误")
 	}
 
+
+	//拼接归档html
+	articleYearMap := make(map[int]map[time.Month][]*models.Article, 0)
+	allArticle, _ := dao.ArticleInstance.GetAllDataByCreateTime()
+
+	for _, v := range allArticle {
+		tempMouth := articleYearMap[time.Unix(v.CreateTime, 0).Year()]
+		if tempMouth == nil {
+			tempMouth = make(map[time.Month][]*models.Article, 0)
+		}
+		tempMouth[time.Unix(v.CreateTime, 0).Month()] = append(tempMouth[time.Unix(v.CreateTime, 0).Month()], v)
+		articleYearMap[time.Unix(v.CreateTime,0).Year()] = tempMouth
+	}
+
+	html := ""
+	for k,v := range articleYearMap {
+		html += "<li>" + strconv.Itoa(k) + "年"
+		html += "<u1 class= \"pl-4\">"
+			for index, value := range v {
+				html += "<li>" + strconv.Itoa(int(index)) + "共 " + strconv.Itoa(len(value)) + " 篇"
+					for _, a := range value {
+						html += "<ul class=\"pl-4\">"
+							html += fmt.Sprintf("<li class=\"text-info\">%v-%v&nbsp;&nbsp;<a href=\"/article/%v\">%v</a></li>",
+								int(time.Unix(a.CreateTime,0).Month()),time.Unix(a.CreateTime,0).Day(), a.Id, a.ArticleTitle)
+						html += "</ul>"
+					}
+				html += "</u1>"
+			}
+		html += "</u1>"
+		html += "</li>"
+	}
+
 	this.Data["isArchive"] = true
 	this.Data["title"] = "博客归档-PannnKee's Zone"
 	this.Data["HomeContent"] = homeContent
+	this.Data["archiveHTML"] = html
 	this.TplName = "archive.html"
 }

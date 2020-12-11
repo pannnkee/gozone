@@ -6,6 +6,7 @@
     <<template "import.html" .>>
     <script src="/static/css/base_comment.css"></script>
     <script>var Timeline = <<.Timeline>></script>
+    <script>var archiveHTML = <<.archiveHTML>></script>
 </head>
 <body>
     <<template "navbar.html" .>>
@@ -15,34 +16,7 @@
                 <div class="card border-0 rounded-0 mb-3">
                     <div class="card-body f-16 archive">
                         <ul class="pl-4">
-
-                            <li>2020年
-                                <ul class="pl-4">
-                                    <li>10 月 (共 4 篇)
-                                        <ul class="pl-4">
-                                            <li class="text-info">10-10&nbsp;&nbsp;<a href="/article/1">Docker学习笔记(1)--容器镜像仓库</a></li>
-                                        </ul>
-                                        <ul class="pl-4">
-                                            <li class="text-info">10-17&nbsp;&nbsp;<a href="/article/2">Docker学习笔记(2)--基础操作</a></li>
-                                        </ul>
-                                        <ul class="pl-4">
-                                            <li class="text-info">10-21 &nbsp;&nbsp;<a href="/article/3">使用国内公有云部署kubernetes集群</a></li>
-                                        </ul>
-
-                                        <ul class="pl-4">
-                                            <li class="text-info">10-30 &nbsp;&nbsp;<a href="/article/4">使用Docker+Kubernetes部署我的gozone</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li>11 月 (共 1 篇)
-                                        <ul class="pl-4">
-                                            <li class="text-info">11-15 &nbsp;&nbsp;<a href="/article/5">执行"go func()"后，调度系统经历了什么？</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-
-
+                            <<str2html .archiveHTML>>
                         </ul>
                     </div>
                 </div>

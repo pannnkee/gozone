@@ -118,6 +118,16 @@ func (this *ArticleDao) GetAllData() (data []*models.Article, err error) {
 	return
 }
 
+// 获取所有文章信息 创建时间排序
+// @return data 所有文章数据
+// @return err  错误信息
+func (this *ArticleDao) GetAllDataByCreateTime() (data []*models.Article, err error) {
+	db := conn.GetORMByName("zone")
+	db = db.Model(models.ArticleInstance)
+	err = db.Order("create_time asc").Find(&data).Error
+	return
+}
+
 // 根据分类ID获取该分类下所有文章
 // @param classID 分类ID
 // @return count 数量
