@@ -114,7 +114,7 @@ $(function() {
         var now_t = Date.parse(new Date());
         if (base_t) {
             var tt = now_t - base_t;
-            if (tt < 10) {
+            if (tt < 40000) {
                 alert('两次评论时间间隔必须大于40秒，还需等待' + (40 - parseInt(tt / 1000)) + '秒');
                 return;
             } else {
