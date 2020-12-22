@@ -132,7 +132,7 @@ func (this *BaseHandler) Response(code enum.ResponseCode, msg string, args ...in
 	this.StopRun()
 }
 
-//GetPageCount 翻页计算
+// 翻页计算
 func (this *BaseHandler) GetPageCount(count, limit int64) (pagecount int64) {
 	if count > 0 && limit > 0 {
 		if count%limit == 0 {
@@ -144,7 +144,7 @@ func (this *BaseHandler) GetPageCount(count, limit int64) (pagecount int64) {
 	return pagecount
 }
 
-//GetServerParams GetServerParams
+// 处理控制所需要参数
 func (this *BaseHandler) GetServerParams() {
 	this.ClientIP = this.GetIP()
 	this.Host = this.Ctx.Request.Host
@@ -187,7 +187,7 @@ func (this *BaseHandler) GetIP() (ip string) {
 	return
 }
 
-//SetCK SetCK
+// 设置cookie
 func (this *BaseHandler) SetCK(key, val string, expireHour int64) {
 	if len(key) == 0 || len(val) == 0 {
 		return
@@ -196,12 +196,14 @@ func (this *BaseHandler) SetCK(key, val string, expireHour int64) {
 	this.Ctx.SetCookie(key, val, expireHour*60*60, "/", "", false, true)
 }
 
+// 删除cookie
 func (this *BaseHandler) DeleteCookie(key string) {
 	if len(key) > 0 {
 		this.Ctx.SetCookie(key, "", -10000)
 	}
 }
 
+// 未登录用户重置到登录界面
 func (this *BaseHandler) MustLogin() {
 	if !this.IsLogin {
 		this.Redirect("/", 302)
