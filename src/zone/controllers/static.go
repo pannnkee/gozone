@@ -7,5 +7,5 @@ type StaticController struct {
 }
 
 func (this *StaticController) Search() {
-	this.Response(enum.DefaultError,"暂时未开放此功能")
+	this.Response(enum.DefaultError,"暂时未开放此功能!")
 }
